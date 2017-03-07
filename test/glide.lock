@@ -1,0 +1,8 @@
+hash: 61af865a5648a1c2a32b195a3c17a8237613b6227977272c3b838a46485ab125
+updated: 2017-03-07T14:56:49.376257777Z
+imports:
+- name: github.com/gruntwork-io/terratest
+  version: 7f2c0724c5a784f507416ee4bd471b10c3237338
+  repo: git@github.com:gruntwork-io/terratest
+  vcs: git
+devImports: []
