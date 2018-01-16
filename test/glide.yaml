@@ -1,9 +1,0 @@
-package: github.com/gruntwork-io/package-terraform-utilities/test
-owners:
-- name: Gruntwork
-  homepage: http://www.gruntwork.io
-import:
-- package: github.com/gruntwork-io/terratest
-  repo: git@github.com:gruntwork-io/terratest
-  vcs: git
-  version: v0.2.6
