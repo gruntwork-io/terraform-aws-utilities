@@ -18,13 +18,17 @@ jobs:
             configure-environment-for-gruntwork-module --circle-ci-2 --use-go-dep --go-src-path test --terragrunt-version NONE
 
       - run:
-          name: run tests
+          name: run tests (with python2)
           command: |
             mkdir -p /tmp/logs/python2
-            mkdir -p /tmp/logs/python3
             echo "Using python 2"
             pyenv global 2.7.12
             run-go-tests --circle-ci-2 | tee /tmp/logs/python2/all.log
+
+      - run:
+          name: run tests (with python3)
+          command: |
+            mkdir -p /tmp/logs/python3
             echo "Using python 3"
             pyenv global 3.5.2
             run-go-tests --circle-ci-2 | tee /tmp/logs/python3/all.log
