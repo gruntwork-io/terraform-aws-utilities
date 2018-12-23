@@ -14,6 +14,7 @@ def main(is_data):
             "out": "This was successfully executed as data source.",
         }))
     else:
+        print("python version: {}".format(sys.version_info))
         print("This was successfully executed as a local-exec provisioner")
 
 
