@@ -33,6 +33,8 @@ jobs:
             echo "Using python 3"
             pyenv global 3.5.2
             python --version
+            # We are rerunning the same test with python3, so clear go test cache
+            go clean -testcache
             run-go-tests --circle-ci-2 | tee /tmp/logs/python3/all.log
 
       - run:
