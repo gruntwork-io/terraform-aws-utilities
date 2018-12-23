@@ -12,10 +12,9 @@ jobs:
       - run: &install_gruntwork_tooling
           name: install gruntwork tooling
           command: |
-            sudo apt-get -y update
             curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version v0.0.21
             gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "v0.13.3"
-            gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "${TERRATEST_LOG_PARSER_VERSION}"
+            gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "v0.13.20"
             configure-environment-for-gruntwork-module --circle-ci-2 --use-go-dep --go-src-path test --terragrunt-version NONE
 
       - run:
