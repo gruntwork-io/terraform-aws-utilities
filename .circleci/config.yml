@@ -23,6 +23,7 @@ jobs:
             mkdir -p /tmp/logs/python2
             echo "Using python 2"
             pyenv global 2.7.12
+            python --version
             run-go-tests --circle-ci-2 | tee /tmp/logs/python2/all.log
 
       - run:
@@ -31,6 +32,7 @@ jobs:
             mkdir -p /tmp/logs/python3
             echo "Using python 3"
             pyenv global 3.5.2
+            python --version
             run-go-tests --circle-ci-2 | tee /tmp/logs/python3/all.log
 
       - run:
