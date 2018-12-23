@@ -12,6 +12,7 @@ def main(is_data):
         print(json.dumps({
             "echo": query.get("echo", ""),
             "out": "This was successfully executed as data source.",
+            "python_version_info": str(sys.version_info),
         }))
     else:
         print("python version: {}".format(sys.version_info))
