@@ -11,8 +11,6 @@ readonly FILEDIR="$(dirname "$0")"
 build() {
     echo "Building execution environment for sample_python_script"
 
-    # We separate out the python2 binary with the python3 binary due to a resolution error with ruamel.yaml
-
     # Build python2
     pex --python-shebang='/usr/bin/env python' \
         -r ../requirements.txt \
