@@ -51,6 +51,7 @@ def main():
 
     required_executables = query["required_executables"].split(",")
     error_message_template = query.get("error_message", _ERROR_MESSAGE_DEFAULT_TEMPLATE)
+    found = {}
     not_found = []
     for executable in required_executables:
         maybe_executable = spawn.find_executable(executable)
@@ -58,6 +59,7 @@ def main():
             not_found.append(executable)
         else:
             logger.info("{} resolved to {}".format(executable, maybe_executable))
+            found[executable] = maybe_executable
 
     if len(not_found) > 0:
         logger.error("Not all executables found:\n")
@@ -65,8 +67,8 @@ def main():
             print(error_message_template.replace(_ERROR_MESSAGE_EXECUTABLE_MARKER, executable), file=sys.stderr)
         sys.exit(1)
 
-    # Output empty json
-    print("{}")
+    # Output json to stdout so terraform can read it in
+    print(json.dumps(found))
 
 
 if __name__ == "__main__":
