@@ -1,3 +1,9 @@
+"""
+Script to return a platform compatible PYTHONPATH that can be used to resolve imports to a PEX binary, as well as
+additional python modules embedded in Terraform modules.
+
+Note that this should maximize platform portability, meaning that only the stdlib is available.
+"""
 from __future__ import print_function
 import argparse
 import json
