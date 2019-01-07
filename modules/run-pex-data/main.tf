@@ -24,16 +24,15 @@ data "external" "pex" {
     import shlex
     import subprocess
     env = os.environ.copy()
-    env["PYTHONPATH"] = "${module.pex_env.python_path}"
+    env["PYTHONPATH"] = r"${module.pex_env.python_path}"
     subprocess.check_call(
       [
         "python",
-        "${module.pex_env.pex_path}",
-        "${module.pex_env.entrypoint_path}",
-        "${var.script_main_function}",
-      ] + shlex.split("${var.command_args}"),
+        r"${module.pex_env.pex_path}",
+        r"${module.pex_env.entrypoint_path}",
+        r"${var.script_main_function}",
+      ] + shlex.split(r"${var.command_args}"),
       env=env,
-      encoding="utf-8",
     )
     PROGRAM
     ,
