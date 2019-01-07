@@ -1,3 +1,16 @@
+"""
+entrypoint.py is the main entrypoint script to call out to the packaged module script. This script handles platform
+adaptation. Specifically, this module provides the following features:
+    - On Windows environments, handle the args correctly as unicode
+
+This script is intended to be called as part of a PEX binary. The following packages should be included in the pex:
+    - click
+    - six
+
+Usage: pex_binary entrypoint.py MAIN_MODULE ...
+Where MAIN_MODULE is the import path to the main function, encoded as module_path:function_name, with the module_path
+encoded in dot notation (e.g package.module_file).
+"""
 from __future__ import print_function
 
 import click

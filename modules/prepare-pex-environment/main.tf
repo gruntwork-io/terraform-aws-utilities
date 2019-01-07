@@ -1,3 +1,11 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# PREPARE NECESSARY VARIABLES FOR EXECUTING PEX
+# This terraform module provides the information necessary to call a PEX binary in a platform independent manner.
+# Specifically, this will return two outputs:
+# - The PEX to use based on python version
+# - A value for PYTHONPATH that is setup to import the packages embedded in the PEX binary
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 module "os" {
   source = "../operating-system"
 }

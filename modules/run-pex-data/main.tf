@@ -1,3 +1,10 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# RUN PEX BINARY AS AN EXTERNAL DATA SOURCE
+# This terraform module runs the provided pex binary in the context of an external data source, and pipes the output
+# back as an output to this module.
+# This utilizes the `prepare-pex-environment` module to ensure the execution of the binary is done in a portable manner.
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 module "pex_env" {
   source           = "../prepare-pex-environment"
   python2_pex_path = "${var.python2_pex_path}"
@@ -11,7 +18,7 @@ data "external" "pex" {
     "-c",
 
     # Since an external data source is not run through a shell, we can't set the PYTHONPATH through terraform, so we
-    # indirectly execute the pex script through python.
+    # indirectly run the pex script through python.
     <<-PROGRAM
     import os
     import shlex
