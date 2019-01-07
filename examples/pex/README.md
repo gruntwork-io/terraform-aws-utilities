@@ -14,7 +14,7 @@ This example will run the python script using the PEX environment provided in th
 folder](./sample-python-script). The PEX environment contains a virtualenv with all the requirements specified in
 [requirements.txt](./sample-python-script/requirements.txt) installed. The PEX environment only includes the virtualenv
 and does not include the script. If you run it directly, you will be dropped into a python shell with the PATH set such
-that you can import the requirements. To run the script, you must call it from the PEX:
+that you can import the requirements. If you would like to run the script directly, you must call it from the PEX:
 
 ```bash
 python ./sample-python-script/bin/sample_python_script_py27_env.pex ./sample-python-script/sample_python_script/main.py
