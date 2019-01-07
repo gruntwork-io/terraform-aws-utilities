@@ -28,12 +28,11 @@ data "external" "pex" {
     subprocess.check_call(
       [
         "python",
-        "${module.pex_env.pex_path}",
-        "${module.pex_env.entrypoint_path}",
-        "${var.script_main_function}",
+        r"${module.pex_env.pex_path}",
+        r"${module.pex_env.entrypoint_path}",
+        r"${var.script_main_function}",
       ] + shlex.split("${var.command_args}"),
       env=env,
-      encoding="utf-8",
     )
     PROGRAM
     ,
