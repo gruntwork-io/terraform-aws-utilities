@@ -33,6 +33,7 @@ data "external" "pex" {
         "${var.script_main_function}",
       ] + shlex.split("${var.command_args}"),
       env=env,
+      encoding="utf-8",
     )
     PROGRAM
     ,
