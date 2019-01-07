@@ -31,7 +31,7 @@ data "external" "pex" {
         r"${module.pex_env.pex_path}",
         r"${module.pex_env.entrypoint_path}",
         r"${var.script_main_function}",
-      ] + shlex.split("${var.command_args}"),
+      ] + shlex.split(r"${var.command_args}"),
       env=env,
     )
     PROGRAM
