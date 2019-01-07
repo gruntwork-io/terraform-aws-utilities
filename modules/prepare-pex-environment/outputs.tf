@@ -1,5 +1,5 @@
 output "pex_path" {
-  description = "Path to PEX file that should be executed."
+  description = "Path to PEX file that should be run."
   value       = "${local.pex}"
 }
 

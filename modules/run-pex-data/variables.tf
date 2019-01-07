@@ -20,7 +20,7 @@ variable "command_args" {
 }
 
 variable "command_query" {
-  description = "The query for the command executed as a data source."
+  description = "The query for the command run as a data source."
   type        = "map"
   default     = {}
 }

@@ -1,8 +1,8 @@
 module "pex_resource" {
   # When using these modules in your own templates, you will need to use a Git URL with a ref attribute that pins you
   # to a specific version of the modules, such as the following example:
-  # source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/execute-pex-resource?ref=v1.0.8"
-  source = "../../modules/execute-pex-resource"
+  # source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/run-pex-resource?ref=v1.0.8"
+  source = "../../modules/run-pex-resource"
 
   # Path to each of the PEX binary
   python2_pex_path = "${module.python2_pex_path.path}"
@@ -18,8 +18,8 @@ module "pex_resource" {
 module "pex_data" {
   # When using these modules in your own templates, you will need to use a Git URL with a ref attribute that pins you
   # to a specific version of the modules, such as the following example:
-  # source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/execute-pex-data?ref=v1.0.8"
-  source = "../../modules/execute-pex-data"
+  # source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/run-pex-data?ref=v1.0.8"
+  source = "../../modules/run-pex-data"
 
   # Path to each of the PEX binary
   python2_pex_path = "${module.python2_pex_path.path}"
@@ -39,6 +39,12 @@ module "pex_data" {
     "echo" = "${var.echo_string}"
   }
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE THE PATHS FOR EACH PEX AND MODULE
+# To ensure compatibility with various operating system platforms, we will rely on the join-path module to generate our
+# paths.
+# ---------------------------------------------------------------------------------------------------------------------
 
 module "python2_pex_path" {
   # When using these modules in your own templates, you will need to use a Git URL with a ref attribute that pins you
