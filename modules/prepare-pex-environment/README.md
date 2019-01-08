@@ -80,3 +80,7 @@ can use as a template.
 
 - The PEX binary is directly executable in Unix environments (Linux or Mac OS X). However, for all environments, it can
   be run using python (e.g `python my.pex`).
+
+- There is a known limitation in Windows environments with python 2 that prevents the usage of pex in directories with a
+  long path name. The pex pathing for imports does not seem to support long path names on Windows, hitting the 255
+  character limitation of path names.
