@@ -45,7 +45,7 @@ def main():
         module_abspath = windows_long_path(module_abspath)
         separator = ";"
 
-    # This isn't a real path on the file system, so we don't call `windows_long_path` on it.
+    # NOTE: This isn't a real path on the file system, so we don't call `windows_long_path` on it.
     pex_bootstrap_path = os.path.join(pex_abspath, ".bootstrap")
 
     python_path = [module_abspath, pex_abspath, pex_bootstrap_path] + sys.path
