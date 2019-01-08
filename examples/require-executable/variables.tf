@@ -11,3 +11,13 @@ variable "required_executables" {
 variable "error_message" {
   description = "Error message to show if the required executable is not found. This is printed for each executable that was not found. The module will make the following substitutions in the string: `__EXECUTABLE_NAME__` will become the name of the executable that was not found."
 }
+
+variable "validate_bad_executable" {
+  description = "Whether or not to validate the existence of a bad executable."
+  default     = false
+}
+
+variable "bad_executable_error_message" {
+  description = "Error message to show for bad_executable check."
+  default     = ""
+}
