@@ -19,6 +19,11 @@ data "external" "pex" {
 
     # Since an external data source is not run through a shell, we can't set the PYTHONPATH through terraform, so we
     # indirectly run the pex script through python.
+    # Note: The interpolated strings are embedded as python raw strings to avoid escape char issues with Windows.
+    # In Windows, the path separator is `\` which means that depending on the terraform module hash string, it can be
+    # interpretted as an escape character.
+    # E.g suppose the module where the PEX resides in hashes to 0555f. Then the path to the pex binary becomes
+    # `path\to\terraform\code\0555f\bin\pex`. This is a problem because `\0` is the null character in a python string.
     <<-PROGRAM
     import os
     import shlex
