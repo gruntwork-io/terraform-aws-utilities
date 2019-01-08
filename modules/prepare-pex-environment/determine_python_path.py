@@ -72,18 +72,6 @@ def parse_args():
     return parser.parse_args()
 
 
-def add_to_python_path(original, new_path):
-    """
-    Add the new_path to the original PYTHONPATH and return the new value.
-    """
-    if not original:
-        # original value doesn't exist, so we just use the new path as the starting point
-        return new_path
-
-    separator = ";" if IS_WIN else ":"
-    return new_path + separator + original
-
-
 def windows_long_path(path):
     # Windows has a max path length:
     # https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#maximum-path-length-limitation
