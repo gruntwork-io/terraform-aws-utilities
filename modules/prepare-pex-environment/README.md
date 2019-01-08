@@ -68,7 +68,7 @@ can use as a template.
   [pyyaml](https://pypi.org/project/PyYAML/#files). In `ruamel.yaml`, there is a wheel for each permutation of major
   platform and major python versions supported. However, for `pyyaml`, there is only wheels provided for Windows.
   This means that you need to setup a cross compiler for each compatible platform you wish to support.
-    - To avoid this, packages that only rely on python code, or that have prebuilt wheels for the platforms you
+    - To avoid this, prefer packages that only rely on python code, or that have prebuilt wheels for the platforms you
       wish to support.
 
 - When building a PEX for both python2 with python3, be aware that python2 packages tend to rely on backports of stdlib
