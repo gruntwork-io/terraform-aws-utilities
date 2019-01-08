@@ -16,7 +16,7 @@ IS_WIN = platform.system() == "Windows"
 
 
 DESCRIPTION = """
-Script to add PEX and module directory to the PYTHONPATH so that the included packages can be imported by the underlying
+Script to add module directory to the PYTHONPATH so that the included packages can be imported by the underlying
 command.
 
 This script takes care of Windows long paths by using the short path name.
@@ -27,28 +27,18 @@ This script is intended to be run as a terraform data source. As such, the outpu
 {
     "python_path": "PYTHONPATH value"
 }
-
-The paths to add are:
-    - The PEX file itself. This is a zipfile that contains a bunch of modules.
-    - The PEX file + .bootstrap. This directory contains bootstrapping packages for the pex file.
-    - The module path.
 """
 
 
 def main():
     args = parse_args()
-    pex_abspath = os.path.abspath(args.pex)
     module_abspath = os.path.abspath(args.module_path)
     separator = ":"
     if IS_WIN:
-        pex_abspath = windows_long_path(pex_abspath)
-        module_abspath = windows_long_path(module_abspath)
+        module_abspath = windows_short_path(module_abspath)
         separator = ";"
 
-    # NOTE: This isn't a real path on the file system, so we don't call `windows_long_path` on it.
-    pex_bootstrap_path = os.path.join(pex_abspath, ".bootstrap")
-
-    python_path = [module_abspath, pex_abspath, pex_bootstrap_path] + sys.path
+    python_path = [module_abspath] + sys.path
     out = {"python_path": separator.join(python_path)}
     # Terraform data source expects a json output to stdout
     print(json.dumps(out))
@@ -60,11 +50,6 @@ def parse_args():
         description=DESCRIPTION
     )
     parser.add_argument(
-        "--pex",
-        required=True,
-        help="PEX file that the PYTHONPATH should be prepared for.",
-    )
-    parser.add_argument(
         "--module-path",
         required=True,
         help="Path to the module that contains the python package that the PYTHONPATH should be prepared for.",
@@ -72,7 +57,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def windows_long_path(path):
+def windows_short_path(path):
     # Windows has a max path length:
     # https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#maximum-path-length-limitation
     # We work around this by using the short path API that windows provides

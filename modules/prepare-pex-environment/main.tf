@@ -18,8 +18,6 @@ data "external" "determine_python_path" {
   program = [
     "python",
     "${path.module}${module.os.path_separator}determine_python_path.py",
-    "--pex",
-    "${local.pex}",
     "--module-path",
     "${var.pex_module_path}",
   ]
