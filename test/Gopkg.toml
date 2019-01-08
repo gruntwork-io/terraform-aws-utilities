@@ -24,4 +24,4 @@
 [[constraint]]
   name = "github.com/gruntwork-io/terratest"
   source = "git@github.com:gruntwork-io/terratest"
-  version = "0.7.2"
+  version = "0.13.20"

@@ -1,19 +1,17 @@
 package test
 
 import (
-	"github.com/gruntwork-io/terratest"
+	"github.com/gruntwork-io/terratest/modules/terraform"
 	"testing"
 )
 
 func TestJoinPath(t *testing.T) {
 	t.Parallel()
 
-	resourceCollection := createBaseRandomResourceCollection(t)
-	terratestOptions := createBaseTerratestOptions(t, "TestJoinPath", "../examples/join-path", resourceCollection)
-	defer terratest.Destroy(terratestOptions, resourceCollection)
+	terratestOptions := createBaseTerratestOptions(t, "../examples/join-path")
+	defer terraform.Destroy(t, terratestOptions)
 
-	apply(t, terratestOptions)
+	terraform.InitAndApply(t, terratestOptions)
 
 	assertOutputEquals(t, "path", "foo/bar/baz.txt", terratestOptions)
 }
-

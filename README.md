@@ -6,6 +6,10 @@ The modules are:
 
 * [intermediate-variable](/modules/intermediate-variable): A simple module that returns as output the exact variables 
   you pass to it as inputs. This gives you a way to store intermediate values that contain interpolations.
+* [join-path](/modules/join-path): This module can be used to join a list of given path parts into a single path that is
+  platform/operating system aware. **(This module requires Python)**
+* [operating-system](/modules/operating-system): This module can be used to figure out what operating system is being
+  used to run Terraform. **(This module requires Python)**
 
 Click on each module above to see its documentation. Head over to the [examples](/examples) folder for examples.
 

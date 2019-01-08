@@ -1,66 +1,43 @@
 package test
 
 import (
+	"github.com/gruntwork-io/terratest/modules/random"
+	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/stretchr/testify/assert"
 	"testing"
-	"github.com/gruntwork-io/terratest"
 )
 
 func TestIntermediateVariable(t *testing.T) {
 	t.Parallel()
 
-	resourceCollection := createBaseRandomResourceCollection(t)
-	terratestOptions := createBaseTerratestOptions(t, "TestIntermediateVariable", "../examples/intermediate-variable", resourceCollection)
-	defer terratest.Destroy(terratestOptions, resourceCollection)
+	terratestOptions := createBaseTerratestOptions(t, "../examples/intermediate-variable")
+	defer terraform.Destroy(t, terratestOptions)
 
-	expectedFoo := resourceCollection.UniqueId
+	expectedFoo := random.UniqueId()
 	terratestOptions.Vars = map[string]interface{}{
 		"foo": expectedFoo,
 	}
 
-	apply(t, terratestOptions)
+	terraform.InitAndApply(t, terratestOptions)
 	checkOutputs(t, expectedFoo, terratestOptions)
 }
 
-func apply(t *testing.T, terratestOptions *terratest.TerratestOptions) {
-	if _, err := terratest.Apply(terratestOptions); err != nil {
-		t.Fatalf("Failed to run apply: %v", err)
-	}
-}
-
-func checkOutputs(t *testing.T, expectedFoo string, terratestOptions *terratest.TerratestOptions) {
+func checkOutputs(t *testing.T, expectedFoo string, terratestOptions *terraform.Options) {
 	assertOutputEquals(t, "map_example", expectedFoo, terratestOptions)
 	assertOutputEquals(t, "list_example", expectedFoo, terratestOptions)
 }
 
-func assertOutputEquals(t *testing.T, outputName string, expectedValue string, terratestOptions *terratest.TerratestOptions) {
-	output, err := terratest.Output(terratestOptions, outputName)
-
-	if err != nil {
-		t.Fatalf("Failed to get output %s: %v", outputName, err)
-	}
-
-	if output != expectedValue {
-		t.Fatalf("Expected output %s to have value %s, but got %s", outputName, expectedValue, output)
-	}
+func assertOutputEquals(t *testing.T, outputName string, expectedValue string, terratestOptions *terraform.Options) {
+	output := terraform.Output(t, terratestOptions, outputName)
+	assert.Equal(t, output, expectedValue)
 }
 
-func createBaseRandomResourceCollection(t *testing.T) *terratest.RandomResourceCollection {
-	resourceCollectionOptions := terratest.NewRandomResourceCollectionOptions()
-
-	randomResourceCollection, err := terratest.CreateRandomResourceCollection(resourceCollectionOptions)
-	if err != nil {
-		t.Fatalf("Failed to create Random Resource Collection: %s", err.Error())
+func createBaseTerratestOptions(
+	t *testing.T,
+	templatePath string,
+) *terraform.Options {
+	terratestOptions := terraform.Options{
+		TerraformDir: templatePath,
 	}
-
-	return randomResourceCollection
-}
-
-func createBaseTerratestOptions(t *testing.T, testName string, templatePath string, resourceCollection *terratest.RandomResourceCollection) *terratest.TerratestOptions {
-	terratestOptions := terratest.NewTerratestOptions()
-
-	terratestOptions.UniqueId = resourceCollection.UniqueId
-	terratestOptions.TemplatePath = templatePath
-	terratestOptions.TestName = testName
-
-	return terratestOptions
+	return &terratestOptions
 }
