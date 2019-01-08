@@ -37,18 +37,13 @@ The paths to add are:
 
 def main():
     args = parse_args()
-    pex_abspath = os.path.abspath(args.pex)
     module_abspath = os.path.abspath(args.module_path)
     separator = ":"
     if IS_WIN:
-        pex_abspath = windows_long_path(pex_abspath)
         module_abspath = windows_long_path(module_abspath)
         separator = ";"
 
-    # NOTE: This isn't a real path on the file system, so we don't call `windows_long_path` on it.
-    pex_bootstrap_path = os.path.join(pex_abspath, ".bootstrap")
-
-    python_path = [module_abspath, pex_abspath, pex_bootstrap_path] + sys.path
+    python_path = [module_abspath] + sys.path
     out = {"python_path": separator.join(python_path)}
     # Terraform data source expects a json output to stdout
     print(json.dumps(out))
