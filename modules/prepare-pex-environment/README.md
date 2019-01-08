@@ -73,7 +73,7 @@ can use as a template.
 
 - When building a PEX for both python2 with python3, be aware that python2 packages tend to rely on backports of stdlib
   enhancements (e.g the [`futures`](https://pypi.org/project/futures/) package). These backports cannot be installed in
-  a python3 environemnt, which creates complications in the PEX binary. Specifically, it will attempt to lookup a
+  a python3 environment, which creates complications in the PEX binary. Specifically, it will attempt to lookup a
   dependency that doesn't exist in the packaged zip.
     - You can mitigate this using [environment markers](https://www.python.org/dev/peps/pep-0508/#environment-markers).
       However, for the most robust solution, generate separate PEX binaries for python2 and python3.

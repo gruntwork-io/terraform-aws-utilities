@@ -5,10 +5,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 module "pex_env" {
-  source           = "../prepare-pex-environment"
-  python2_pex_path = "${var.python2_pex_path}"
-  python3_pex_path = "${var.python3_pex_path}"
-  pex_module_path  = "${var.pex_module_path}"
+  source                 = "../prepare-pex-environment"
+  python2_pex_path_parts = ["${var.python2_pex_path_parts}"]
+  python3_pex_path_parts = ["${var.python3_pex_path_parts}"]
+  pex_module_path_parts  = ["${var.pex_module_path_parts}"]
 }
 
 resource "null_resource" "run_pex" {
