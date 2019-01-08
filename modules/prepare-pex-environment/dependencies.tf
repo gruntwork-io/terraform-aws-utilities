@@ -5,7 +5,7 @@
 
 # Figure out the installed and configured python version
 data "external" "python_version" {
-  program = ["python", "-c", "import sys, json; print(json.dumps({\"major_version\": sys.version_info[0]})"]
+  program = ["python", "-c", "import sys, json; print(json.dumps({\"major_version\": str(sys.version_info[0])}))"]
 }
 
 # Figure out the OS environment

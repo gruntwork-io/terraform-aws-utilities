@@ -27,7 +27,7 @@ module "pex_resource" {
   ]
 
   # Path components to the folder that holds the python modules for sample_python_script
-  pex_module_path = [
+  pex_module_path_parts = [
     "${path.module}",
     "sample-python-script",
   ]
@@ -59,7 +59,7 @@ module "pex_data" {
   ]
 
   # Path components to the folder that holds the python modules for sample_python_script
-  pex_module_path = [
+  pex_module_path_parts = [
     "${path.module}",
     "sample-python-script",
   ]
