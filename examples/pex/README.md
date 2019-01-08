@@ -1,7 +1,7 @@
 # PEX example
 
-This folder shows examples of how to use the [run-pex-data](/modules/run-pex-data) and
-[run-pex-resource](/modules/run-pex-resource) modules to run python scripts wrapped with a PEX environment.
+This folder shows examples of how to use the [run-pex-as-data-source](/modules/run-pex-as-data-source) and
+[run-pex-as-resource](/modules/run-pex-as-resource) modules to run python scripts wrapped with a PEX environment.
 
 These modules use the [prepare-pex-environment module](/modules/prepare-pex-environment) under the hood to prepare the
 runtime environment for unpacking and running PEX binaries. You can learn more about PEX in [the module

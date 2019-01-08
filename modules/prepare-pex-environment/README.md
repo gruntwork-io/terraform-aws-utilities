@@ -1,7 +1,7 @@
 # Prepare PEX Environment Module
 
-**NOTE**: This module should not be used directly. Use [run-pex-data](../run-pex-data) or
-[run-pex-resource](../run-pex-resource) instead.
+**NOTE**: This module should not be used directly. Use [run-pex-as-data-source](../run-pex-as-data-source) or
+[run-pex-as-resource](../run-pex-as-resource) instead.
 
 This module can be used to prepare an runtime environment that can call out to a PEX binary. Specifically, this module:
 
