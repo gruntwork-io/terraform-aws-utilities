@@ -3,7 +3,9 @@ package test
 import (
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/gruntwork-io/terratest/modules/test-structure"
 	"github.com/stretchr/testify/assert"
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -12,7 +14,9 @@ func TestRequireExecutableWorksWithExistingExecutable(t *testing.T) {
 	t.Parallel()
 
 	randomString := random.UniqueId()
-	terratestOptions := createBaseTerratestOptions(t, "../examples/require-executable")
+	testFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "examples")
+	terraformModulePath := filepath.Join(testFolder, "require-executable")
+	terratestOptions := createBaseTerratestOptions(t, terraformModulePath)
 	terratestOptions.Vars = map[string]interface{}{
 		"required_executables": []string{"go"},
 		"error_message":        randomString,
@@ -27,7 +31,9 @@ func TestRequireExecutableFailsForMissingExecutable(t *testing.T) {
 	t.Parallel()
 
 	randomString := random.UniqueId()
-	terratestOptions := createBaseTerratestOptions(t, "../examples/require-executable")
+	testFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "examples")
+	terraformModulePath := filepath.Join(testFolder, "require-executable")
+	terratestOptions := createBaseTerratestOptions(t, terraformModulePath)
 	terratestOptions.Vars = map[string]interface{}{
 		"required_executables": []string{"this-should-not-exist"},
 		"error_message":        randomString,
@@ -45,7 +51,9 @@ func TestConditionalRequireExecutable(t *testing.T) {
 	t.Parallel()
 
 	randomString := random.UniqueId()
-	terratestOptions := createBaseTerratestOptions(t, "../examples/require-executable")
+	testFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "examples")
+	terraformModulePath := filepath.Join(testFolder, "require-executable")
+	terratestOptions := createBaseTerratestOptions(t, terraformModulePath)
 	terratestOptions.Vars = map[string]interface{}{
 		"required_executables":         []string{},
 		"error_message":                "",
