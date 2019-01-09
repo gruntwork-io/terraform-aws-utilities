@@ -54,6 +54,10 @@ def main():
     found = {}
     not_found = []
     for executable in required_executables:
+        # Ignore empty string
+        if not executable.strip():
+            continue
+
         maybe_executable = spawn.find_executable(executable)
         if not maybe_executable:
             not_found.append(executable)

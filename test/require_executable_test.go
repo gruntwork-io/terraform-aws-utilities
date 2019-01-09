@@ -40,3 +40,25 @@ func TestRequireExecutableFailsForMissingExecutable(t *testing.T) {
 	assert.Error(t, err)
 	assert.True(t, strings.Contains(out, randomString))
 }
+
+func TestConditionalRequireExecutable(t *testing.T) {
+	t.Parallel()
+
+	randomString := random.UniqueId()
+	terratestOptions := createBaseTerratestOptions(t, "../examples/require-executable")
+	terratestOptions.Vars = map[string]interface{}{
+		"required_executables":         []string{},
+		"error_message":                "",
+		"validate_bad_executable":      "1",
+		"bad_executable_error_message": randomString,
+	}
+	defer terraform.Destroy(t, terratestOptions)
+
+	out, err := terraform.InitAndApplyE(t, terratestOptions)
+	assert.Error(t, err)
+	assert.True(t, strings.Contains(out, randomString))
+
+	terratestOptions.Vars["validate_bad_executable"] = "0"
+	out = terraform.InitAndApply(t, terratestOptions)
+	assert.False(t, strings.Contains(out, randomString))
+}
