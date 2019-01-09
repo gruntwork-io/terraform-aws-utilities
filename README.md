@@ -10,6 +10,14 @@ The modules are:
   platform/operating system aware. **(This module requires Python)**
 * [operating-system](/modules/operating-system): This module can be used to figure out what operating system is being
   used to run Terraform. **(This module requires Python)**
+* [require-executable](/modules/require-executable): This is a module that can be used to ensure particular executables
+  is available in the `PATH`. **(This module requires Python)**
+* [run-pex-as-data-source](/modules/run-pex-as-data-source): This module prepares a portable environment for running PEX
+  files and runs them as an external data source. PEX files are python executables that contain all the requirements
+  necessary to run the script. **(This module requires Python)**
+* [run-pex-as-resource](/modules/run-pex-as-resource): This module prepares a portable environment for running PEX files
+  and runs them as an local-exec provisioner on a null_resource. PEX files are python executables that contain all the
+  requirements necessary to run the script. **(This module requires Python)**
 
 Click on each module above to see its documentation. Head over to the [examples](/examples) folder for examples.
 
