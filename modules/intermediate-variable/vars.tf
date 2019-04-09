@@ -1,9 +1,9 @@
 variable "map_value" {
-  type = "map"
+  type    = "map"
   default = {}
 }
 
 variable "list_value" {
-  type = "list"
+  type    = "list"
   default = []
 }
