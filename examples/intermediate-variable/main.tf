@@ -30,6 +30,6 @@ module "list_example" {
 
   list_value = [
     "${var.foo}",
-    "${var.bar}"
+    "${var.bar}",
   ]
 }
