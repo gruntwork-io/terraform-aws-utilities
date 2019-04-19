@@ -4,6 +4,6 @@ module "list_remove" {
   # source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/list-remove?ref=v0.0.8"
   source = "../../modules/list-remove"
 
-  original_list   = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-east-1e"]
-  items_to_remove = ["us-east-1b", "us-east-1c"]
+  original_list   = ["${var.input_list}"]
+  items_to_remove = ["${var.items_to_remove}"]
 }
