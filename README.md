@@ -77,4 +77,4 @@ MINOR, and PATCH versions on each release to indicate any incompatibilities.
 
 ## License
 
-Please see [LICENSE.txt](/LICENSE.txt) for details on how the code in this repo is licensed.
+Please see [LICENSE.txt](/LICENSE.txt) and [NOTICE](/NOTICE) for details on how the code in this repo is licensed.
