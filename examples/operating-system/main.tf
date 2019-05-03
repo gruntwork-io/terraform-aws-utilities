@@ -4,3 +4,16 @@ module "os" {
   # source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/operating-system?ref=v1.0.8"
   source = "../../modules/operating-system"
 }
+
+resource "null_resource" "check_escape_char" {
+  triggers {
+    time = "${timestamp()}"
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOF
+    echo ${module.os.sh_esc_char}
+      "${var.echo}"
+    EOF
+  }
+}

@@ -18,9 +18,9 @@ The following modules are available:
 * [intermediate-variable](/modules/intermediate-variable): A simple module that returns as output the exact variables
   you pass to it as inputs. This gives you a way to store intermediate values that contain interpolations.
 * [join-path](/modules/join-path): This module can be used to join a list of given path parts into a single path that is
-  platform/operating system aware. **(This module requires Python)**
+  platform/operating system aware.
 * [operating-system](/modules/operating-system): This module can be used to figure out what operating system is being
-  used to run Terraform. **(This module requires Python)**
+  used to run Terraform.
 * [require-executable](/modules/require-executable): This is a module that can be used to ensure particular executables
   is available in the `PATH`. **(This module requires Python)**
 * [run-pex-as-data-source](/modules/run-pex-as-data-source): This module prepares a portable environment for running PEX

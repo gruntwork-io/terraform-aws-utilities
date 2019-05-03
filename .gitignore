@@ -25,3 +25,7 @@ __pycache__
 
 # Go best practices dictate that libraries should not include the vendor directory
 vendor
+
+
+# Terraform Module artifacts
+os.txt

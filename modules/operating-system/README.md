@@ -1,10 +1,8 @@
 # Operating System Module
 
 This is a module that can be used to figure out what operating system is being used to run Terraform. This may be used
-to modify Terraform's behavior depending on the OS, such as modifying the way you format file paths on Linux vs 
-Windows (see also the [join-path module](/modules/join-path)). 
-
-This module uses Python under the hood so, the Python must be installed on the OS. 
+to modify Terraform's behavior depending on the OS, such as modifying the way you format file paths on Linux vs
+Windows (see also the [join-path module](/modules/join-path)).
 
 
 
@@ -27,14 +25,17 @@ module "os" {
 }
 ```
 
-* You can now get the name of the operating system from the `name` output, which will be set to either `Linux`, 
+* You can now get the name of the operating system from the `name` output, which will be set to either `Linux`,
   `Darwin`, or `Windows`
 
 * You can also get the path separator for the current OS—backslash for Windows, forward slash everywhere else—from the
   `path_separator` output.
-  
+
+* You can also get the escape character for the default shell of the platform. This is \` for Windows (CMD), and \\ for
+  other platforms.
+
 ```hcl
 operating_system_name = "${module.os.name}"
 path_separator        = "${module.os.path_separator}"
+sh_esc_char           = "${module.os.sh_esc_char}"
 ```
-  
