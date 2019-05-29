@@ -5,7 +5,7 @@
 
 variable "required_executables" {
   description = "A list of named executables that should exist on the OS PATH."
-  type        = "list"
+  type        = list(string)
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

@@ -1,3 +1,7 @@
+terraform {
+  required_version = ">= 0.12"
+}
+
 data "external" "required_executable" {
   program = ["python", "${path.module}/require_executable.py"]
 
@@ -5,7 +9,7 @@ data "external" "required_executable" {
   # to be a comma separated string.
   # See https://github.com/terraform-providers/terraform-provider-external/issues/2
   query = {
-    required_executables = "${join(",", var.required_executables)}"
-    error_message        = "${var.error_message}"
+    required_executables = join(",", var.required_executables)
+    error_message        = var.error_message
   }
 }
