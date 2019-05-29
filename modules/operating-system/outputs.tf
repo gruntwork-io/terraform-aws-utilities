@@ -1,7 +1,7 @@
 output "name" {
-  value = "${data.external.os.result.platform}"
+  value = data.external.os.result.platform
 }
 
 output "path_separator" {
-  value = "${data.external.os.result.platform == "Windows" ? "\\" : "/"}"
+  value = data.external.os.result.platform == "Windows" ? "\\" : "/"
 }
