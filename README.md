@@ -15,8 +15,6 @@ This repo provides a Gruntwork IaC Package and has the following folder structur
 
 The following modules are available:
 
-* [intermediate-variable](/modules/intermediate-variable): A simple module that returns as output the exact variables
-  you pass to it as inputs. This gives you a way to store intermediate values that contain interpolations.
 * [join-path](/modules/join-path): This module can be used to join a list of given path parts into a single path that is
   platform/operating system aware. **(This module requires Python)**
 * [operating-system](/modules/operating-system): This module can be used to figure out what operating system is being
@@ -29,6 +27,12 @@ The following modules are available:
 * [run-pex-as-resource](/modules/run-pex-as-resource): This module prepares a portable environment for running PEX files
   and runs them as an local-exec provisioner on a null_resource. PEX files are python executables that contain all the
   requirements necessary to run the script. **(This module requires Python)**
+
+The following modules were deprecated and removed:
+
+* [intermediate-variable](/modules/intermediate-variable): This module has been superseded by [terraform local
+  values](https://www.terraform.io/docs/configuration/locals.html). To upgrade, switch usage of `intermediate-variable`
+  with `locals`.
 
 Click on each module above to see its documentation. Head over to the [examples](/examples) folder for example usage.
 
