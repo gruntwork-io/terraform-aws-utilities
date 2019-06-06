@@ -27,5 +27,7 @@ variable "script_main_function" {
 variable "command_args" {
   description = "The arguments to pass to the command as a string"
   type        = string
-  default     = ""
+
+  # We don't use null here because this is interpolated into the python script.
+  default = ""
 }

@@ -8,5 +8,5 @@ variable "path_parts" {
   type        = list(string)
 
   # Example:
-  # default = ["foo", "bar", "baz.txt"] => outputs "foo/bar/baz.txt" on Linux
+  # path_parts = ["foo", "bar", "baz.txt"] => outputs "foo/bar/baz.txt" on Linux
 }
