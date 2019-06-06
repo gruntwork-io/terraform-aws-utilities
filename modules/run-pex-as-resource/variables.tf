@@ -21,9 +21,11 @@ variable "pex_module_path_parts" {
 
 variable "script_main_function" {
   description = "Main function of the script, encoded as SCRIPT_MODULE:FUNCTION. So for example, if the main function of the script is in a file named `entrypoint.py` which houses the function `main`, then this should be `entrypoint:main`."
+  type        = string
 }
 
 variable "command_args" {
   description = "The arguments to pass to the command as a string"
+  type        = string
   default     = ""
 }
