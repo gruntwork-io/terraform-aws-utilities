@@ -4,6 +4,10 @@
 # terraform in a portable manner that can work with multiple platforms and python versions.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+terraform {
+  required_version = ">= 0.12"
+}
+
 # Run the PEX binary as a local-exec provisioner on a null_resource.
 module "pex_resource" {
   # When using these modules in your own templates, you will need to use a Git URL with a ref attribute that pins you
@@ -13,14 +17,14 @@ module "pex_resource" {
 
   # Path components to each of the PEX binary
   python2_pex_path_parts = [
-    "${path.module}",
+    path.module,
     "sample-python-script",
     "bin",
     "sample_python_script_py27_env.pex",
   ]
 
   python3_pex_path_parts = [
-    "${path.module}",
+    path.module,
     "sample-python-script",
     "bin",
     "sample_python_script_py3_env.pex",
@@ -28,7 +32,7 @@ module "pex_resource" {
 
   # Path components to the folder that holds the python modules for sample_python_script
   pex_module_path_parts = [
-    "${path.module}",
+    path.module,
     "sample-python-script",
   ]
 
@@ -45,14 +49,14 @@ module "pex_data" {
 
   # Path components to each of the PEX binary
   python2_pex_path_parts = [
-    "${path.module}",
+    path.module,
     "sample-python-script",
     "bin",
     "sample_python_script_py27_env.pex",
   ]
 
   python3_pex_path_parts = [
-    "${path.module}",
+    path.module,
     "sample-python-script",
     "bin",
     "sample_python_script_py3_env.pex",
@@ -60,7 +64,7 @@ module "pex_data" {
 
   # Path components to the folder that holds the python modules for sample_python_script
   pex_module_path_parts = [
-    "${path.module}",
+    path.module,
     "sample-python-script",
   ]
 
@@ -72,6 +76,7 @@ module "pex_data" {
 
   # Query parameter for the data source, that will be passed into the script in json format
   command_query = {
-    "echo" = "${var.echo_string}"
+    "echo" = var.echo_string
   }
 }
+

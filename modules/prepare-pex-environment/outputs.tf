@@ -1,11 +1,11 @@
 output "pex_path" {
   description = "Path to PEX file that should be run."
-  value       = "${local.pex}"
+  value       = local.pex
 }
 
 output "python_path" {
   description = "The python path that should be used for running PEX file. This should be set as the PYTHONPATH environment variable."
-  value       = "${lookup(data.external.determine_python_path.result, "python_path")}"
+  value       = data.external.determine_python_path.result["python_path"]
 }
 
 output "entrypoint_path" {

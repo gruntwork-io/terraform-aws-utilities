@@ -1,3 +1,3 @@
 output "path" {
-  value = "${module.path.path}"
+  value = module.path.path
 }

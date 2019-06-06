@@ -1,26 +1,11 @@
 package test
 
 import (
-	"github.com/gruntwork-io/terratest/modules/random"
+	"testing"
+
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
-
-func TestIntermediateVariable(t *testing.T) {
-	t.Parallel()
-
-	terratestOptions := createBaseTerratestOptions(t, "../examples/intermediate-variable")
-	defer terraform.Destroy(t, terratestOptions)
-
-	expectedFoo := random.UniqueId()
-	terratestOptions.Vars = map[string]interface{}{
-		"foo": expectedFoo,
-	}
-
-	terraform.InitAndApply(t, terratestOptions)
-	checkOutputs(t, expectedFoo, terratestOptions)
-}
 
 func checkOutputs(t *testing.T, expectedFoo string, terratestOptions *terraform.Options) {
 	assertOutputEquals(t, "map_example", expectedFoo, terratestOptions)
