@@ -16,5 +16,5 @@ data "external" "determine_python_path" {
 }
 
 locals {
-  pex = data.external.python_version.result["major_version"] == 2 ? module.python2_pex_path.path : module.python3_pex_path.path
+  pex = data.external.python_version.result["major_version"] == "2" ? module.python2_pex_path.path : module.python3_pex_path.path
 }
