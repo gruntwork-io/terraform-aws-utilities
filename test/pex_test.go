@@ -1,7 +1,9 @@
 package test
 
 import (
+	"fmt"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/random"
@@ -22,9 +24,10 @@ func TestRunPex(t *testing.T) {
 		"echo_string": expectedFoo,
 	}
 
-	terraform.InitAndApply(t, terratestOptions)
+	output := terraform.InitAndApply(t, terratestOptions)
 
 	assertOutputEquals(t, "command_echo", expectedFoo, terratestOptions)
+	strings.Contains(output, fmt.Sprintf("Environment variable: %s", expectedFoo))
 }
 
 func TestRunPexTriggers(t *testing.T) {

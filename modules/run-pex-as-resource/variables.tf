@@ -37,3 +37,9 @@ variable "triggers" {
   type        = map(string)
   default     = null
 }
+
+variable "env" {
+  description = "Additional environment variables to set for the command."
+  type        = map(string)
+  default     = {}
+}

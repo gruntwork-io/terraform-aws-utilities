@@ -40,6 +40,10 @@ module "pex_resource" {
 
   # The entrypoint of the sample_python_script, encoded as MODULE:FUNCTION
   script_main_function = "sample_python_script.main:main"
+
+  env = {
+    PEX_TEST_ENV = var.echo_string
+  }
 }
 
 # Run the PEX binary as a data source.

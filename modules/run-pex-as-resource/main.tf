@@ -21,8 +21,11 @@ resource "null_resource" "run_pex" {
   provisioner "local-exec" {
     command = "python ${module.pex_env.pex_path} ${module.pex_env.entrypoint_path} ${var.script_main_function} ${var.command_args}"
 
-    environment = {
-      PYTHONPATH = module.pex_env.python_path
-    }
+    environment = merge(
+      {
+        PYTHONPATH = module.pex_env.python_path
+      },
+      var.env,
+    )
   }
 }
