@@ -1,16 +1,20 @@
 package test
 
 import (
+	"path/filepath"
+	"testing"
+
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/gruntwork-io/terratest/modules/test-structure"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestRunPex(t *testing.T) {
 	t.Parallel()
 
-	terratestOptions := createBaseTerratestOptions(t, "../examples/pex")
+	testFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "examples")
+	terratestOptions := createBaseTerratestOptions(t, filepath.Join(testFolder, "pex"))
 	defer terraform.Destroy(t, terratestOptions)
 
 	expectedFoo := random.UniqueId()
@@ -26,7 +30,8 @@ func TestRunPex(t *testing.T) {
 func TestRunPexTriggers(t *testing.T) {
 	t.Parallel()
 
-	terratestOptions := createBaseTerratestOptions(t, "../examples/pex")
+	testFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "examples")
+	terratestOptions := createBaseTerratestOptions(t, filepath.Join(testFolder, "pex"))
 	defer terraform.Destroy(t, terratestOptions)
 
 	expectedFoo := random.UniqueId()
