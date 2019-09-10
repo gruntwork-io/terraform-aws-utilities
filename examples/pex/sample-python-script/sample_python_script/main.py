@@ -1,4 +1,5 @@
 from __future__ import print_function
+import os
 import click
 import json
 import sys
@@ -17,6 +18,7 @@ def main(is_data):
     else:
         print("python version: {}".format(sys.version_info))
         print("This was successfully run as a local-exec provisioner")
+        print("Environment variable: {}".format(os.environ.get("PEX_TEST_ENV", None)))
 
 
 if __name__ == "__main__":

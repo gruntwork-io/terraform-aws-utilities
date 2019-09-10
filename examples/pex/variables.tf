@@ -3,3 +3,9 @@ variable "echo_string" {
   type        = string
   default     = "Hello world!"
 }
+
+variable "triggers" {
+  description = "Triggers for the pex null resource to rerun."
+  type        = map(string)
+  default     = null
+}
