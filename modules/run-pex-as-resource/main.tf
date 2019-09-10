@@ -16,6 +16,8 @@ module "pex_env" {
 }
 
 resource "null_resource" "run_pex" {
+  triggers = var.triggers
+
   provisioner "local-exec" {
     command = "python ${module.pex_env.pex_path} ${module.pex_env.entrypoint_path} ${var.script_main_function} ${var.command_args}"
 

@@ -214,7 +214,7 @@
   version = "v0.4.2"
 
 [[projects]]
-  digest = "1:653bb665ede505dfaa7345261d8208c9ee8cc5bdbe7e258110ae9807eb34dace"
+  digest = "1:be266d630ec373514070956a758ef11814e2ccec3245693f96fdfeeafa0a66cf"
   name = "github.com/gruntwork-io/terratest"
   packages = [
     "modules/aws",
@@ -233,8 +233,8 @@
     "modules/test-structure",
   ]
   pruneopts = ""
-  revision = "892abb2c35878d0808101bbfe6559e931dc2d354"
-  version = "v0.16.0"
+  revision = "495f4a90acde629ffcac17f75d308c8273c34646"
+  version = "v0.18.6"
 
 [[projects]]
   digest = "1:31bfd110d31505e9ffbc9478e31773bf05bf02adcaeb9b139af42684f9294c13"
@@ -490,8 +490,7 @@
   version = "v2.2.2"
 
 [[projects]]
-  branch = "release-1.12"
-  digest = "1:3e3e9df293bd6f9fd64effc9fa1f0edcd97e6c74145cd9ab05d35719004dc41f"
+  digest = "1:bd9c8b7155b31a5b8f420169a470d47aae7f5c9e4e6c5c18bb15bcdbd1c51bfd"
   name = "k8s.io/api"
   packages = [
     "admissionregistration/v1alpha1",
@@ -527,7 +526,7 @@
     "storage/v1beta1",
   ]
   pruneopts = ""
-  revision = "6db15a15d2d3874a6c3ddb2140ac9f3bc7058428"
+  revision = "a33c8200050fc0751848276811abf3fc029b3133"
 
 [[projects]]
   branch = "release-1.12"
@@ -645,12 +644,12 @@
   revision = "b6aa6aafe32b0767f075245e5d391381c5449c8a"
 
 [[projects]]
-  digest = "1:30b201b810685671ff5b26a02f9d8a520cea5b451790ffe13f15c26170ff27fb"
+  digest = "1:bb5d4c0decfc9aafe39a2f5eff7a7d692dd2f8a1af24712e7ea3d72356194587"
   name = "k8s.io/kubernetes"
   packages = ["pkg/kubectl/generate"]
   pruneopts = ""
-  revision = "66049e3b21efe110454d67df4fa62b08ea79a19b"
-  version = "v1.14.2"
+  revision = "2d3c76f9091b6bec110a5e63777c332469e0cba2"
+  version = "v1.15.3"
 
 [solve-meta]
   analyzer-name = "dep"

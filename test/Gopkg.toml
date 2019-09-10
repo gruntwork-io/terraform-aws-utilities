@@ -23,4 +23,4 @@
 
 [[constraint]]
   name = "github.com/gruntwork-io/terratest"
-  version = "0.16.0"
+  version = "0.18.6"

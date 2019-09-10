@@ -15,6 +15,8 @@ module "pex_resource" {
   # source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/run-pex-as-resource?ref=v1.0.8"
   source = "../../modules/run-pex-as-resource"
 
+  triggers = var.triggers
+
   # Path components to each of the PEX binary
   python2_pex_path_parts = [
     path.module,
