@@ -17,6 +17,8 @@ module "pex_env" {
 }
 
 data "external" "pex" {
+  count = var.enabled ? 1 : 0
+
   program = [
     "python",
     "-c",

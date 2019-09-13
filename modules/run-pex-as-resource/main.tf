@@ -16,6 +16,8 @@ module "pex_env" {
 }
 
 resource "null_resource" "run_pex" {
+  count = var.enabled ? 1 : 0
+
   triggers = var.triggers
 
   provisioner "local-exec" {

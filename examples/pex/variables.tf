@@ -9,3 +9,12 @@ variable "triggers" {
   type        = map(string)
   default     = null
 }
+
+# These variables are only used for testing purposes and should not be touched in normal operations, unless you know
+# what you are doing.
+
+variable "enabled" {
+  description = "Whether or not to run the PEX scripts."
+  type        = bool
+  default     = true
+}

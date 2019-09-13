@@ -44,6 +44,8 @@ module "pex_resource" {
   env = {
     PEX_TEST_ENV = var.echo_string
   }
+
+  enabled = var.enabled
 }
 
 # Run the PEX binary as a data source.
@@ -84,5 +86,7 @@ module "pex_data" {
   command_query = {
     "echo" = var.echo_string
   }
+
+  enabled = var.enabled
 }
 

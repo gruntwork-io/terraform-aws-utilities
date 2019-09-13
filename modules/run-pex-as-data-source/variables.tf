@@ -37,3 +37,9 @@ variable "command_query" {
   type        = map(string)
   default     = {}
 }
+
+variable "enabled" {
+  description = "If you set this variable to false, this module will not run the PEX script. This is used as a workaround because Terraform does not allow you to use the 'count' parameter on modules. By using this parameter, you can optionally enable the data source within this module. Note that when false, the output will be null."
+  type        = bool
+  default     = true
+}

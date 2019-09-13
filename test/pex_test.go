@@ -3,7 +3,6 @@ package test
 import (
 	"fmt"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/random"
@@ -27,7 +26,7 @@ func TestRunPex(t *testing.T) {
 	output := terraform.InitAndApply(t, terratestOptions)
 
 	assertOutputEquals(t, "command_echo", expectedFoo, terratestOptions)
-	strings.Contains(output, fmt.Sprintf("Environment variable: %s", expectedFoo))
+	assert.Contains(t, output, fmt.Sprintf("Environment variable: %s", expectedFoo))
 }
 
 func TestRunPexTriggers(t *testing.T) {
@@ -57,4 +56,25 @@ func TestRunPexTriggers(t *testing.T) {
 	terratestOptions.Vars["triggers"].(map[string]string)["id"] = random.UniqueId()
 	exitCode = terraform.PlanExitCode(t, terratestOptions)
 	assert.NotEqual(t, exitCode, 0)
+}
+
+func TestRunPexDisabled(t *testing.T) {
+	t.Parallel()
+
+	testFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "examples")
+	terratestOptions := createBaseTerratestOptions(t, filepath.Join(testFolder, "pex"))
+	defer terraform.Destroy(t, terratestOptions)
+
+	expectedFoo := random.UniqueId()
+	terratestOptions.Vars = map[string]interface{}{
+		"echo_string": expectedFoo,
+		"enabled":     false,
+	}
+
+	output := terraform.InitAndApply(t, terratestOptions)
+	assert.NotContains(t, output, fmt.Sprintf("Environment variable: %s", expectedFoo))
+
+	allOutputs := terraform.OutputAll(t, terratestOptions)
+	_, hasOutput := allOutputs["command_echo"]
+	assert.False(t, hasOutput)
 }
