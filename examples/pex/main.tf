@@ -42,7 +42,7 @@ module "pex_resource" {
   script_main_function = "sample_python_script.main:main"
 
   env = {
-    PEX_TEST_ENV = var.echo_string
+    RUN_PEX_TEST_ENV = var.echo_string
   }
 
   enabled = var.enabled
@@ -89,4 +89,3 @@ module "pex_data" {
 
   enabled = var.enabled
 }
-

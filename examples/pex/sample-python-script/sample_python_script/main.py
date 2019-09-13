@@ -18,7 +18,7 @@ def main(is_data):
     else:
         print("python version: {}".format(sys.version_info))
         print("This was successfully run as a local-exec provisioner")
-        print("Environment variable: {}".format(os.environ.get("PEX_TEST_ENV", None)))
+        print("Environment variable: {}".format(os.environ.get("RUN_PEX_TEST_ENV", None)))
 
 
 if __name__ == "__main__":
