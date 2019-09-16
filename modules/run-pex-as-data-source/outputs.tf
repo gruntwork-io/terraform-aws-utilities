@@ -1,4 +1,4 @@
 output "result" {
   description = "Data source result of executing the PEX binary."
-  value       = data.external.pex.result
+  value       = concat(data.external.pex.*.result, [null])[0]
 }
