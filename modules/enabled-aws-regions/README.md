@@ -34,7 +34,7 @@ To build the binary, you will need the following:
   versions)
 - pex installed (use `pip install -r ./get-enabled-regions/dev_requirements.txt`)
 
-You can then build the binary using the helper script `build.sh` which will build the binary and copy it to the `bin`
+You can then use the helper script `build.sh` which will build the binary and copy it to the `bin`
 directory for distribution. After that, you just need to check in the updated binaries.
 
 It is recommended to use [`pyenv`](https://github.com/pyenv/pyenv) to help setup an environment with multiple python
