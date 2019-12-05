@@ -29,6 +29,8 @@ The following modules are available:
 * [run-pex-as-resource](/modules/run-pex-as-resource): This module prepares a portable environment for running PEX files
   and runs them as an local-exec provisioner on a null_resource. PEX files are python executables that contain all the
   requirements necessary to run the script. **(This module requires Python)**
+* [enabled-aws-regions](/modules/enabled-aws-regions): This is a module that can be used to query AWS for all enabled
+  AWS regions on the authenticated AWS account. **(This module requires Python)**
 
 The following modules were deprecated and removed:
 
