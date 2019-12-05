@@ -22,4 +22,8 @@ func TestGetEnabledAWSRegions(t *testing.T) {
 	assert.True(t, collections.ListContains(regions, "us-east-1"))
 	assert.True(t, collections.ListContains(regions, "us-west-1"))
 	assert.True(t, collections.ListContains(regions, "eu-west-1"))
+
+	// ... and verify an opted out region is not included
+	assert.False(t, collections.ListContains(regions, "ap-east-1"))      // Hong Kong
+	assert.False(t, collections.ListContains(regions, "ap-northeast-3")) // Osaka
 }
