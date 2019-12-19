@@ -7,7 +7,7 @@ import (
 
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/gruntwork-io/terratest/modules/test-structure"
+	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,7 +16,10 @@ func TestRunPex(t *testing.T) {
 
 	testFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "examples")
 	terratestOptions := createBaseTerratestOptions(t, filepath.Join(testFolder, "pex"))
-	defer terraform.Destroy(t, terratestOptions)
+	defer func() {
+		destroyOut := terraform.Destroy(t, terratestOptions)
+		assert.Contains(t, destroyOut, "___DELETE___")
+	}()
 
 	expectedFoo := random.UniqueId()
 	terratestOptions.Vars = map[string]interface{}{
@@ -34,9 +37,18 @@ func TestRunPexTriggers(t *testing.T) {
 
 	testFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "examples")
 	terratestOptions := createBaseTerratestOptions(t, filepath.Join(testFolder, "pex"))
-	defer terraform.Destroy(t, terratestOptions)
-
 	expectedFoo := random.UniqueId()
+
+	defer func() {
+		// Remove triggers from the passed in vars to ensure the unique string is not passed in on destroy. This way, we
+		// can validate that the triggers option is indeed coming from the triggers stored in the state file.
+		delete(terratestOptions.Vars, "triggers")
+
+		destroyOut := terraform.Destroy(t, terratestOptions)
+		assert.Contains(t, destroyOut, "___DELETE___")
+		assert.Contains(t, destroyOut, expectedFoo)
+	}()
+
 	terratestOptions.Vars = map[string]interface{}{
 		"echo_string": expectedFoo,
 		"triggers": map[string]string{

@@ -21,8 +21,7 @@ resource "null_resource" "run_pex" {
   triggers = var.triggers
 
   provisioner "local-exec" {
-    command = "python ${module.pex_env.pex_path} ${module.pex_env.entrypoint_path} ${var.script_main_function} ${var.command_args}"
-
+    command = "${local.python_call} ${var.command_args}"
     environment = merge(
       {
         PYTHONPATH = module.pex_env.python_path
@@ -30,4 +29,24 @@ resource "null_resource" "run_pex" {
       var.env,
     )
   }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = (
+      var.enable_destroy_provisioner
+      # NOTE: The nested string interpolation can not be extracted because of the reference to self.
+      ? "${local.python_call} ${var.destroy_command_args} ${var.pass_in_previous_triggers ? "${var.previous_trigger_option} '${jsonencode(self.triggers != null ? self.triggers : {})}'" : ""}"
+      : "echo 'Skipping delete provisioner'"
+    )
+    environment = merge(
+      {
+        PYTHONPATH = module.pex_env.python_path
+      },
+      var.env,
+    )
+  }
+}
+
+locals {
+  python_call = "python ${module.pex_env.pex_path} ${module.pex_env.entrypoint_path} ${var.script_main_function}"
 }
