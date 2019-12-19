@@ -45,8 +45,8 @@ module "pex_resource" {
     RUN_PEX_TEST_ENV = var.echo_string
   }
 
-  enable_delete_provisioner = true
-  delete_command_args       = "--is-delete"
+  enable_destroy_provisioner = true
+  destroy_command_args       = "--is-delete"
 
   enabled = var.enabled
 }

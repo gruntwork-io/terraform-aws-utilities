@@ -32,7 +32,7 @@ variable "command_args" {
   default = ""
 }
 
-variable "delete_command_args" {
+variable "destroy_command_args" {
   description = "The arguments to pass to the command as a string on delete"
   type        = string
 
@@ -58,8 +58,8 @@ variable "enabled" {
   default     = true
 }
 
-variable "enable_delete_provisioner" {
-  description = "If you set this variable to true, the same command will be called on delete with the args specified in delete_command_args."
+variable "enable_destroy_provisioner" {
+  description = "If you set this variable to true, the same command will be called on destroy with the args specified in destroy_command_args."
   type        = bool
   default     = false
 }

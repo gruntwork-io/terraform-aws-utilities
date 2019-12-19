@@ -33,8 +33,8 @@ resource "null_resource" "run_pex" {
   provisioner "local-exec" {
     when = destroy
     command = (
-      var.enable_delete_provisioner
-      ? "${local.python_call} ${var.delete_command_args}"
+      var.enable_destroy_provisioner
+      ? "${local.python_call} ${var.destroy_command_args}"
       : "echo 'Skipping delete provisioner'"
     )
     environment = merge(
