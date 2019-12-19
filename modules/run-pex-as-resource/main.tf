@@ -21,8 +21,7 @@ resource "null_resource" "run_pex" {
   triggers = var.triggers
 
   provisioner "local-exec" {
-    command = "python ${module.pex_env.pex_path} ${module.pex_env.entrypoint_path} ${var.script_main_function} ${var.command_args}"
-
+    command = "${local.python_call} ${var.command_args}"
     environment = merge(
       {
         PYTHONPATH = module.pex_env.python_path
@@ -30,4 +29,23 @@ resource "null_resource" "run_pex" {
       var.env,
     )
   }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = (
+      var.enable_delete_provisioner
+      ? "${local.python_call} ${var.delete_command_args}"
+      : "echo 'Skipping delete provisioner'"
+    )
+    environment = merge(
+      {
+        PYTHONPATH = module.pex_env.python_path
+      },
+      var.env,
+    )
+  }
+}
+
+locals {
+  python_call = "python ${module.pex_env.pex_path} ${module.pex_env.entrypoint_path} ${var.script_main_function}"
 }
