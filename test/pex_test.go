@@ -40,7 +40,10 @@ func TestRunPexTriggers(t *testing.T) {
 	expectedFoo := random.UniqueId()
 
 	defer func() {
+		// Remove triggers from the passed in vars to ensure the unique string is not passed in on destroy. This way, we
+		// can validate that the triggers option is indeed coming from the triggers stored in the state file.
 		delete(terratestOptions.Vars, "triggers")
+
 		destroyOut := terraform.Destroy(t, terratestOptions)
 		assert.Contains(t, destroyOut, "___DELETE___")
 		assert.Contains(t, destroyOut, expectedFoo)
