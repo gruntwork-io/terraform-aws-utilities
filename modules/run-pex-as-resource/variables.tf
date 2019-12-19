@@ -63,3 +63,15 @@ variable "enable_destroy_provisioner" {
   type        = bool
   default     = false
 }
+
+variable "pass_in_previous_triggers" {
+  description = "If you set this variable to true, this module will pass in the json encoded triggers that were used when the resource was created, prefixed by var.previous_trigger_option."
+  type        = bool
+  default     = false
+}
+
+variable "previous_trigger_option" {
+  description = "Prefix the json encoded trigger with this string prior to passing into the command."
+  type        = string
+  default     = ""
+}

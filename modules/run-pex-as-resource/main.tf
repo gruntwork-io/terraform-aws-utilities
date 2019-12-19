@@ -34,7 +34,8 @@ resource "null_resource" "run_pex" {
     when = destroy
     command = (
       var.enable_destroy_provisioner
-      ? "${local.python_call} ${var.destroy_command_args}"
+      # NOTE: The nested string interpolation can not be extracted because of the reference to self.
+      ? "${local.python_call} ${var.destroy_command_args} ${var.pass_in_previous_triggers ? "${var.previous_trigger_option} ${jsonencode(self.triggers)}" : ""}"
       : "echo 'Skipping delete provisioner'"
     )
     environment = merge(

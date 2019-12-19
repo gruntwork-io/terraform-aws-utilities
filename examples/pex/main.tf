@@ -47,6 +47,8 @@ module "pex_resource" {
 
   enable_destroy_provisioner = true
   destroy_command_args       = "--is-delete"
+  pass_in_previous_triggers  = true
+  previous_trigger_option    = "--triggers-json"
 
   enabled = var.enabled
 }

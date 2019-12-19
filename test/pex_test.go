@@ -37,9 +37,15 @@ func TestRunPexTriggers(t *testing.T) {
 
 	testFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "examples")
 	terratestOptions := createBaseTerratestOptions(t, filepath.Join(testFolder, "pex"))
-	defer terraform.Destroy(t, terratestOptions)
-
 	expectedFoo := random.UniqueId()
+
+	defer func() {
+		delete(terratestOptions.Vars, "triggers")
+		destroyOut := terraform.Destroy(t, terratestOptions)
+		assert.Contains(t, destroyOut, "___DELETE___")
+		assert.Contains(t, destroyOut, expectedFoo)
+	}()
+
 	terratestOptions.Vars = map[string]interface{}{
 		"echo_string": expectedFoo,
 		"triggers": map[string]string{
