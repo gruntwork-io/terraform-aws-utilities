@@ -3,5 +3,15 @@ terraform {
 }
 
 data "external" "os" {
-  program = ["python", "-c", "import platform; print(\"{\\\"platform\\\": \\\"%s\\\"}\" % platform.system())"]
+  program = ["python", "-c", <<-EOF
+      import json
+      import os
+      import platform
+
+      print(json.dumps({
+          "platform": platform.system(),
+          "path_separator": os.sep,
+      }))
+    EOF
+  ]
 }
