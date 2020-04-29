@@ -29,14 +29,19 @@ The following modules are available:
 * [run-pex-as-resource](/modules/run-pex-as-resource): This module prepares a portable environment for running PEX files
   and runs them as an local-exec provisioner on a null_resource. PEX files are python executables that contain all the
   requirements necessary to run the script. **(This module requires Python)**
-* [enabled-aws-regions](/modules/enabled-aws-regions): This is a module that can be used to query AWS for all enabled
-  AWS regions on the authenticated AWS account. **(This module requires Python)**
 
 The following modules were deprecated and removed:
 
-* [intermediate-variable](/modules/intermediate-variable): This module has been superseded by [terraform local
+* `intermediate-variable`: This module has been superseded by [terraform local
   values](https://www.terraform.io/docs/configuration/locals.html). To upgrade, switch usage of `intermediate-variable`
   with `locals`.
+* `enabled-aws-regions`: This module has been superseded by [terraform aws_regions data
+  source](https://www.terraform.io/docs/providers/aws/d/regions.html). To upgrade, switch the module block with:
+
+    data "aws_regions" "enabled_regions" {}
+
+  Then, you can get the list of enabled regions using `data.aws_regions.enabled_regions.names`.
+
 
 Click on each module above to see its documentation. Head over to the [examples](/examples) folder for example usage.
 

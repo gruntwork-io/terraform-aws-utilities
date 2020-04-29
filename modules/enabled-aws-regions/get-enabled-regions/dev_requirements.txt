@@ -1,6 +1,0 @@
-# Install this specific version of pex for better windows support
-# https://github.com/pantsbuild/pex/pull/596
-# https://github.com/pantsbuild/pex/pull/638
-git+https://github.com/yorinasub17/pex.git@yori-working-windows-support
-
-flake8
