@@ -3,5 +3,5 @@ output "name" {
 }
 
 output "path_separator" {
-  value = data.external.os.result.platform == "Windows" ? "\\" : "/"
+  value = data.external.os.result.path_separator
 }
