@@ -15,6 +15,7 @@ import hashlib
 import platform
 import logging
 import errno
+import argparse
 
 try:
     # Try the Python 3 import
@@ -32,18 +33,24 @@ log = logging.getLogger(__name__)
 
 
 def main():
-    if len(sys.argv) != 5:
-        raise Exception('Usage: download-dependency-if-necessary.py EXECUTABLE DOWNLOAD_URL INSTALL_DIR APPEND_OS_ARCH')
+    parser = argparse.ArgumentParser(description='This script, which is meant to be executed from a Terraform '
+                                                 'external data source, checks if an executable is installed in the '
+                                                 'system PATH or the given install dir, and if not, downloads the '
+                                                 'executable from the given download URL, and prints the executable '
+                                                 'path to stdout in JSON format.')
+    parser.add_argument('--executable', help='The executable', required=True)
+    parser.add_argument('--download-url', help='The URL to download the executable from', required=True)
+    parser.add_argument('--install-dir', help='Download the executable into this folder')
+    parser.add_argument('--append-os-arch', help='Append the OS and architecture to the download URL (e.g., linux_amd_64)', action='store_true')
 
-    _, executable, download_url, install_dir, append_os_arch_raw = sys.argv
-    append_os_arch = append_os_arch_raw.lower() == 'true'
+    args = parser.parse_args()
 
-    if not install_dir or install_dir == '__NONE__':
-        install_dir = default_install_dir(download_url)
-    executable_install_dir_path = os.path.join(install_dir, executable)
+    if not args.install_dir:
+        args.install_dir = default_install_dir(args.download_url)
+    executable_install_dir_path = os.path.join(args.install_dir, args.executable)
 
     # First, check if the executable is on the system PATH
-    executable_path = distutils.spawn.find_executable(executable)
+    executable_path = distutils.spawn.find_executable(args.executable)
 
     # If it's not on the system PATH, check if it's in the install dir passed in by the user
     if not executable_path and os.path.isfile(executable_install_dir_path):
@@ -51,7 +58,7 @@ def main():
 
     # If it's not there either, download the executable to the install dir
     if not executable_path:
-        executable_path = download_executable(executable, download_url, install_dir, append_os_arch)
+        executable_path = download_executable(args.executable, args.download_url, args.install_dir, args.append_os_arch)
 
     # Print the executable path to stdout as JSON so the Terraform external data source can read it in
     result = {'path': executable_path}
