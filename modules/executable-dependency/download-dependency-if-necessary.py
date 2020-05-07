@@ -24,7 +24,7 @@ except ImportError:
     from urllib import urlretrieve
 
 
-DEFAULT_INSTALL_DIR_NAME = "download-dependency-if-necessary"
+DEFAULT_INSTALL_DIR_NAME = 'download-dependency-if-necessary'
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -33,12 +33,12 @@ log = logging.getLogger(__name__)
 
 def main():
     if len(sys.argv) != 5:
-        raise Exception("Usage: download-dependency-if-necessary.py EXECUTABLE DOWNLOAD_URL INSTALL_DIR APPEND_OS_ARCH")
+        raise Exception('Usage: download-dependency-if-necessary.py EXECUTABLE DOWNLOAD_URL INSTALL_DIR APPEND_OS_ARCH')
 
     _, executable, download_url, install_dir, append_os_arch_raw = sys.argv
-    append_os_arch = append_os_arch_raw.lower() == "true"
+    append_os_arch = append_os_arch_raw.lower() == 'true'
 
-    if not install_dir or install_dir == "__NONE__":
+    if not install_dir or install_dir == '__NONE__':
         install_dir = default_install_dir(download_url)
     executable_install_dir_path = os.path.join(install_dir, executable)
 
@@ -69,11 +69,11 @@ def default_install_dir(download_url):
 def download_executable(executable, download_url, install_dir, append_os_arch):
     if append_os_arch:
         # Use the old string formatting style so that it works with Python 2
-        download_url = '%s_%s_%s' % (download_url, get_os(), get_arch())
+        download_url = '{}_{}_{}'.format(download_url, get_os(), get_arch())
 
     executable_path = os.path.join(install_dir, executable)
 
-    log.info('Downloading from %s to %s' % (download_url, executable_path))
+    log.info('Downloading from {} to {}'.format(download_url, executable_path))
 
     # Make sure all the parent folders exist
     mkdir_p(install_dir)
@@ -106,15 +106,15 @@ def get_arch():
     arch = platform.machine().lower()
 
     # Use the same architecture format as gox / go build, as that's what most Gruntwork binaries are built with
-    if "64" in arch:
-        return "amd64"
-    if "386" in arch:
-        return "386"
-    if "arm" in arch:
-        return "arm"
+    if '64' in arch:
+        return 'amd64'
+    if '386' in arch:
+        return '386'
+    if 'arm' in arch:
+        return 'arm'
 
     return arch
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
