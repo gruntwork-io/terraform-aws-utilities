@@ -38,7 +38,7 @@ def main():
     _, executable, download_url, install_dir, append_os_arch_raw = sys.argv
     append_os_arch = append_os_arch_raw.lower() == "true"
 
-    if not install_dir:
+    if not install_dir or install_dir == "__NONE__":
         install_dir = default_install_dir(download_url)
     executable_install_dir_path = os.path.join(install_dir, executable)
 
