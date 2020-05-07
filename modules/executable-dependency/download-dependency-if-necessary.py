@@ -105,6 +105,7 @@ def get_os():
 def get_arch():
     arch = platform.machine().lower()
 
+    # Use the same architecture format as gox / go build, as that's what most Gruntwork binaries are built with
     if "64" in arch:
         return "amd64"
     if "386" in arch:
