@@ -20,7 +20,7 @@ try:
     # Try the Python 3 import
     from urllib.request import urlretrieve
 except ImportError:
-    # Fall back to the Python 2 immport
+    # Fall back to the Python 2 import
     from urllib import urlretrieve
 
 
