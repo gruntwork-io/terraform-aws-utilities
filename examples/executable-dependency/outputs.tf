@@ -1,3 +1,3 @@
-output "kubergrunt_version" {
-  value = data.external.kubergrunt_version.result.version
+output "output" {
+  value = data.external.output.result.output
 }
