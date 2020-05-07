@@ -1,6 +1,7 @@
 data "external" "executable" {
   program = concat(
     [
+      "python",
       "${path.module}/download-dependency-if-necessary.py",
       "--executable",
       var.executable,
