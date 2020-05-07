@@ -1,4 +1,6 @@
 data "external" "executable" {
+  count = var.enabled ? 1 : 0
+
   program = concat(
     [
       "python",

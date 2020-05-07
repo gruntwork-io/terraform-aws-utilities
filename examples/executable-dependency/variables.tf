@@ -21,3 +21,9 @@ variable "append_os_arch" {
   description = "If set to true, append the operating system and architecture to the URL. E.g., Append linux_amd64 if this code is being run on a 64 bit Linux OS."
   default     = true
 }
+
+variable "enabled" {
+  description = "Set to false to have disable this module, so it does not try to download the executable, and always returns its path unchanged. This weird parameter exists solely because Terraform does not support conditional modules. Therefore, this is a hack to allow you to conditionally decide if this module should run or not."
+  type        = bool
+  default     = true
+}

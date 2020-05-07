@@ -11,6 +11,7 @@ module "executable" {
   executable     = var.executable
   download_url   = var.download_url
   append_os_arch = var.append_os_arch
+  enabled        = var.enabled
 }
 
 # We run the executable here, with the specified args, and write the output to stdout in the form of JSON, as that's

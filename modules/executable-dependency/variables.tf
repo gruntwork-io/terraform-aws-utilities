@@ -29,3 +29,9 @@ variable "install_dir" {
   description = "The folder to copy the executable to after downloading it from var.download_url. If set to null (the default), the executable will be copied to a folder in the system temp directory. The folder will be named based on an md5 hash of var.download_url, so for each var.download_url, the executable will only have to be downloaded once."
   default     = null
 }
+
+variable "enabled" {
+  description = "Set to false to have disable this module, so it does not try to download the executable, and always returns its path unchanged. This weird parameter exists solely because Terraform does not support conditional modules. Therefore, this is a hack to allow you to conditionally decide if this module should run or not."
+  type        = bool
+  default     = true
+}

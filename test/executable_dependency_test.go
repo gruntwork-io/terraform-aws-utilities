@@ -60,15 +60,35 @@ func TestExecutableDependencyGoLang(t *testing.T) {
 
 	defer terraform.Destroy(t, terraformOptions)
 
-	terraform.Init(t, terraformOptions)
+	terraform.InitAndApply(t, terraformOptions)
 
-	// Run apply the first time and make sure we get the expected output
-	terraform.Apply(t, terraformOptions)
 	version := terraform.OutputRequired(t, terraformOptions, "output")
 	require.Contains(t, version, "go version")
+}
 
-	// Run apply once again to make sure the download code doesn't have issues with re-runs
-	terraform.Apply(t, terraformOptions)
-	version = terraform.OutputRequired(t, terraformOptions, "output")
-	require.Contains(t, version, "go version")
+// Make sure we can disable the module without errors
+func TestExecutableDependencyDisabled(t *testing.T) {
+	t.Parallel()
+
+	terraformDir := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/executable-dependency")
+
+	expectedOutput := "foo"
+
+	terraformOptions := &terraform.Options{
+		TerraformDir: terraformDir,
+		Vars: map[string]interface{}{
+			"executable":      "echo",
+			"download_url":    "this is an intentionally fake URL as with the module disabled, the code should NOT try to download anything",
+			"executable_args": expectedOutput,
+			"append_os_arch":  false,
+			"enabled":         false,
+		},
+	}
+
+	defer terraform.Destroy(t, terraformOptions)
+
+	terraform.InitAndApply(t, terraformOptions)
+
+	output := terraform.OutputRequired(t, terraformOptions, "output")
+	require.Equal(t, expectedOutput, output)
 }
