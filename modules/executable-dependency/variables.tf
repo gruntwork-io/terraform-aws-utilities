@@ -26,6 +26,6 @@ variable "append_os_arch" {
 
 variable "install_dir" {
   type        = string
-  description = "The folder to copy the executable to after download it from var.download_url. If set to null (the default), the executable will be copied to a folder in the system temp directory."
+  description = "The folder to copy the executable to after downloading it from var.download_url. If set to null (the default), the executable will be copied to a folder in the system temp directory. The folder will be named based on an md5 hash of var.download_url, so for each var.download_url, the executable will only have to be downloaded once."
   default     = null
 }
