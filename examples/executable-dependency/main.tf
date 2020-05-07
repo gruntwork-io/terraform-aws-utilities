@@ -13,6 +13,8 @@ module "executable" {
   append_os_arch = var.append_os_arch
 }
 
+# We run the executable here, with the specified args, and write the output to stdout in the form of JSON, as that's
+# what the Terraform external data source requires to be able to read and parse that output.
 data "external" "output" {
   program = [
     "bash",
