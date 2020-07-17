@@ -26,7 +26,7 @@ page](https://github.com/gruntwork-io/package-terraform-utilities/releases):
 module "path" {
   source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/instance-type?ref=<VERSION>"
   
-  instance_types = ["t3.micro", "t2.micro"]
+  instance_types = ["t2.micro", "t3.micro"]
 }
 ```
 
@@ -41,5 +41,5 @@ use. This will be the first instance type from your `instance_types` input that 
 region. If no instance type is available in all AZs, you'll get an error.
 
 For example, as of July, 2020, if you run `apply` on the code above in `eu-west-1`, the `recommended_instance_type` 
-will be `t3.micro`, as that's available in all AZs in `eu-west-1`. However, if you run the same code in 
-`ap-northeast-2`, the `recommended_instance_type` will be `t2.micro`, as `t3.micro` is only available in 2 of the 4 AZs.
+will be `t2.micro`, as that's available in all AZs in `eu-west-1`. However, if you run the same code in 
+`ap-northeast-2`, the `recommended_instance_type` will be `t3.micro`, as `t2.micro` is only available in 2 of the 4 AZs.
