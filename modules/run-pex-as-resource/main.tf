@@ -5,7 +5,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 terraform {
-  required_version = ">= 0.12"
+  # This module is now only being tested with Terraform 0.13.x. However, to make upgrading easier, we are setting
+  # 0.12.26 as the minimum version, as that version added support for required_providers with source URLs, making it
+  # forwards compatible with 0.13.x code.
+  required_version = ">= 0.12.26"
 }
 
 module "pex_env" {
@@ -18,7 +21,15 @@ module "pex_env" {
 resource "null_resource" "run_pex" {
   count = var.enabled ? 1 : 0
 
-  triggers = var.triggers
+  triggers = merge(var.triggers, {
+    enable_destroy_provisioner = var.enable_destroy_provisioner
+    python_call                = local.python_call
+    destroy_command_args       = var.destroy_command_args
+    pass_in_previous_triggers  = var.pass_in_previous_triggers
+    previous_trigger_option    = var.previous_trigger_option
+    python_path                = module.pex_env.python_path
+    env                        = jsonencode(var.env)
+  })
 
   provisioner "local-exec" {
     command = "${local.python_call} ${var.command_args}"
@@ -33,16 +44,16 @@ resource "null_resource" "run_pex" {
   provisioner "local-exec" {
     when = destroy
     command = (
-      var.enable_destroy_provisioner
+      tobool(self.triggers.enable_destroy_provisioner)
       # NOTE: The nested string interpolation can not be extracted because of the reference to self.
-      ? "${local.python_call} ${var.destroy_command_args} ${var.pass_in_previous_triggers ? "${var.previous_trigger_option} '${jsonencode(self.triggers != null ? self.triggers : {})}'" : ""}"
+      ? "${self.triggers.python_call} ${self.triggers.destroy_command_args} ${tobool(self.triggers.pass_in_previous_triggers) ? "${self.triggers.previous_trigger_option} '${jsonencode(self.triggers != null ? self.triggers : {})}'" : ""}"
       : "echo 'Skipping delete provisioner'"
     )
     environment = merge(
       {
-        PYTHONPATH = module.pex_env.python_path
+        PYTHONPATH = self.triggers.python_path
       },
-      var.env,
+      jsondecode(self.triggers.env),
     )
   }
 }
