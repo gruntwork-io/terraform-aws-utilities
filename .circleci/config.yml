@@ -13,9 +13,9 @@ jobs:
           name: install gruntwork tooling
           command: |
             curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version v0.0.21
-            gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "v0.13.3"
-            gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "v0.13.20"
-            configure-environment-for-gruntwork-module --circle-ci-2 --use-go-dep --go-src-path test --terragrunt-version NONE --terraform-version 0.13.2
+            gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "v0.28.2"
+            gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "v0.29.0"
+            configure-environment-for-gruntwork-module --go-version 1.14 --terragrunt-version NONE --terraform-version 0.13.2
 
       # Run pre-commit hooks and fail the build if any hook finds required changes.
       - run:
@@ -36,7 +36,7 @@ jobs:
             echo "Using python 2"
             pyenv global 2.7.12
             python --version
-            run-go-tests --circle-ci-2 | tee /tmp/logs/python2/all.log
+            run-go-tests | tee /tmp/logs/python2/all.log
 
       - run:
           name: run tests (with python3)
@@ -47,7 +47,7 @@ jobs:
             python --version
             # We are rerunning the same test with python3, so clear go test cache
             go clean -testcache
-            run-go-tests --circle-ci-2 | tee /tmp/logs/python3/all.log
+            run-go-tests | tee /tmp/logs/python3/all.log
 
       - run:
           command: |
