@@ -8,7 +8,7 @@ import sys
 @click.command()
 @click.option("--is-data/--no-is-data", default=False, help="Whether or not this is run as a data source")
 @click.option("--triggers-json", help="JSON encoded triggers for the resource")
-def main(is_data, is_delete, triggers_json):
+def main(is_data, triggers_json):
     if is_data:
         query = json.loads(sys.stdin.read())
         print(
