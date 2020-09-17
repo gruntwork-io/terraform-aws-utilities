@@ -1,3 +1,10 @@
+terraform {
+  # This module is now only being tested with Terraform 0.13.x. However, to make upgrading easier, we are setting
+  # 0.12.26 as the minimum version, as that version added support for required_providers with source URLs, making it
+  # forwards compatible with 0.13.x code.
+  required_version = ">= 0.12.26"
+}
+
 data "aws_ec2_instance_type_offerings" "offerings" {
   for_each = toset(data.aws_availability_zones.available.names)
 
@@ -7,7 +14,7 @@ data "aws_ec2_instance_type_offerings" "offerings" {
   }
 
   filter {
-    name = "location"
+    name   = "location"
     values = [each.key]
   }
 

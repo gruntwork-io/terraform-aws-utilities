@@ -16,10 +16,7 @@ func TestRunPex(t *testing.T) {
 
 	testFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "examples")
 	terratestOptions := createBaseTerratestOptions(t, filepath.Join(testFolder, "pex"))
-	defer func() {
-		destroyOut := terraform.Destroy(t, terratestOptions)
-		assert.Contains(t, destroyOut, "___DELETE___")
-	}()
+	defer terraform.Destroy(t, terratestOptions)
 
 	expectedFoo := random.UniqueId()
 	terratestOptions.Vars = map[string]interface{}{
@@ -39,15 +36,7 @@ func TestRunPexTriggers(t *testing.T) {
 	terratestOptions := createBaseTerratestOptions(t, filepath.Join(testFolder, "pex"))
 	expectedFoo := random.UniqueId()
 
-	defer func() {
-		// Remove triggers from the passed in vars to ensure the unique string is not passed in on destroy. This way, we
-		// can validate that the triggers option is indeed coming from the triggers stored in the state file.
-		delete(terratestOptions.Vars, "triggers")
-
-		destroyOut := terraform.Destroy(t, terratestOptions)
-		assert.Contains(t, destroyOut, "___DELETE___")
-		assert.Contains(t, destroyOut, expectedFoo)
-	}()
+	defer terraform.Destroy(t, terratestOptions)
 
 	terratestOptions.Vars = map[string]interface{}{
 		"echo_string": expectedFoo,

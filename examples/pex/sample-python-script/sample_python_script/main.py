@@ -7,9 +7,8 @@ import sys
 
 @click.command()
 @click.option("--is-data/--no-is-data", default=False, help="Whether or not this is run as a data source")
-@click.option("--is-delete/--no-is-delete", default=False, help="Whether or not this is run as a delete provisioner")
 @click.option("--triggers-json", help="JSON encoded triggers for the resource")
-def main(is_data, is_delete, triggers_json):
+def main(is_data, triggers_json):
     if is_data:
         query = json.loads(sys.stdin.read())
         print(
@@ -22,11 +21,6 @@ def main(is_data, is_delete, triggers_json):
                 }
             )
         )
-    elif is_delete:
-        print("python version: {}".format(sys.version_info))
-        print("This was successfully run as a ___DELETE___ local-exec provisioner")
-        print("Environment variable: {}".format(os.environ.get("RUN_PEX_TEST_ENV", None)))
-        print("Triggers: {}".format(triggers_json))
     else:
         print("python version: {}".format(sys.version_info))
         print("This was successfully run as a local-exec provisioner")
