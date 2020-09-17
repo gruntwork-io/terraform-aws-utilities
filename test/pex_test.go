@@ -16,10 +16,7 @@ func TestRunPex(t *testing.T) {
 
 	testFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "examples")
 	terratestOptions := createBaseTerratestOptions(t, filepath.Join(testFolder, "pex"))
-	defer func() {
-		destroyOut := terraform.Destroy(t, terratestOptions)
-		assert.Contains(t, destroyOut, "___DELETE___")
-	}()
+	defer terraform.Destroy(t, terratestOptions)
 
 	expectedFoo := random.UniqueId()
 	terratestOptions.Vars = map[string]interface{}{
@@ -45,7 +42,6 @@ func TestRunPexTriggers(t *testing.T) {
 		delete(terratestOptions.Vars, "triggers")
 
 		destroyOut := terraform.Destroy(t, terratestOptions)
-		assert.Contains(t, destroyOut, "___DELETE___")
 		assert.Contains(t, destroyOut, expectedFoo)
 	}()
 
