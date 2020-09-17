@@ -1,5 +1,4 @@
 defaults: &defaults
-  working_directory: /home/circleci/.go_workspace/src/github.com/gruntwork-io/package-terraform-utilities
   machine:
     image: circleci/classic:201808-01
 
