@@ -48,10 +48,8 @@ module "pex_resource" {
     RUN_PEX_TEST_ENV = var.echo_string
   }
 
-  enable_destroy_provisioner = true
-  destroy_command_args       = "--is-delete"
-  pass_in_previous_triggers  = true
-  previous_trigger_option    = "--triggers-json"
+  pass_in_previous_triggers = true
+  previous_trigger_option   = "--triggers-json"
 
   enabled = var.enabled
 }

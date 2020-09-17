@@ -32,14 +32,6 @@ variable "command_args" {
   default = ""
 }
 
-variable "destroy_command_args" {
-  description = "The arguments to pass to the command as a string on delete"
-  type        = string
-
-  # We don't use null here because this is interpolated into the python script.
-  default = ""
-}
-
 variable "triggers" {
   description = "A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners."
   type        = map(string)
@@ -56,12 +48,6 @@ variable "enabled" {
   description = "If you set this variable to false, this module will not run the PEX script. This is used as a workaround because Terraform does not allow you to use the 'count' parameter on modules. By using this parameter, you can optionally enable the null_resource within this module."
   type        = bool
   default     = true
-}
-
-variable "enable_destroy_provisioner" {
-  description = "If you set this variable to true, the same command will be called on destroy with the args specified in destroy_command_args."
-  type        = bool
-  default     = false
 }
 
 variable "pass_in_previous_triggers" {
