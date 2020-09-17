@@ -21,15 +21,7 @@ module "pex_env" {
 resource "null_resource" "run_pex" {
   count = var.enabled ? 1 : 0
 
-  triggers = merge(var.triggers, {
-    enable_destroy_provisioner = var.enable_destroy_provisioner
-    python_call                = local.python_call
-    destroy_command_args       = var.destroy_command_args
-    pass_in_previous_triggers  = var.pass_in_previous_triggers
-    previous_trigger_option    = var.previous_trigger_option
-    python_path                = module.pex_env.python_path
-    env                        = jsonencode(var.env)
-  })
+  triggers = var.triggers
 
   provisioner "local-exec" {
     command = "${local.python_call} ${var.command_args}"
@@ -38,22 +30,6 @@ resource "null_resource" "run_pex" {
         PYTHONPATH = module.pex_env.python_path
       },
       var.env,
-    )
-  }
-
-  provisioner "local-exec" {
-    when = destroy
-    command = (
-      tobool(self.triggers.enable_destroy_provisioner)
-      # NOTE: The nested string interpolation can not be extracted because of the reference to self.
-      ? "${self.triggers.python_call} ${self.triggers.destroy_command_args} ${tobool(self.triggers.pass_in_previous_triggers) ? "${self.triggers.previous_trigger_option} '${jsonencode(self.triggers != null ? self.triggers : {})}'" : ""}"
-      : "echo 'Skipping delete provisioner'"
-    )
-    environment = merge(
-      {
-        PYTHONPATH = self.triggers.python_path
-      },
-      jsondecode(self.triggers.env),
     )
   }
 }
