@@ -14,7 +14,7 @@ data "aws_ec2_instance_type_offerings" "offerings" {
   }
 
   filter {
-    name = "location"
+    name   = "location"
     values = [each.key]
   }
 
