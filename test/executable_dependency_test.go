@@ -2,10 +2,13 @@ package test
 
 import (
 	"fmt"
+	"os"
+	"testing"
+
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 // Make sure we can successfully download (if it's not installed already) and execute Kubergrunt
@@ -35,10 +38,19 @@ func TestExecutableDependencyKubergrunt(t *testing.T) {
 	version := terraform.OutputRequired(t, terraformOptions, "output")
 	require.Equal(t, fmt.Sprintf("kubergrunt version %s", kubergrunt_version), version)
 
+	// Check the permissions on the downloaded executable
+	downloadPath := terraform.OutputRequired(t, terraformOptions, "downloaded_executable")
+	fileStat, err := os.Stat(downloadPath)
+	require.NoError(t, err)
+	expectedFileMode := os.FileMode(0744)
+	actualFileMode := fileStat.Mode()
+	assert.Equalf(t, actualFileMode, expectedFileMode, "The modes of the downloaded executable is not correct: Expected %v but is %v", expectedFileMode, actualFileMode)
+
 	// Run apply once again to make sure the download code doesn't have issues with re-runs
 	terraform.Apply(t, terraformOptions)
 	version = terraform.OutputRequired(t, terraformOptions, "output")
 	require.Equal(t, fmt.Sprintf("kubergrunt version %s", kubergrunt_version), version)
+
 }
 
 // Make sure we can successfully use an existing executable. In this case, we use Go, as you must have Go installed
