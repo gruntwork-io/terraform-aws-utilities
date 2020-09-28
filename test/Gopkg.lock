@@ -655,11 +655,13 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/gruntwork-io/terratest/modules/aws",
     "github.com/gruntwork-io/terratest/modules/logger",
     "github.com/gruntwork-io/terratest/modules/random",
     "github.com/gruntwork-io/terratest/modules/terraform",
     "github.com/gruntwork-io/terratest/modules/test-structure",
     "github.com/stretchr/testify/assert",
+    "github.com/stretchr/testify/require",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

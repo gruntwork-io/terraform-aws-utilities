@@ -87,10 +87,10 @@ def download_executable(executable, download_url, install_dir, append_os_arch):
 
     # Download the executable
     urlretrieve(download_url, executable_path)
-    
+
     # Give the current user execute permissions
-    os.chmod(executable_path, 744)
-    
+    os.chmod(executable_path, 0o744)
+
     return executable_path
 
 

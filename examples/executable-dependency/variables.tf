@@ -7,7 +7,7 @@ variable "executable" {
 variable "download_url" {
   type        = string
   description = "The URL to download the executable from if var.executable is not found on the system PATH or in var.install_dir."
-  default     = "https://github.com/gruntwork-io/kubergrunt/releases/download/%s/kubergrunt"
+  default     = "https://github.com/gruntwork-io/kubergrunt/releases/download/v0.5.12/kubergrunt"
 }
 
 variable "executable_args" {
