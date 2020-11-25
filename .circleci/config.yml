@@ -2,7 +2,6 @@ defaults: &defaults
   working_directory: /home/circleci/.go_workspace/src/github.com/gruntwork-io/package-terraform-utilities
   machine:
     image: circleci/classic:201808-01
-
 version: 2.0
 jobs:
   test aws:
@@ -16,7 +15,6 @@ jobs:
             gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "v0.13.3"
             gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "v0.13.20"
             configure-environment-for-gruntwork-module --circle-ci-2 --use-go-dep --go-src-path test --terragrunt-version NONE --terraform-version 0.13.2
-
       # Run pre-commit hooks and fail the build if any hook finds required changes.
       - run:
           name: run precommit
@@ -28,7 +26,6 @@ jobs:
             pip install pre-commit==1.21.0 cfgv==2.0.1 zipp==1.1.0
             pre-commit install
             pre-commit run --all-files
-
       - run:
           name: run tests (with python2)
           command: |
@@ -37,7 +34,6 @@ jobs:
             pyenv global 2.7.12
             python --version
             run-go-tests --circle-ci-2 | tee /tmp/logs/python2/all.log
-
       - run:
           name: run tests (with python3)
           command: |
@@ -48,7 +44,6 @@ jobs:
             # We are rerunning the same test with python3, so clear go test cache
             go clean -testcache
             run-go-tests --circle-ci-2 | tee /tmp/logs/python3/all.log
-
       - run:
           command: |
             terratest_log_parser --testlog /tmp/logs/python2/all.log --outputdir /tmp/logs/python2
@@ -58,7 +53,6 @@ jobs:
           path: /tmp/logs
       - store_test_results:
           path: /tmp/logs
-
 workflows:
   version: 2
   build-and-test:
@@ -67,3 +61,5 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+          context:
+            - Gruntwork Admin
