@@ -15,6 +15,10 @@ locals {
     nacl_rules = {
       quota_code = "L-2AEEBF1A"
       service_code = "vpc"
+    },
+    nat_gateway = {
+      quota_code = "L-FE5A380F"
+      service_code = "vpc"
     }
   }
 }
