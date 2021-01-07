@@ -58,3 +58,17 @@ You can see a full history of quota request change for a history using the AWS C
 ```
 aws service-quotas list-requested-service-quota-change-history --region <REGION>
 ```
+
+### Finding out the Service Code and Quota Code
+
+When you need to add a new resource, you can check the available services with
+
+```
+aws service-quotas list-services --region <REGION> --output table
+```
+
+And use the `ServiceCode` from the output to get the code for the resources
+
+```
+aws service-quotas list-service-quotas --service-code <SERVICE_CODE>
+```
