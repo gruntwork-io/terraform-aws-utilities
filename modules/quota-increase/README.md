@@ -52,7 +52,8 @@ new_quotas = {
 ```
 
 
-You can see a full history of quota request change for a history using the AWS CLI:
+You can see a full history of quota request change for a history using the [AWS
+Console](https://console.aws.amazon.com/servicequotas/home#!/requests) or the AWS CLI:
 
 
 ```
@@ -72,3 +73,29 @@ And use the `ServiceCode` from the output to get the code for the resources
 ```
 aws service-quotas list-service-quotas --service-code <SERVICE_CODE>
 ```
+
+
+### Request a new quota smaller than the current one
+
+If the new value that you request is smaller than the current one, _nothing_ will happen. The
+`terraform apply` output will contain the current quota. For example, if the NAT Gateway current
+quota is 30 and you ask for a new quota of 25, this is the output:
+
+```hcl
+new_quotas = {
+  "nat_gateway" = {
+    "adjustable" = true
+      "arn" = "arn:aws:servicequotas:us-east-1:<account-id>:vpc/L-FE5A380F"
+      "default_value" = 5
+      "id" = "vpc/L-FE5A380F"
+      "quota_code" = "L-FE5A380F"
+      "quota_name" = "NAT gateways per Availability Zone"
+      "service_code" = "vpc"
+      "service_name" = "Amazon Virtual Private Cloud (Amazon VPC)"
+      "value" = 30   <------ Returned the current quota, not the requested one.
+  }
+}
+```
+
+When you run `terraform destroy`, it won't affect your current quotas neither your existing
+quota requests.
