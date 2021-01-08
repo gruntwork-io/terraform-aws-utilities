@@ -1,20 +1,36 @@
-defaults: &defaults
-  working_directory: /home/circleci/.go_workspace/src/github.com/gruntwork-io/package-terraform-utilities
-  machine:
-    image: circleci/classic:201808-01
 version: 2.0
+defaults: &defaults
+  machine:
+    docker:
+      - image: ubuntu-1604:201903-01
+
+env: &env
+  environment:
+    MODULE_CI_VERSION: v0.29.5
+    TERRATEST_LOG_PARSER_VERSION: v0.30.3
+    GRUNTWORK_INSTALLER_VERSION: v0.0.30
+    TERRAFORM_VERSION: 0.13.2
+    TERRAGRUNT_VERSION: NONE
+    GO_VERSION: 1.14
+
 jobs:
   test aws:
     <<: *defaults
+    <<: *env
     steps:
       - checkout
       - run: &install_gruntwork_tooling
           name: install gruntwork tooling
           command: |
-            curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version v0.0.21
-            gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "v0.13.3"
-            gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "v0.13.20"
-            configure-environment-for-gruntwork-module --circle-ci-2 --use-go-dep --go-src-path test --terragrunt-version NONE --terraform-version 0.13.2
+            sudo apt-get -y update
+            curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
+            gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "${MODULE_CI_VERSION}"
+            gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "${TERRATEST_LOG_PARSER_VERSION}"
+            configure-environment-for-gruntwork-module \
+              --go-src-path ./test \
+              --go-version ${GO_VERSION} \
+              --terragrunt-version "${TERRAGRUNT_VERSION}" \
+              --terraform-version "${TERRAFORM_VERSION}"
       # Run pre-commit hooks and fail the build if any hook finds required changes.
       - run:
           name: run precommit
@@ -23,17 +39,19 @@ jobs:
             # transitive dependencies that are being pulled in which released new versions that are no longer compatible
             # with any python < 3.6.
             pyenv global 3.5.2
+            pip install --upgrade pip
             pip install pre-commit==1.21.0 cfgv==2.0.1 zipp==1.1.0
             pre-commit install
             pre-commit run --all-files
       - run:
+          # We need to ensure compatibility with both versions of python
           name: run tests (with python2)
           command: |
             mkdir -p /tmp/logs/python2
             echo "Using python 2"
             pyenv global 2.7.12
             python --version
-            run-go-tests --circle-ci-2 | tee /tmp/logs/python2/all.log
+            run-go-tests --path test | tee /tmp/logs/python2/all.log
       - run:
           name: run tests (with python3)
           command: |
@@ -43,11 +61,12 @@ jobs:
             python --version
             # We are rerunning the same test with python3, so clear go test cache
             go clean -testcache
-            run-go-tests --circle-ci-2 | tee /tmp/logs/python3/all.log
+            run-go-tests --path test | tee /tmp/logs/python3/all.log
       - run:
           command: |
             terratest_log_parser --testlog /tmp/logs/python2/all.log --outputdir /tmp/logs/python2
             terratest_log_parser --testlog /tmp/logs/python3/all.log --outputdir /tmp/logs/python3
+
           when: always
       - store_artifacts:
           path: /tmp/logs
