@@ -15,6 +15,6 @@ module "quota-increase" {
   resources_to_increase = {
     # These are the default values. This is just to avoid opening a new request increase on every test run.
     nat_gateway = 5
-    nacl_rules = 20
+    nacl_rules  = 20
   }
 }
