@@ -6,7 +6,7 @@ This module can be used to request a quota increase for an AWS Resource.
 
 ## Example code
 
-See the [quota-increase example](/examples/quota-increase) for working sample code.
+See the [request-quota-increase example](/examples/request-quota-increase) for working sample code.
 
 
 
