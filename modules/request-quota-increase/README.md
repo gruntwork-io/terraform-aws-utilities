@@ -2,9 +2,18 @@
 
 This module can be used to request a quota increase for an AWS Resource.
 
+## Features
+
+- Request a quota increase for Network ACL Rules and NAT Gateway.
+
+## Learn
+
+### Core Concepts
+
+- [AWS Service Quotas Documentation](https://docs.aws.amazon.com/servicequotas/?id=docs_gateway)
 
 
-## Example code
+### Example code
 
 See the [request-quota-increase example](/examples/request-quota-increase) for working sample code.
 
@@ -51,6 +60,7 @@ new_quotas = {
 }
 ```
 
+## Manage
 
 You can see a full history of quota request change for a history using the [AWS
 Console](https://console.aws.amazon.com/servicequotas/home#!/requests) or the AWS CLI:
