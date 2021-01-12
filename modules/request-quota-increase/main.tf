@@ -11,7 +11,8 @@ resource "aws_servicequotas_service_quota" "increase_quotas" {
 }
 
 locals {
-  # For more information on how to find the Service Code and Quota Code, see the README.md!
+  # PRs to add more of these mappings are very welcome. For more information
+  # on how to find the Service Code and Quota Code, see the README.md!
   codes = {
     nacl_rules = {
       quota_code   = "L-2AEEBF1A"

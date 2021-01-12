@@ -62,7 +62,7 @@ new_quotas = {
 
 ## Manage
 
-You can see a full history of quota request change for a history using the [AWS
+You can see a full history of quota request changes using the [AWS
 Console](https://console.aws.amazon.com/servicequotas/home#!/requests) or the AWS CLI:
 
 
@@ -107,5 +107,10 @@ new_quotas = {
 }
 ```
 
-When you run `terraform destroy`, it won't affect your current quotas neither your existing
-quota requests.
+
+### What happens when you run `destroy`
+
+
+When you run `terraform destroy` on this module, it does not affect your current quotas or your
+existing quota requests. In other words, you don't have to worry about quotas being reset to old
+values; once they have been increased, they stay that way!

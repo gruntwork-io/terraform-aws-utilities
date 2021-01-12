@@ -13,7 +13,8 @@ module "quota-increase" {
   source = "../../modules/request-quota-increase"
 
   resources_to_increase = {
-    # These are the default values. This is just to avoid opening a new request increase on every test run.
+    # In this example, to avoid opening a new request every time we run an automated test, we are setting the quotas
+    # to their default values. In the real world, you'd want to set these quotes to higher values.
     nat_gateway = 5
     nacl_rules  = 20
   }
