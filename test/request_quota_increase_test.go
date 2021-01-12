@@ -7,6 +7,17 @@ import (
 	"testing"
 )
 
+type (
+	QuotaAndServiceName struct {
+		QuotaName   string `json:"quota_name"`
+		ServiceName string `json:"service_name"`
+	}
+	QuotaIncreaseOutput struct {
+		NatGateway QuotaAndServiceName `json:"nat_gateway"`
+		NaclRules  QuotaAndServiceName `json:"nacl_rules"`
+	}
+)
+
 func TestRequestQuotaIncrease(t *testing.T) {
 	t.Parallel()
 
@@ -18,21 +29,17 @@ func TestRequestQuotaIncrease(t *testing.T) {
 			"aws_region": awsRegion,
 		},
 	}
+
 	defer terraform.Destroy(t, terraformOptions)
 
 	terraform.InitAndApply(t, terraformOptions)
 
-	newQuotas := terraform.OutputMapOfObjects(t, terraformOptions, "new_quotas")
+	output := QuotaIncreaseOutput{}
+	terraform.OutputStruct(t, terraformOptions, "new_quotas", &output)
 
-	natGateway := newQuotas["nat_gateway"]
-	natGatewayMap := natGateway.(map[string]interface{})
+	assert.Equal(t, output.NatGateway.QuotaName, "NAT gateways per Availability Zone")
+	assert.Equal(t, output.NatGateway.ServiceName, "Amazon Virtual Private Cloud (Amazon VPC)")
 
-	assert.Equal(t, natGatewayMap["quota_name"], "NAT gateways per Availability Zone")
-	assert.Equal(t, natGatewayMap["service_name"], "Amazon Virtual Private Cloud (Amazon VPC)")
-
-	naclRules := newQuotas["nacl_rules"]
-	naclRulesMap := naclRules.(map[string]interface{})
-
-	assert.Equal(t, naclRulesMap["quota_name"], "Rules per network ACL")
-	assert.Equal(t, naclRulesMap["service_name"], "Amazon Virtual Private Cloud (Amazon VPC)")
+	assert.Equal(t, output.NaclRules.QuotaName, "Rules per network ACL")
+	assert.Equal(t, output.NaclRules.ServiceName, "Amazon Virtual Private Cloud (Amazon VPC)")
 }
