@@ -1,6 +1,6 @@
 # Request AWS Quota Increase
 
-This folder shows examples of how to use the [quota-increase module](/modules/quota-increase) to request a bigger quota for an AWS resource.
+This folder shows examples of how to use the [request-quota-increase module](/modules/request-quota-increase) to request a bigger quota for an AWS resource.
 
 
 ## How do you run these examples?
