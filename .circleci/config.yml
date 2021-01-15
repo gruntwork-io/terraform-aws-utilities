@@ -1,8 +1,7 @@
 version: 2.0
 defaults: &defaults
   machine:
-    docker:
-      - image: ubuntu-1604:201903-01
+    image: ubuntu-1604:201903-01
 
 env: &env
   environment:
