@@ -30,14 +30,15 @@ module "path" {
 
     request_quota_increase = {
       nat_gateway = 40,
-      nacl_rules = 25
+      nacl_rules  = 25,
+      iam_roles   = 2000
     }
 }
 ```
 
 The argument to pass is:
 
-* `request_quota_increase`: A map with the desired resource and the new quota. The current supported resources are `nat_gateway` and `nacl_rules`. Feel free to contribute to this module to add support for more `quota_code` and `service_code` options in [main.tf](main.tf)!
+* `request_quota_increase`: A map with the desired resource and the new quota. The current supported resources are `nat_gateway`, `nacl_rules` and `iam_roles`. Feel free to contribute to this module to add support for more `quota_code` and `service_code` options in [main.tf](main.tf)!
 
 
 When you run `apply`, the `new_quotas` output variable will confirm to you that a quota request has been made!
