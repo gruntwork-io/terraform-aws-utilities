@@ -21,6 +21,10 @@ locals {
     nat_gateway = {
       quota_code   = "L-FE5A380F"
       service_code = "vpc"
+    },
+    iam_roles = {
+      quota_code   = "L-FE177D64"
+      service_code = "iam"
     }
   }
 }

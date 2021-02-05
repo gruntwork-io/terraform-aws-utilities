@@ -15,6 +15,7 @@ type (
 	QuotaIncreaseOutput struct {
 		NatGateway QuotaAndServiceName `json:"nat_gateway"`
 		NaclRules  QuotaAndServiceName `json:"nacl_rules"`
+		IamRoles   QuotaAndServiceName `json:"iam_roles"`
 	}
 )
 
@@ -42,4 +43,7 @@ func TestRequestQuotaIncrease(t *testing.T) {
 
 	assert.Equal(t, output.NaclRules.QuotaName, "Rules per network ACL")
 	assert.Equal(t, output.NaclRules.ServiceName, "Amazon Virtual Private Cloud (Amazon VPC)")
+
+	assert.Equal(t, output.IamRoles.QuotaName, "Roles per account")
+	assert.Equal(t, output.IamRoles.ServiceName, "AWS Identity and Access Management (IAM)")
 }

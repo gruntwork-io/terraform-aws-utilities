@@ -17,5 +17,6 @@ module "quota-increase" {
     # to their default values. In the real world, you'd want to set these quotes to higher values.
     nat_gateway = 5
     nacl_rules  = 20
+    iam_roles   = 1000
   }
 }
