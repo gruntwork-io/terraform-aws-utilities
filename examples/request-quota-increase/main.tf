@@ -34,6 +34,15 @@ module "quota-increase" {
     vpc_subnets_per_vpc                              = 200,
     vpc_subnets_that_can_be_shared_with_an_account   = 100,
     vpc_vpc_security_groups_per_region               = 2500,
-    vpc_vpcs_per_region                              = 10
+    vpc_vpcs_per_region                              = 10,
+
+    iam_customer_managed_policies_per_account = 1500,
+    iam_groups_per_account                    = 300,
+    iam_instance_profiles_per_account         = 1000,
+    iam_managed_policies_per_role             = 10,
+    iam_managed_policies_per_user             = 10,
+    iam_role_trust_policy_length              = 2048,
+    iam_roles_per_account                     = 1000,
+    iam_server_certificates_per_account       = 20
   }
 }

@@ -33,6 +33,15 @@ type (
 		VpcSubnetsThatCanBeSharedWithAnAccount     QuotaAndServiceName `json:"vpc_subnets_that_can_be_shared_with_an_account"`
 		VpcVpcSecurityGroupsPerRegion              QuotaAndServiceName `json:"vpc_vpc_security_groups_per_region"`
 		VpcVpcsPerRegion                           QuotaAndServiceName `json:"vpc_vpcs_per_region"`
+
+		IamCustomerManagedPoliciesPerAccount QuotaAndServiceName `json:"iam_customer_managed_policies_per_account"`
+		IamGroupsPerAccount                  QuotaAndServiceName `json:"iam_groups_per_account"`
+		IamInstanceProfilesPerAccount        QuotaAndServiceName `json:"iam_instance_profiles_per_account"`
+		IamManagedPoliciesPerRole            QuotaAndServiceName `json:"iam_managed_policies_per_role"`
+		IamManagedPoliciesPerUser            QuotaAndServiceName `json:"iam_managed_policies_per_user"`
+		IamRoleTrustPolicyLength             QuotaAndServiceName `json:"iam_role_trust_policy_length"`
+		IamRolesPerAccount                   QuotaAndServiceName `json:"iam_roles_per_account"`
+		IamServerCertificatesPerAccount      QuotaAndServiceName `json:"iam_server_certificates_per_account"`
 	}
 )
 
@@ -114,4 +123,28 @@ func TestRequestQuotaIncrease(t *testing.T) {
 
 	assert.Equal(t, output.VpcVpcsPerRegion.QuotaName, "VPCs per Region")
 	assert.Equal(t, output.VpcVpcsPerRegion.ServiceName, "Amazon Virtual Private Cloud (Amazon VPC)")
+
+	assert.Equal(t, output.IamCustomerManagedPoliciesPerAccount.QuotaName, "Customer managed policies per account")
+	assert.Equal(t, output.IamCustomerManagedPoliciesPerAccount.ServiceName, "AWS Identity and Access Management (IAM)")
+
+	assert.Equal(t, output.IamGroupsPerAccount.QuotaName, "Groups per account")
+	assert.Equal(t, output.IamGroupsPerAccount.ServiceName, "AWS Identity and Access Management (IAM)")
+
+	assert.Equal(t, output.IamInstanceProfilesPerAccount.QuotaName, "Instance profiles per account")
+	assert.Equal(t, output.IamInstanceProfilesPerAccount.ServiceName, "AWS Identity and Access Management (IAM)")
+
+	assert.Equal(t, output.IamManagedPoliciesPerRole.QuotaName, "Managed policies per role")
+	assert.Equal(t, output.IamManagedPoliciesPerRole.ServiceName, "AWS Identity and Access Management (IAM)")
+
+	assert.Equal(t, output.IamManagedPoliciesPerUser.QuotaName, "Managed policies per user")
+	assert.Equal(t, output.IamManagedPoliciesPerUser.ServiceName, "AWS Identity and Access Management (IAM)")
+
+	assert.Equal(t, output.IamRoleTrustPolicyLength.QuotaName, "Role trust policy length")
+	assert.Equal(t, output.IamRoleTrustPolicyLength.ServiceName, "AWS Identity and Access Management (IAM)")
+
+	assert.Equal(t, output.IamRolesPerAccount.QuotaName, "Roles per account")
+	assert.Equal(t, output.IamRolesPerAccount.ServiceName, "AWS Identity and Access Management (IAM)")
+
+	assert.Equal(t, output.IamServerCertificatesPerAccount.QuotaName, "Server certificates per account")
+	assert.Equal(t, output.IamServerCertificatesPerAccount.ServiceName, "AWS Identity and Access Management (IAM)")
 }

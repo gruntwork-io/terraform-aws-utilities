@@ -114,5 +114,37 @@ locals {
       service_code = "vpc"
     },
 
+    iam_customer_managed_policies_per_account = {
+      quota_name   = "Customer managed policies per account"
+      service_code = "iam"
+    },
+    iam_groups_per_account = {
+      quota_name   = "Groups per account"
+      service_code = "iam"
+    },
+    iam_instance_profiles_per_account = {
+      quota_name   = "Instance profiles per account"
+      service_code = "iam"
+    },
+    iam_managed_policies_per_role = {
+      quota_name   = "Managed policies per role"
+      service_code = "iam"
+    },
+    iam_managed_policies_per_user = {
+      quota_name   = "Managed policies per user"
+      service_code = "iam"
+    },
+    iam_role_trust_policy_length = {
+      quota_name   = "Role trust policy length"
+      service_code = "iam"
+    },
+    iam_roles_per_account = {
+      quota_name   = "Roles per account"
+      service_code = "iam"
+    },
+    iam_server_certificates_per_account = {
+      quota_name   = "Server certificates per account"
+      service_code = "iam"
+    }
   }
 }
