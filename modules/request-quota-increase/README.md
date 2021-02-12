@@ -29,15 +29,15 @@ module "path" {
   source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/quota-increase?ref=<VERSION>"
 
     request_quota_increase = {
-      vpc_internet_gateways_per_region = 40,
-      vpc_rules_per_network_acl        = 40,
+      vpc_nat_gateways_per_availability_zone = 40,
+      vpc_rules_per_network_acl              = 40,
     }
 }
 ```
 
 The argument to pass is:
 
-* `request_quota_increase`: A map with the desired resource and the new quota. The current supported resources are `nat_gateway` and `nacl_rules`. Feel free to contribute to this module to add support for more `quota_code` and `service_code` options in [main.tf](main.tf)!
+* `request_quota_increase`: A map with the desired resource and the new quota. The current supported services are VPC and IAM. Feel free to contribute to this module to add support for more services.
 
 
 When you run `apply`, the `new_quotas` output variable will confirm to you that a quota request has been made!
@@ -70,17 +70,6 @@ Console](https://console.aws.amazon.com/servicequotas/home#!/requests) or the AW
 aws service-quotas list-requested-service-quota-change-history --region <REGION>
 ```
 
-### Add new Services
-
-When you need to add a new resource, you can check the available services with
-
-```
-aws service-quotas list-services --region <REGION> --output table
-```
-
-And use the [generate_code.rb](generate_code.rb) script to generate the necessary code to support
-more resources.
-
 ### Request a new quota smaller than the current one
 
 If the new value that you request is smaller than the current one, _nothing_ will happen. The
@@ -110,3 +99,18 @@ new_quotas = {
 When you run `terraform destroy` on this module, it does not affect your current quotas or your
 existing quota requests. In other words, you don't have to worry about quotas being reset to old
 values; once they have been increased, they stay that way!
+
+## Contributing
+
+When you want to add a new resource, you can check the available services with
+
+```
+aws service-quotas list-services --region <REGION> --output table
+```
+
+And use the [generate_code.rb](generate_code.rb) script to generate the necessary code to support
+more resources.
+
+Be aware that now all services are available in all regions, therefore if you are adding a resource
+that is not available in certain region, it is necessary to filter it in the `locals.resources_code`
+at [main.tf](main.tf)
