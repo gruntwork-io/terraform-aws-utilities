@@ -36,7 +36,7 @@ module "quota-increase" {
     vpc_vpc_security_groups_per_region               = 2500,
     vpc_vpcs_per_region                              = 10,
 
-    # IAM resources are only available in us-east-1
+    # IAM resources are only available in us-east-1, but it's a Global quota.
     iam_customer_managed_policies_per_account = 1500,
     iam_groups_per_account                    = 300,
     iam_instance_profiles_per_account         = 1000,
