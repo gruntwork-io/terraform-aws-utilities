@@ -4,7 +4,7 @@ This module can be used to request a quota increase for an AWS Resource.
 
 ## Features
 
-- Request a quota increase for Network ACL Rules and NAT Gateway.
+- Request a quota increase for VPC and IAM resources.
 
 ## Learn
 
@@ -29,8 +29,8 @@ module "path" {
   source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/quota-increase?ref=<VERSION>"
 
     request_quota_increase = {
-      nat_gateway = 40,
-      nacl_rules = 25
+      vpc_internet_gateways_per_region = 40,
+      vpc_rules_per_network_acl        = 40,
     }
 }
 ```
@@ -44,7 +44,7 @@ When you run `apply`, the `new_quotas` output variable will confirm to you that 
 
 ```hcl
 new_quotas = {
-  "nat_gateway" = {
+  "vpc_internet_gateways_per_region" = {
     "adjustable" = true
     "arn" = "arn:aws:servicequotas:us-east-1:<account-id>:vpc/L-FE5A380F"
     "default_value" = 5
@@ -55,7 +55,7 @@ new_quotas = {
     "request_status" = "PENDING"
     "service_code" = "vpc"
     "service_name" = "Amazon Virtual Private Cloud (Amazon VPC)"
-    "value" = 30
+    "value" = 40
   }
 }
 ```
@@ -70,7 +70,7 @@ Console](https://console.aws.amazon.com/servicequotas/home#!/requests) or the AW
 aws service-quotas list-requested-service-quota-change-history --region <REGION>
 ```
 
-### Finding out the Service Code and Quota Code
+### Add new Services
 
 When you need to add a new resource, you can check the available services with
 
@@ -78,12 +78,8 @@ When you need to add a new resource, you can check the available services with
 aws service-quotas list-services --region <REGION> --output table
 ```
 
-And use the `ServiceCode` from the output to get the code for the resources
-
-```
-aws service-quotas list-service-quotas --service-code <SERVICE_CODE>
-```
-
+And use the [generate_code.rb](generate_code.rb) script to generate the necessary code to support
+more resources.
 
 ### Request a new quota smaller than the current one
 
@@ -93,7 +89,7 @@ quota is 30 and you ask for a new quota of 25, this is the output:
 
 ```hcl
 new_quotas = {
-  "nat_gateway" = {
+  "vpc_internet_gateways_per_region" = {
     "adjustable" = true
       "arn" = "arn:aws:servicequotas:us-east-1:<account-id>:vpc/L-FE5A380F"
       "default_value" = 5

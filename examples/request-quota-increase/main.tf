@@ -16,7 +16,7 @@ module "quota-increase" {
     # In this example, to avoid opening a new request every time we run an automated test, we are setting the quotas
     # to their default values. In the real world, you'd want to set these quotes to higher values.
     vpc_active_vpc_peering_connections_per_vpc       = 50,
-    vpc_egress-only_internet_gateways_per_region     = 10,
+    vpc_egress_only_internet_gateways_per_region     = 10,
     vpc_gateway_vpc_endpoints_per_region             = 20,
     vpc_ipv4_cidr_blocks_per_vpc                     = 5,
     vpc_inbound_or_outbound_rules_per_security_group = 60,
@@ -36,6 +36,7 @@ module "quota-increase" {
     vpc_vpc_security_groups_per_region               = 2500,
     vpc_vpcs_per_region                              = 10,
 
+    # IAM resources are only available in us-east-1
     iam_customer_managed_policies_per_account = 1500,
     iam_groups_per_account                    = 300,
     iam_instance_profiles_per_account         = 1000,

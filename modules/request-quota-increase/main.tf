@@ -3,11 +3,11 @@ terraform {
 }
 
 resource "aws_servicequotas_service_quota" "increase_quotas" {
-  for_each = var.resources_to_increase
+  for_each = local.resources_code
 
-  quota_code   = local.resources_code[each.key].quota_code
-  service_code = local.resources_code[each.key].service_code
-  value        = each.value
+  quota_code   = each.value.quota_code
+  service_code = each.value.service_code
+  value        = each.value.value
 }
 
 data "aws_servicequotas_service_quota" "by_quota_name" {
@@ -17,27 +17,28 @@ data "aws_servicequotas_service_quota" "by_quota_name" {
   service_code = local.resource_names[each.key].service_code
 }
 
+data "aws_region" "current" {}
+
 locals {
 
   resources_code = {
-    for alo, value in var.resources_to_increase :
-    alo => {
-      quota_code   = data.aws_servicequotas_service_quota.by_quota_name[alo]["quota_code"]
+    for key, value in var.resources_to_increase :
+    key => {
+      quota_code   = data.aws_servicequotas_service_quota.by_quota_name[key]["quota_code"]
+      service_code = local.resource_names[key].service_code
       value        = value
-      service_code = local.resource_names[alo].service_code
-
-
-    }
+    } if !(data.aws_region.current.name != "us-east-1" && substr(key, 0, 3) == "iam")
+    # It will ignore the resource if it's IAM and it is not on us-east-1 region
   }
-  # PRs to add more of these mappings are very welcome. For more information
-  # on how to find the Service Code and Quota Code, see the README.md!
 
+  # PRs to add more of these mappings are very welcome.
   resource_names = {
+    # VPC resources
     vpc_active_vpc_peering_connections_per_vpc = {
       quota_name   = "Active VPC peering connections per VPC"
       service_code = "vpc"
     },
-    vpc_egress-only_internet_gateways_per_region = {
+    vpc_egress_only_internet_gateways_per_region = {
       quota_name   = "Egress-only internet gateways per Region"
       service_code = "vpc"
     },
@@ -113,7 +114,7 @@ locals {
       quota_name   = "VPCs per Region"
       service_code = "vpc"
     },
-
+    # IAM resources, they are only available in us-east-1
     iam_customer_managed_policies_per_account = {
       quota_name   = "Customer managed policies per account"
       service_code = "iam"
