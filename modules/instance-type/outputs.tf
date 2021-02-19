@@ -1,6 +1,6 @@
 locals {
   instance_type_map = { for instance_type in var.instance_types : instance_type => (
-    ! contains([for az, offerings in data.aws_ec2_instance_type_offerings.offerings : contains(offerings.instance_types, instance_type)], false))
+    !contains([for az, offerings in data.aws_ec2_instance_type_offerings.offerings : contains(offerings.instance_types, instance_type)], false))
   }
 
   recommended_instance_type = [for instance_type in var.instance_types : instance_type if local.instance_type_map[instance_type]][0]
