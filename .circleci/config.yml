@@ -2,20 +2,18 @@ version: 2.0
 defaults: &defaults
   machine:
     image: ubuntu-1604:201903-01
-
 env: &env
   environment:
     MODULE_CI_VERSION: v0.29.5
     TERRATEST_LOG_PARSER_VERSION: v0.30.3
     GRUNTWORK_INSTALLER_VERSION: v0.0.30
-    TERRAFORM_VERSION: 0.13.2
+    TERRAFORM_VERSION: 0.14.4
     TERRAGRUNT_VERSION: NONE
     GO_VERSION: 1.14
-
 jobs:
   test aws:
-    <<: *defaults
-    <<: *env
+    !!merge <<: *defaults
+    !!merge <<: *env
     steps:
       - checkout
       - run: &install_gruntwork_tooling
@@ -65,7 +63,6 @@ jobs:
           command: |
             terratest_log_parser --testlog /tmp/logs/python2/all.log --outputdir /tmp/logs/python2
             terratest_log_parser --testlog /tmp/logs/python3/all.log --outputdir /tmp/logs/python3
-
           when: always
       - store_artifacts:
           path: /tmp/logs
