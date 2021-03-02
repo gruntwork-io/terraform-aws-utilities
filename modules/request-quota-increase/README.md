@@ -22,11 +22,11 @@ See the [request-quota-increase example](/examples/request-quota-increase) for w
 ## Usage
 
 Use the module in your Terraform code, replacing `<VERSION>` with the latest version from the [releases
-page](https://github.com/gruntwork-io/package-terraform-utilities/releases):
+page](https://github.com/gruntwork-io/terraform-aws-utilities/releases):
 
 ```hcl
-module "path" {
-  source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/quota-increase?ref=<VERSION>"
+module "request-quota-increase" {
+  source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/request-quota-increase?ref=<VERSION>"
 
     request_quota_increase = {
       vpc_nat_gateways_per_availability_zone = 40,
@@ -35,7 +35,7 @@ module "path" {
 }
 ```
 
-The argument to pass is:
+The only required argument is:
 
 * `request_quota_increase`: A map with the desired resource and the new quota. The current supported services are VPC and IAM. Feel free to contribute to this module to add support for more services.
 
@@ -102,7 +102,7 @@ values; once they have been increased, they stay that way!
 
 ## How do I request quota increases for services this module doesn't support yet?
 
-In order to request a Quota Increase, AWS requires you to pass in special codes, like `L-2AEEBF1A`
+In order to request a Quota increase, AWS requires you to pass in special codes, like `L-2AEEBF1A`
 and `L-2AEEBF1A`. Terraform has a data source [aws_servicequotas_service_quota](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/servicequotas_service_quota)
 that returns this special code using the `quota_name` and `service_code` as parameters. Many of this
 `quota_name` and `service_code` combinations are already defined in this module. To add others,
