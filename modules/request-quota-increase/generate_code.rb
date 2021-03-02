@@ -32,7 +32,8 @@ if (SERVICE == 'route53' or SERVICE == 'iam') and REGION != 'us-east-1'
   exit
 end
 
-quotas = JSON.parse(`aws service-quotas list-service-quotas --service-code #{SERVICE} --region #{REGION} | jq '[ .Quotas[] | select(.Adjustable) ]'`)
+quotas = JSON.parse(`aws service-quotas list-service-quotas --service-code #{SERVICE} --region #{REGION} --output json`)
+quotas = quotas['Quotas'].filter{ |q| q['Adjustable'] == true }
 
 to_terraform = quotas.map do |quota|
 	"""#{to_snake_case(quota['QuotaName'])} = {
