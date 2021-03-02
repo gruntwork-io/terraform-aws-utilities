@@ -100,9 +100,16 @@ When you run `terraform destroy` on this module, it does not affect your current
 existing quota requests. In other words, you don't have to worry about quotas being reset to old
 values; once they have been increased, they stay that way!
 
-## Contributing
+## How do I request quota increases for services this module doesn't support yet?
 
-When you want to add a new resource, you can check the available services with
+In order to request a Quota Increase, AWS requires you to pass in special codes, like `L-2AEEBF1A`
+and `L-2AEEBF1A`. Terraform has a data source [aws_servicequotas_service_quota](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/servicequotas_service_quota)
+that returns this special code using the `quota_name` and `service_code` as parameters. Many of this
+`quota_name` and `service_code` combinations are already defined in this module. To add others,
+the [generate_code.rb](generate_code.rb) script can be used to generate the code for a given service.
+
+
+You can check the available services with
 
 ```
 aws service-quotas list-services --region <REGION> --output table
@@ -111,6 +118,6 @@ aws service-quotas list-services --region <REGION> --output table
 And use the [generate_code.rb](generate_code.rb) script to generate the necessary code to support
 more resources.
 
-Be aware that now all services are available in all regions, therefore if you are adding a resource
+Be aware that not all services are available in all regions, therefore if you are adding a resource
 that is not available in certain region, it is necessary to filter it in the `locals.resources_code`
 at [main.tf](main.tf)

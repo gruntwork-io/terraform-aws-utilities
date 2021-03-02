@@ -28,10 +28,11 @@ locals {
       service_code = local.resource_names[key].service_code
       value        = value
     } if !(data.aws_region.current.name != "us-east-1" && substr(key, 0, 3) == "iam")
-    # It will ignore the resource if it's IAM and it is not on us-east-1 region
+    # IAM only works in 'us-east-1' so it's necessary to skip it in other regions.
   }
 
-  # PRs to add more of these mappings are very welcome.
+  # The code below was generated using the generate_code.rb script for a subset of AWS resources.
+  # PRs to add others are welcome.
   resource_names = {
     # VPC resources
     vpc_active_vpc_peering_connections_per_vpc = {
