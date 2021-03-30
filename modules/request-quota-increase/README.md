@@ -22,11 +22,11 @@ See the [request-quota-increase example](/examples/request-quota-increase) for w
 ## Usage
 
 Use the module in your Terraform code, replacing `<VERSION>` with the latest version from the [releases
-page](https://github.com/gruntwork-io/package-terraform-utilities/releases):
+page](https://github.com/gruntwork-io/terraform-aws-utilities/releases):
 
 ```hcl
 module "path" {
-  source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/quota-increase?ref=<VERSION>"
+  source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/quota-increase?ref=<VERSION>"
 
     request_quota_increase = {
       nat_gateway = 40,

@@ -19,11 +19,11 @@ See the [operating-system example](/examples/operating-system) for working sampl
 ## Usage
 
 Simply use the module in your Terraform code, replacing `<VERSION>` with the latest version from the [releases
-page](https://github.com/gruntwork-io/package-terraform-utilities/releases):
+page](https://github.com/gruntwork-io/terraform-aws-utilities/releases):
 
 ```hcl
 module "os" {
-  source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/operating-system?ref=<VERSION>"
+  source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/operating-system?ref=<VERSION>"
 }
 ```
 

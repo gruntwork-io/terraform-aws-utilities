@@ -15,7 +15,7 @@ terraform {
 module "pex_resource" {
   # When using these modules in your own templates, you will need to use a Git URL with a ref attribute that pins you
   # to a specific version of the modules, such as the following example:
-  # source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/run-pex-as-resource?ref=v1.0.8"
+  # source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/run-pex-as-resource?ref=v1.0.8"
   source = "../../modules/run-pex-as-resource"
 
   triggers = var.triggers
@@ -58,7 +58,7 @@ module "pex_resource" {
 module "pex_data" {
   # When using these modules in your own templates, you will need to use a Git URL with a ref attribute that pins you
   # to a specific version of the modules, such as the following example:
-  # source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/run-pex-as-data-source?ref=v1.0.8"
+  # source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/run-pex-as-data-source?ref=v1.0.8"
   source = "../../modules/run-pex-as-data-source"
 
   # Path components to each of the PEX binary
