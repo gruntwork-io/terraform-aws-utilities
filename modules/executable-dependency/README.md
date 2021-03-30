@@ -21,11 +21,11 @@ See the [executable-dependency example](/examples/executable-dependency) for wor
 ## Usage
 
 Use the module in your Terraform code, replacing `<VERSION>` with the latest version from the [releases
-page](https://github.com/gruntwork-io/package-terraform-utilities/releases):
+page](https://github.com/gruntwork-io/terraform-aws-utilities/releases):
 
 ```hcl
 module "path" {
-  source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/join-path?ref=<VERSION>"
+  source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/join-path?ref=<VERSION>"
   
   executable     = "kubergrunt"
   download_url   = "https://github.com/gruntwork-io/kubergrunt/releases/download/v0.5.13/kubergrunt"

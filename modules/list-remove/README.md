@@ -9,7 +9,7 @@ For example, suppose you have a list of availability zones (`["us-east-1a", "us-
 
 ```hcl
 module "list_remove" {
-  source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/list-remove?ref=v0.0.8"
+  source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/list-remove?ref=v0.0.8"
 
   original_list = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-east-1e"]
   items_to_remove = ["us-east-1b", "us-east-1c"]

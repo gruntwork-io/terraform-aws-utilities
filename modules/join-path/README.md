@@ -19,12 +19,12 @@ See the [join-path example](/examples/join-path) for working sample code.
 ## Usage
 
 Simply use the module in your Terraform code, replacing `<VERSION>` with the latest version from the [releases
-page](https://github.com/gruntwork-io/package-terraform-utilities/releases), and specifying the path parts using the 
+page](https://github.com/gruntwork-io/terraform-aws-utilities/releases), and specifying the path parts using the 
 `path_parts` input:
 
 ```hcl
 module "path" {
-  source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/join-path?ref=<VERSION>"
+  source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/join-path?ref=<VERSION>"
   
   path_parts = ["foo", "bar", "baz.txt"]
 }
