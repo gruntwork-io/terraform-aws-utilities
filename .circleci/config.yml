@@ -7,13 +7,13 @@ env: &env
     MODULE_CI_VERSION: v0.29.5
     TERRATEST_LOG_PARSER_VERSION: v0.30.3
     GRUNTWORK_INSTALLER_VERSION: v0.0.30
-    TERRAFORM_VERSION: 0.14.4
+    TERRAFORM_VERSION: 0.15.0
     TERRAGRUNT_VERSION: NONE
     GO_VERSION: 1.14
 jobs:
   test aws:
-    !!merge <<: *defaults
-    !!merge <<: *env
+    <<: *defaults
+    <<: *env
     steps:
       - checkout
       - run: &install_gruntwork_tooling
