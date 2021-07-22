@@ -1,6 +1,6 @@
 [![Maintained by Gruntwork.io](https://img.shields.io/badge/maintained%20by-gruntwork.io-%235849a6.svg)](https://gruntwork.io/?ref=repo_package_terraform_utilities)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/gruntwork-io/terraform-aws-utilities.svg?label=latest)](https://github.com/gruntwork-io/terraform-aws-utilities/releases/latest)
-![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.15.0-blue.svg)
+![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.0.0-blue.svg)
 
 # Terraform Utility Modules
 
