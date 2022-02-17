@@ -1,22 +1,50 @@
-version: 2.0
+version: 2.1
 defaults: &defaults
   machine:
-    image: ubuntu-1604:201903-01
+    image: "ubuntu-2004:202111-02"
 env: &env
   environment:
-    MODULE_CI_VERSION: v0.29.5
-    TERRATEST_LOG_PARSER_VERSION: v0.30.3
-    GRUNTWORK_INSTALLER_VERSION: v0.0.30
-    TERRAFORM_VERSION: 1.0.3
+    MODULE_CI_VERSION: v0.43.1
+    TERRATEST_LOG_PARSER_VERSION: v0.40.2
+    GRUNTWORK_INSTALLER_VERSION: v0.0.36
+    TERRAFORM_VERSION: 1.0.11
     TERRAGRUNT_VERSION: NONE
-    GO_VERSION: 1.14
+    PACKER_VERSION: NONE
+    GOLANG_VERSION: 1.16
 jobs:
-  test aws:
-    <<: *defaults
+  precommit:
     <<: *env
+    docker:
+      - image: circleci/python:3.10.1
+    resource_class: small
     steps:
       - checkout
-      - run: &install_gruntwork_tooling
+      - run:
+          name: install dependencies
+          command: |
+            curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
+            gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci" --tag "${MODULE_CI_VERSION}"
+            configure-environment-for-gruntwork-module \
+              --terraform-version ${TERRAFORM_VERSION} \
+              --terragrunt-version ${TERRAGRUNT_VERSION} \
+              --packer-version ${PACKER_VERSION} \
+              --go-version ${GOLANG_VERSION}
+      # Fail the build if the pre-commit hooks don't pass. Note: if you run pre-commit install locally, these hooks will
+      # execute automatically every time before you commit, ensuring the build never fails at this step!
+      - run:
+          command: |
+            pip install pre-commit
+            go get golang.org/x/tools/cmd/goimports
+            export GOPATH=~/go/bin && export PATH=$PATH:$GOPATH
+            pre-commit install
+            pre-commit run --all-files
+  test:
+    <<: *defaults
+    <<: *env
+    resource_class: medium
+    steps:
+      - checkout
+      - run:
           name: install gruntwork tooling
           command: |
             sudo apt-get -y update
@@ -24,31 +52,17 @@ jobs:
             gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci" --tag "${MODULE_CI_VERSION}"
             gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "${TERRATEST_LOG_PARSER_VERSION}"
             configure-environment-for-gruntwork-module \
-              --go-src-path ./test \
-              --go-version ${GO_VERSION} \
-              --terragrunt-version "${TERRAGRUNT_VERSION}" \
-              --terraform-version "${TERRAFORM_VERSION}"
-      # Run pre-commit hooks and fail the build if any hook finds required changes.
-      - run:
-          name: run precommit
-          command: |
-            # Oct 26, 2019: Install the last known working version of pre-commit. Also, we have to pin the version of
-            # transitive dependencies that are being pulled in which released new versions that are no longer compatible
-            # with any python < 3.6.
-            pyenv global 3.5.2
-            pip install --upgrade "pip < 21.0"
-            pip install pre-commit==1.21.0 cfgv==2.0.1 zipp==1.1.0
-            go get golang.org/x/tools/cmd/goimports
-            export GOPATH=~/go/bin && export PATH=$PATH:$GOPATH
-            pre-commit install
-            pre-commit run --all-files
+              --go-version ${GOLANG_VERSION} \
+              --packer-version ${PACKER_VERSION} \
+              --terragrunt-version ${TERRAGRUNT_VERSION} \
+              --terraform-version ${TERRAFORM_VERSION}
       - run:
           # We need to ensure compatibility with both versions of python
           name: run tests (with python2)
           command: |
             mkdir -p /tmp/logs/python2
             echo "Using python 2"
-            pyenv global 2.7.12
+            pyenv global 2.7.18
             python --version
             run-go-tests --path test | tee /tmp/logs/python2/all.log
       - run:
@@ -56,7 +70,7 @@ jobs:
           command: |
             mkdir -p /tmp/logs/python3
             echo "Using python 3"
-            pyenv global 3.5.2
+            pyenv global 3.9.7
             python --version
             # We are rerunning the same test with python3, so clear go test cache
             go clean -testcache
@@ -74,7 +88,15 @@ workflows:
   version: 2
   build-and-test:
     jobs:
-      - test aws:
+      - precommit:
+          filters:
+            tags:
+              only: /^v.*/
+          context:
+            - Gruntwork Admin
+      - test:
+          requires:
+            - precommit
           filters:
             tags:
               only: /^v.*/
