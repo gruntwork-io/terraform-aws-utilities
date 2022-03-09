@@ -39,8 +39,7 @@ jobs:
             pre-commit install
             pre-commit run --all-files
   test:
-    <<: *defaults
-    <<: *env
+    <<: [*defaults, *env]
     resource_class: medium
     steps:
       - checkout
