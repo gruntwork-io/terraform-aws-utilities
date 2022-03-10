@@ -1,7 +1,7 @@
 version: 2.1
 defaults: &defaults
   machine:
-    image: "ubuntu-2004:202111-02"
+    image: ubuntu-2004:202111-02
 env: &env
   environment:
     MODULE_CI_VERSION: v0.43.1
@@ -15,89 +15,89 @@ jobs:
   precommit:
     <<: *env
     docker:
-      - image: circleci/python:3.10.1
+    - image: cimg/python:3.10.2
     resource_class: small
     steps:
-      - checkout
-      - run:
-          name: install dependencies
-          command: |
-            curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
-            gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci" --tag "${MODULE_CI_VERSION}"
-            configure-environment-for-gruntwork-module \
-              --terraform-version ${TERRAFORM_VERSION} \
-              --terragrunt-version ${TERRAGRUNT_VERSION} \
-              --packer-version ${PACKER_VERSION} \
-              --go-version ${GOLANG_VERSION}
+    - checkout
+    - run:
+        name: install dependencies
+        command: |
+          curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
+          gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci" --tag "${MODULE_CI_VERSION}"
+          configure-environment-for-gruntwork-module \
+            --terraform-version ${TERRAFORM_VERSION} \
+            --terragrunt-version ${TERRAGRUNT_VERSION} \
+            --packer-version ${PACKER_VERSION} \
+            --go-version ${GOLANG_VERSION}
       # Fail the build if the pre-commit hooks don't pass. Note: if you run pre-commit install locally, these hooks will
       # execute automatically every time before you commit, ensuring the build never fails at this step!
-      - run:
-          command: |
-            pip install pre-commit
-            go get golang.org/x/tools/cmd/goimports
-            export GOPATH=~/go/bin && export PATH=$PATH:$GOPATH
-            pre-commit install
-            pre-commit run --all-files
+    - run:
+        command: |
+          pip install pre-commit
+          go get golang.org/x/tools/cmd/goimports
+          export GOPATH=~/go/bin && export PATH=$PATH:$GOPATH
+          pre-commit install
+          pre-commit run --all-files
   test:
     <<: [*defaults, *env]
     resource_class: medium
     steps:
-      - checkout
-      - run:
-          name: install gruntwork tooling
-          command: |
-            sudo apt-get -y update
-            curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
-            gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci" --tag "${MODULE_CI_VERSION}"
-            gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "${TERRATEST_LOG_PARSER_VERSION}"
-            configure-environment-for-gruntwork-module \
-              --go-version ${GOLANG_VERSION} \
-              --packer-version ${PACKER_VERSION} \
-              --terragrunt-version ${TERRAGRUNT_VERSION} \
-              --terraform-version ${TERRAFORM_VERSION}
-      - run:
+    - checkout
+    - run:
+        name: install gruntwork tooling
+        command: |
+          sudo apt-get -y update
+          curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
+          gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci" --tag "${MODULE_CI_VERSION}"
+          gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "${TERRATEST_LOG_PARSER_VERSION}"
+          configure-environment-for-gruntwork-module \
+            --go-version ${GOLANG_VERSION} \
+            --packer-version ${PACKER_VERSION} \
+            --terragrunt-version ${TERRAGRUNT_VERSION} \
+            --terraform-version ${TERRAFORM_VERSION}
+    - run:
           # We need to ensure compatibility with both versions of python
-          name: run tests (with python2)
-          command: |
-            mkdir -p /tmp/logs/python2
-            echo "Using python 2"
-            pyenv global 2.7.18
-            python --version
-            run-go-tests --path test | tee /tmp/logs/python2/all.log
-      - run:
-          name: run tests (with python3)
-          command: |
-            mkdir -p /tmp/logs/python3
-            echo "Using python 3"
-            pyenv global 3.9.7
-            python --version
-            # We are rerunning the same test with python3, so clear go test cache
-            go clean -testcache
-            run-go-tests --path test | tee /tmp/logs/python3/all.log
-      - run:
-          command: |
-            terratest_log_parser --testlog /tmp/logs/python2/all.log --outputdir /tmp/logs/python2
-            terratest_log_parser --testlog /tmp/logs/python3/all.log --outputdir /tmp/logs/python3
-          when: always
-      - store_artifacts:
-          path: /tmp/logs
-      - store_test_results:
-          path: /tmp/logs
+        name: run tests (with python2)
+        command: |
+          mkdir -p /tmp/logs/python2
+          echo "Using python 2"
+          pyenv global 2.7.18
+          python --version
+          run-go-tests --path test | tee /tmp/logs/python2/all.log
+    - run:
+        name: run tests (with python3)
+        command: |
+          mkdir -p /tmp/logs/python3
+          echo "Using python 3"
+          pyenv global 3.9.7
+          python --version
+          # We are rerunning the same test with python3, so clear go test cache
+          go clean -testcache
+          run-go-tests --path test | tee /tmp/logs/python3/all.log
+    - run:
+        command: |
+          terratest_log_parser --testlog /tmp/logs/python2/all.log --outputdir /tmp/logs/python2
+          terratest_log_parser --testlog /tmp/logs/python3/all.log --outputdir /tmp/logs/python3
+        when: always
+    - store_artifacts:
+        path: /tmp/logs
+    - store_test_results:
+        path: /tmp/logs
 workflows:
   version: 2
   build-and-test:
     jobs:
-      - precommit:
-          filters:
-            tags:
-              only: /^v.*/
-          context:
-            - Gruntwork Admin
-      - test:
-          requires:
-            - precommit
-          filters:
-            tags:
-              only: /^v.*/
-          context:
-            - Gruntwork Admin
+    - precommit:
+        filters:
+          tags:
+            only: /^v.*/
+        context:
+        - Gruntwork Admin
+    - test:
+        requires:
+        - precommit
+        filters:
+          tags:
+            only: /^v.*/
+        context:
+        - Gruntwork Admin
