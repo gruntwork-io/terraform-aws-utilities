@@ -19,14 +19,7 @@ module "pex_resource" {
   triggers = var.triggers
 
   # Path components to each of the PEX binary
-  python2_pex_path_parts = [
-    path.module,
-    "sample-python-script",
-    "bin",
-    "sample_python_script_py27_env.pex",
-  ]
-
-  python3_pex_path_parts = [
+  python_pex_path_parts = [
     path.module,
     "sample-python-script",
     "bin",
@@ -60,14 +53,7 @@ module "pex_data" {
   source = "../../modules/run-pex-as-data-source"
 
   # Path components to each of the PEX binary
-  python2_pex_path_parts = [
-    path.module,
-    "sample-python-script",
-    "bin",
-    "sample_python_script_py27_env.pex",
-  ]
-
-  python3_pex_path_parts = [
+  python_pex_path_parts = [
     path.module,
     "sample-python-script",
     "bin",

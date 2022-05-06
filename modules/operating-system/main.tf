@@ -4,7 +4,7 @@ terraform {
 }
 
 data "external" "os" {
-  program = ["python", "-c", <<-EOF
+  program = ["python3", "-c", <<-EOF
       import json
       import os
       import platform
