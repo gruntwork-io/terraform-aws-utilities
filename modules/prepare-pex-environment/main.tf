@@ -13,13 +13,9 @@ terraform {
 
 data "external" "determine_python_path" {
   program = [
-    "python",
+    "python3",
     "${path.module}${module.os.path_separator}determine_python_path.py",
     "--module-path",
     module.pex_module_path.path,
   ]
-}
-
-locals {
-  pex = data.external.python_version.result["major_version"] == "2" ? module.python2_pex_path.path : module.python3_pex_path.path
 }

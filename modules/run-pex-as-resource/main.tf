@@ -10,10 +10,9 @@ terraform {
 }
 
 module "pex_env" {
-  source                 = "../prepare-pex-environment"
-  python2_pex_path_parts = var.python2_pex_path_parts
-  python3_pex_path_parts = var.python3_pex_path_parts
-  pex_module_path_parts  = var.pex_module_path_parts
+  source                = "../prepare-pex-environment"
+  python_pex_path_parts = var.python_pex_path_parts
+  pex_module_path_parts = var.pex_module_path_parts
 }
 
 resource "null_resource" "run_pex" {
@@ -33,5 +32,5 @@ resource "null_resource" "run_pex" {
 }
 
 locals {
-  python_call = "python ${module.pex_env.pex_path} ${module.pex_env.entrypoint_path} ${var.script_main_function}"
+  python_call = "python3 ${module.pex_env.pex_path} ${module.pex_env.entrypoint_path} ${var.script_main_function}"
 }
