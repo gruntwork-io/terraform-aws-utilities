@@ -6,7 +6,7 @@ if it's not installed already: e.g., [terraform-aws-eks](https://github.com/grun
 [kubergrunt](https://github.com/gruntwork-io/kubergrunt) binary to be installed, and `executable-dependency` allows
 `terraform-aws-eks` to automatically download `kubergrunt` if it's not already available. 
 
-**NOTE**: This module requires that Python is installed on your system. It should work with Python 2 or 3.
+**NOTE**: This module requires that Python 3 is installed on your system.
 
 
 

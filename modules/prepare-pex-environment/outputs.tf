@@ -1,6 +1,6 @@
 output "pex_path" {
   description = "Path to PEX file that should be run."
-  value       = local.pex
+  value       = module.python_pex_path.path
 }
 
 output "python_path" {

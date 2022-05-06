@@ -4,7 +4,7 @@ terraform {
 }
 
 data "external" "required_executable" {
-  program = ["python", "${path.module}/require_executable.py"]
+  program = ["python3", "${path.module}/require_executable.py"]
 
   # Currently the external data source provider does not support list values in the query, so we convert the input list
   # to be a comma separated string.

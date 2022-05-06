@@ -56,28 +56,13 @@ jobs:
               --terragrunt-version ${TERRAGRUNT_VERSION} \
               --terraform-version ${TERRAFORM_VERSION}
       - run:
-          # We need to ensure compatibility with both versions of python
-          name: run tests (with python2)
+          name: run tests
           command: |
-            mkdir -p /tmp/logs/python2
-            echo "Using python 2"
-            pyenv global 2.7.18
-            python --version
-            run-go-tests --path test | tee /tmp/logs/python2/all.log
-      - run:
-          name: run tests (with python3)
-          command: |
-            mkdir -p /tmp/logs/python3
-            echo "Using python 3"
-            pyenv global 3.9.7
-            python --version
-            # We are rerunning the same test with python3, so clear go test cache
-            go clean -testcache
-            run-go-tests --path test | tee /tmp/logs/python3/all.log
+            mkdir -p /tmp/logs
+            run-go-tests --path test | tee /tmp/logs/all.log
       - run:
           command: |
-            terratest_log_parser --testlog /tmp/logs/python2/all.log --outputdir /tmp/logs/python2
-            terratest_log_parser --testlog /tmp/logs/python3/all.log --outputdir /tmp/logs/python3
+            terratest_log_parser --testlog /tmp/logs/all.log --outputdir /tmp/logs
           when: always
       - store_artifacts:
           path: /tmp/logs

@@ -1,8 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # A script to check if an executable is installed, and if not, download it. In either case, returns the path to the
 # executable. This script is meant to be executed from a Terraform external data source. To be as portable as possible,
-# this script has no external dependencies (i.e., nothing that doesn't come with Python), and should work with both
-# Python 2 and 3.
+# this script has no external dependencies (i.e., nothing that doesn't come with Python).
 
 
 import sys
@@ -17,12 +16,7 @@ import logging
 import errno
 import argparse
 
-try:
-    # Try the Python 3 import
-    from urllib.request import urlretrieve
-except ImportError:
-    # Fall back to the Python 2 import
-    from urllib import urlretrieve
+from urllib.request import urlretrieve
 
 
 DEFAULT_INSTALL_DIR_NAME = 'download-dependency-if-necessary'
@@ -83,7 +77,7 @@ def download_executable(executable, download_url, install_dir, append_os_arch):
     log.info('Downloading from {} to {}'.format(download_url, executable_path))
 
     # Make sure all the parent folders exist
-    mkdir_p(install_dir)
+    os.makedirs(install_dir)
 
     # Download the executable
     urlretrieve(download_url, executable_path)
@@ -92,17 +86,6 @@ def download_executable(executable, download_url, install_dir, append_os_arch):
     os.chmod(executable_path, 0o744)
 
     return executable_path
-
-
-def mkdir_p(path):
-    # For compatibility with Python 2
-    try:
-        os.makedirs(path)
-    except OSError as exc:
-        if exc.errno == errno.EEXIST and os.path.isdir(path):
-            pass
-        else:
-            raise
 
 
 def get_os():
