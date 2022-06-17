@@ -18,7 +18,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 )
 
-func TestUpgradeModuleEc2Alarms(t *testing.T) {
+func TestUpgradeModuleJoinPath(t *testing.T) {
 	upgrades.RunUpgradeModuleTest(
 		t,
 		repoName,
