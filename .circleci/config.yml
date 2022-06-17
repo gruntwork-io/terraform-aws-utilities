@@ -82,7 +82,8 @@ jobs:
   precommit:
     <<: *env
     docker:
-      - image: cimg/python:3.10.1
+      - image: cimg/python:3.10.2
+    resource_class: small
     steps:
       - checkout
       - run: &install_gruntwork_utils
