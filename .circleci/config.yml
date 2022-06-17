@@ -88,7 +88,7 @@ jobs:
     steps:
       - checkout
       - run: 
-        <<: &install_gruntwork_utils
+          <<: *install_gruntwork_utils
       # Fail the build if the pre-commit hooks don't pass. Note: if you run pre-commit install locally, these hooks will
       # execute automatically every time before you commit, ensuring the build never fails at this step!
       - run:
