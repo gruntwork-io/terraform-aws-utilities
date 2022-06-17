@@ -53,6 +53,7 @@ install_gruntwork_utils: &install_gruntwork_utils
   command: |
     curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
     gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci" --tag "${MODULE_CI_VERSION}"
+    gruntwork-install --module-name "git-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci"  --tag "${MODULE_CI_VERSION}"
     gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "${TERRATEST_LOG_PARSER_VERSION}"
     configure-environment-for-gruntwork-module \
       --tfenv-version ${TFENV_VERSION} \
@@ -86,18 +87,8 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - run: &install_gruntwork_utils
-          name: install dependencies
-          command: |
-            curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
-            gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci" --tag "${MODULE_CI_VERSION}"
-            gruntwork-install --module-name "git-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci"  --tag "${MODULE_CI_VERSION}"
-            gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "${TERRATEST_LOG_PARSER_VERSION}"
-            configure-environment-for-gruntwork-module \
-              --terraform-version ${TERRAFORM_VERSION} \
-              --terragrunt-version ${TERRAGRUNT_VERSION} \
-              --packer-version ${PACKER_VERSION} \
-              --go-version ${GOLANG_VERSION}
+      - run: 
+        <<: &install_gruntwork_utils
       # Fail the build if the pre-commit hooks don't pass. Note: if you run pre-commit install locally, these hooks will
       # execute automatically every time before you commit, ensuring the build never fails at this step!
       - run:
