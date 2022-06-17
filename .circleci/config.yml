@@ -150,7 +150,7 @@ jobs:
             run-go-tests \
               --path ./test/upgrades \
               --timeout 1h \
-              --extra-flags "-ldflags '-X github.com/gruntwork-io/terraform-aws-data-storage/test/upgrades.BaseRef=$UPGRADE_TEST_BASE_REF -X github.com/gruntwork-io/terraform-aws-data-storage/test/upgrades.TFBaseVersion=$UPGRADE_TEST_TF_BASE_VERSION -X github.com/gruntwork-io/terraform-aws-data-storage/test/upgrades.TFTargetVersion=$UPGRADE_TEST_TF_TARGET_VERSION'" \
+              --extra-flags "-ldflags '-X github.com/gruntwork-io/terraform-aws-utilities/test/upgrades.BaseRef=$UPGRADE_TEST_BASE_REF -X github.com/gruntwork-io/terraform-aws-utilities/test/upgrades.TFBaseVersion=$UPGRADE_TEST_TF_BASE_VERSION -X github.com/gruntwork-io/terraform-aws-utilities/test/upgrades.TFTargetVersion=$UPGRADE_TEST_TF_TARGET_VERSION'" \
               | (tee /tmp/logs/all.log || true)
           no_output_timeout: 3600s
       - store_results
