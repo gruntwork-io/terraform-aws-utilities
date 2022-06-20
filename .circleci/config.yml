@@ -111,7 +111,9 @@ jobs:
           name: run tests
           command: |
             mkdir -p /tmp/logs
-            run-go-tests --path ./test --timeout 2h | tee /tmp/logs/all.log
+            # Believe it or not, we've seen the tee command fail when we have too much logging all happening at once.
+            # To ensure that tee failing doesn't cause the whole test suite to fail, we add an || true.
+            run-go-tests --path ./test --timeout 2h --packages . | (tee /tmp/logs/all.log || true)
           no_output_timeout: 5400s
       - store_results
   upgrade_test:
