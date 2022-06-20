@@ -1,16 +1,84 @@
-version: 2.1
-defaults: &defaults
-  machine:
-    image: ubuntu-2004:202111-02
 env: &env
   environment:
-    MODULE_CI_VERSION: v0.43.1
-    TERRATEST_LOG_PARSER_VERSION: v0.40.2
-    GRUNTWORK_INSTALLER_VERSION: v0.0.36
-    TERRAFORM_VERSION: 1.1.4
-    TERRAGRUNT_VERSION: NONE
-    PACKER_VERSION: NONE
-    GOLANG_VERSION: 1.16
+    # patcher auto-update-github-tags: cli/cli
+    GH_VERSION: 2.10.1
+    # patcher auto-update: gruntwork-installer
+    GRUNTWORK_INSTALLER_VERSION: v0.0.38
+    # patcher auto-update-github-releases: minamijoyo/hcledit
+    HCLEDIT_VERSION: 0.2.3
+    # patcher auto-update: terragrunt
+    TERRAGRUNT_VERSION: v0.36.6
+    # patcher auto-update: terratest
+    TERRATEST_VERSION: v0.40.6
+    # patcher auto-update: terratest
+    TERRATEST_LOG_PARSER_VERSION: v0.40.6
+    # patcher auto-update: terraform-aws-ci
+    MODULE_CI_VERSION: v0.47.2
+    # patcher auto-update-github-releases: hashicorp/terraform
+    TERRAFORM_VERSION: 1.1.9
+    # patcher auto-update-github-releases: tfutils/tfenv
+    TFENV_VERSION: v2.2.2
+    GOLANG_VERSION: 1.17
+    GO111MODULE: auto
+    # patcher auto-update-github-releases: hashicorp/packer
+    PACKER_VERSION: 1.8.0
+    UPGRADE_TEST_LOG_FOLDER: /tmp/logs
+    # The GOPRIVATE environment variable controls which modules the go command considers to be private
+    # (not available publicly) and should therefore not use the proxy or checksum database.
+    # Without this, tests fail with a "410 Gone" error
+    GOPRIVATE: github.com/gruntwork-io
+defaults: &defaults
+  machine:
+    enabled: true
+    image: ubuntu-2004:202111-02
+  resource_class: large
+  <<: *env
+install_gh_cli: &install_gh_cli
+  name: Install gh CLI
+  command: |
+    curl -Lo gh.tar.gz "https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_amd64.tar.gz"
+    tar -xf gh.tar.gz
+    sudo mv "gh_${GH_VERSION}_linux_amd64/bin/gh" /usr/local/bin
+    sudo chmod +x /usr/local/bin/gh
+    echo 'export GITHUB_TOKEN="$GITHUB_OAUTH_TOKEN"' >> $BASH_ENV
+install_hcledit: &install_hcledit
+  name: Install hcledit
+  command: |
+    curl -Lo hcledit.tar.gz "https://github.com/minamijoyo/hcledit/releases/download/v${HCLEDIT_VERSION}/hcledit_${HCLEDIT_VERSION}_linux_amd64.tar.gz"
+    tar -xf hcledit.tar.gz
+    sudo mv hcledit /usr/local/bin
+    sudo chmod +x /usr/local/bin/hcledit
+install_gruntwork_utils: &install_gruntwork_utils
+  name: install dependencies
+  command: |
+    curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
+    gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci" --tag "${MODULE_CI_VERSION}"
+    gruntwork-install --module-name "git-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci"  --tag "${MODULE_CI_VERSION}"
+    gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "${TERRATEST_LOG_PARSER_VERSION}"
+    configure-environment-for-gruntwork-module \
+      --tfenv-version ${TFENV_VERSION} \
+      --terraform-version ${TERRAFORM_VERSION} \
+      --terragrunt-version ${TERRAGRUNT_VERSION} \
+      --packer-version ${PACKER_VERSION} \
+      --go-version ${GOLANG_VERSION}
+version: 2.1
+# ---------------------------------------------------------------------------------------------------------------------
+# REUSABLE STEPS
+# ---------------------------------------------------------------------------------------------------------------------
+commands:
+  store_results:
+    description: Store test results for easy viewing.
+    steps:
+      - run:
+          command: terratest_log_parser --testlog /tmp/logs/all.log --outputdir /tmp/logs
+          when: always
+      - store_artifacts:
+          path: /tmp/logs
+      - store_test_results:
+          path: /tmp/logs
+#----------------------------------------------------------------------------------------------------------------------
+# BUILD JOBS
+#----------------------------------------------------------------------------------------------------------------------
 jobs:
   precommit:
     <<: *env
@@ -19,58 +87,94 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - run:
-          name: install dependencies
-          command: |
-            curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
-            gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci" --tag "${MODULE_CI_VERSION}"
-            configure-environment-for-gruntwork-module \
-              --terraform-version ${TERRAFORM_VERSION} \
-              --terragrunt-version ${TERRAGRUNT_VERSION} \
-              --packer-version ${PACKER_VERSION} \
-              --go-version ${GOLANG_VERSION}
+      - run: 
+          <<: *install_gruntwork_utils
       # Fail the build if the pre-commit hooks don't pass. Note: if you run pre-commit install locally, these hooks will
       # execute automatically every time before you commit, ensuring the build never fails at this step!
       - run:
           command: |
-            pip install pre-commit
+            pip install pre-commit yapf
             go get golang.org/x/tools/cmd/goimports
             export GOPATH=~/go/bin && export PATH=$PATH:$GOPATH
             pre-commit install
             pre-commit run --all-files
   test:
-    <<: [*defaults, *env]
-    resource_class: medium
+    <<: *defaults
     steps:
       - checkout
       - run:
-          name: install gruntwork tooling
-          command: |
-            sudo apt-get -y update
-            curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
-            gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/terraform-aws-ci" --tag "${MODULE_CI_VERSION}"
-            gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "${TERRATEST_LOG_PARSER_VERSION}"
-            configure-environment-for-gruntwork-module \
-              --go-version ${GOLANG_VERSION} \
-              --packer-version ${PACKER_VERSION} \
-              --terragrunt-version ${TERRAGRUNT_VERSION} \
-              --terraform-version ${TERRAFORM_VERSION}
+          <<: *install_gruntwork_utils
       - run:
+          # These tests include an Elasticsearch cluster which can be VERY slow to create/delete, so we massively increase
+          # the test timeout to ensure cleanup jobs run correctly.
+          # Also specify a CircleCI timeout of 5400 seconds (90m)
           name: run tests
           command: |
             mkdir -p /tmp/logs
-            run-go-tests --path test | tee /tmp/logs/all.log
+            # Believe it or not, we've seen the tee command fail when we have too much logging all happening at once.
+            # To ensure that tee failing doesn't cause the whole test suite to fail, we add an || true.
+            run-go-tests --path ./test --timeout 2h --packages . | (tee /tmp/logs/all.log || true)
+          no_output_timeout: 5400s
+      - store_results
+  upgrade_test:
+    description: Run upgrades and post the results on the PR.
+    <<: *defaults
+    steps:
+      - checkout
       - run:
+          <<: *install_gruntwork_utils
+      - run:
+          <<: *install_gh_cli
+      - run:
+          <<: *install_hcledit
+      - run:
+          name: Set environment variables for use in the upgrade test step.
           command: |
-            terratest_log_parser --testlog /tmp/logs/all.log --outputdir /tmp/logs
+            # Set the UPGRADE_TEST_BASE_REF, UPGRADE_TEST_TF_BASE_VERSION, UPGRADE_TEST_TF_TARGET_VERSION env vars.
+            ./.circleci/set-upgrade-test-vars.sh
+      - run:
+          name: Run upgrade tests
+          command: |
+            mkdir -p /tmp/logs
+            # Pre-install terraform versions used in the test, before the tests run, to avoid installation racing.
+            tfenv install $UPGRADE_TEST_TF_BASE_VERSION
+            tfenv install $UPGRADE_TEST_TF_TARGET_VERSION
+            # Believe it or not, we've seen the tee command fail when we have too much logging all happening at once.
+            # To ensure that tee failing doesn't cause the whole test suite to fail, we add an || true.
+            run-go-tests \
+              --path ./test/upgrades \
+              --timeout 1h \
+              --extra-flags "-ldflags '-X github.com/gruntwork-io/terraform-aws-utilities/test/upgrades.BaseRef=$UPGRADE_TEST_BASE_REF -X github.com/gruntwork-io/terraform-aws-utilities/test/upgrades.TFBaseVersion=$UPGRADE_TEST_TF_BASE_VERSION -X github.com/gruntwork-io/terraform-aws-utilities/test/upgrades.TFTargetVersion=$UPGRADE_TEST_TF_TARGET_VERSION'" \
+              | (tee /tmp/logs/all.log || true)
+          no_output_timeout: 3600s
+      - store_results
+      - run:
+          name: Post upgrade test results
+          command: ./.circleci/post-upgrade-test-results.sh
           when: always
-      - store_artifacts:
-          path: /tmp/logs
-      - store_test_results:
-          path: /tmp/logs
 workflows:
-  version: 2
-  build-and-test:
+  version: 2.1
+  test:
+    jobs:
+      # We have to explicitly tell CircleCI to run on all tags and branches, or tag commits/pushes will not trigger
+      # builds: https://circleci.com/docs/2.0/workflows/#git-tag-job-execution.
+      - precommit:
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              only: /.*/
+          context:
+            - Gruntwork Admin
+      - test:
+          requires:
+            - precommit
+          filters:
+            tags:
+              only: /^v.*/
+          context:
+            - Gruntwork Admin
+  upgrade-test:
     jobs:
       - precommit:
           filters:
@@ -78,7 +182,7 @@ workflows:
               only: /^v.*/
           context:
             - Gruntwork Admin
-      - test:
+      - upgrade_test:
           requires:
             - precommit
           filters:
