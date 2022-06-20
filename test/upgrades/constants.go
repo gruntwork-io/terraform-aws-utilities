@@ -22,7 +22,7 @@ var TFTargetVersion = "latest:^1.2"
 // and which modules we've tested upgrading. Commented ones are not covered in upgrade tests yet.
 var examplesToTest = []string{
 	//"executable-dependency",
-	//"instance-type",
+	"instance-type",
 	"join-path",
 	//"list-remove",
 	//"operating-system",
@@ -35,7 +35,7 @@ var examplesToTest = []string{
 // with this full list. Only the modules below that are found in the examples will get upgraded.
 var modulesToTest = []string{
 	//"executable-dependency",
-	//"instance-type",
+	"instance-type",
 	"join-path",
 	//"list-remove",
 	//"operating-system",
