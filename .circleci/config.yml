@@ -1,3 +1,4 @@
+version: 2.1
 env: &env
   environment:
     GO111MODULE: auto
@@ -17,7 +18,10 @@ run_precommit: &run_precommit
   command: |
     pre-commit install
     pre-commit run --all-files
-version: 2.1
+auth_gh_cli: &auth_gh_cli
+  name: Authenticate gh CLI
+  command: |
+    echo 'export GITHUB_TOKEN="$GITHUB_OAUTH_TOKEN"' >> $BASH_ENV
 # ---------------------------------------------------------------------------------------------------------------------
 # REUSABLE STEPS
 # ---------------------------------------------------------------------------------------------------------------------
@@ -66,6 +70,8 @@ jobs:
     steps:
       - checkout
       - run:
+          <<: *auth_gh_cli
+      - run:
           name: Set environment variables for use in the upgrade test step.
           command: |
             # Set the UPGRADE_TEST_BASE_REF, UPGRADE_TEST_TF_BASE_VERSION, UPGRADE_TEST_TF_TARGET_VERSION env vars.
@@ -82,7 +88,7 @@ jobs:
             run-go-tests \
               --path ./test/upgrades \
               --timeout 1h \
-              --extra-flags "-ldflags '-X github.com/gruntwork-io/terraform-aws-utilities/test/upgrades.BaseRef=$UPGRADE_TEST_BASE_REF -X github.com/gruntwork-io/terraform-aws-utilities/test/upgrades.TFBaseVersion=$UPGRADE_TEST_TF_BASE_VERSION -X github.com/gruntwork-io/terraform-aws-utilities/test/upgrades.TFTargetVersion=$UPGRADE_TEST_TF_TARGET_VERSION'" \
+              --extra-flags "-ldflags '-X github.com/gruntwork-io/terraform-aws-ci/test/upgrades.BaseRef=$UPGRADE_TEST_BASE_REF -X github.com/gruntwork-io/terraform-aws-ci/test/upgrades.TFBaseVersion=$UPGRADE_TEST_TF_BASE_VERSION -X github.com/gruntwork-io/terraform-aws-ci/test/upgrades.TFTargetVersion=$UPGRADE_TEST_TF_TARGET_VERSION'" \
               | (tee /tmp/logs/all.log || true)
           no_output_timeout: 3600s
       - store_results
