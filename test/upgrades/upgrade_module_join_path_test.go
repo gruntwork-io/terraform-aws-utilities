@@ -26,7 +26,6 @@ func TestUpgradeModuleJoinPath(t *testing.T) {
 		createTFOptionsForJoinPath,
 		modulesToTest,
 		false,
-		nil,
 	)
 }
 
