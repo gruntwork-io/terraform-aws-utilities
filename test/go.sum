@@ -478,8 +478,8 @@ github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFb
 github.com/gruntwork-io/go-commons v0.8.0/go.mod h1:gtp0yTtIBExIZp7vyIV9I0XQkVwiQZze678hvDXof78=
 github.com/gruntwork-io/go-commons v0.12.4 h1:CHq9xUsOk77/UDLLJyqHpPUckPbfF2QEwMKbGbJh/pg=
 github.com/gruntwork-io/go-commons v0.12.4/go.mod h1:nbZDI8IL8BCY45QXJcWKSh0MYaz9kcgqQ40/L3JRi54=
-github.com/gruntwork-io/module-ci/test/upgrades v0.0.0-20220609192808-f838c9955278 h1:sYwUPfgWdyp42kK7LHa61n8DWm+SIcdJJU27D8VfgKQ=
-github.com/gruntwork-io/module-ci/test/upgrades v0.0.0-20220609192808-f838c9955278/go.mod h1:fmiDrSBGmKyybigYyjnS0SVtcn0c2YR1jQ9xERbR1/w=
+github.com/gruntwork-io/module-ci/test/upgrades v0.0.0-20220706191102-c35449193007 h1:dWVKMQxT3MSYBinReeW4+RjTKI/eeuxxVo+BFovxsSI=
+github.com/gruntwork-io/module-ci/test/upgrades v0.0.0-20220706191102-c35449193007/go.mod h1:fmiDrSBGmKyybigYyjnS0SVtcn0c2YR1jQ9xERbR1/w=
 github.com/gruntwork-io/terratest v0.40.1/go.mod h1:CjHsEgP1Pe987X5N8K5qEqCuLtu1bqERGIAF8bTj1s0=
 github.com/gruntwork-io/terratest v0.40.14 h1:32erdJUi7iLiIcURhGWhy/vLB86iDj8ycLtFjboJlGM=
 github.com/gruntwork-io/terratest v0.40.14/go.mod h1:xlVN8UHxN93Z5nt61I0gTU/FESm2C78rYS+/3xcDDdI=
