@@ -28,7 +28,6 @@ func TestUpgradeModuleInstanceType(t *testing.T) {
 		createTFOptionsForInstanceType,
 		modulesToTest,
 		false,
-		nil,
 	)
 }
 
