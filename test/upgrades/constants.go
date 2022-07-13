@@ -1,8 +1,7 @@
 package upgrades
 
 const (
-	repoName          = "terraform-aws-utilities"
-	defaultBranchName = "master"
+	repoName = "terraform-aws-utilities"
 )
 
 // The following lists are to keep track of which of the examples we've added upgrade tests for,

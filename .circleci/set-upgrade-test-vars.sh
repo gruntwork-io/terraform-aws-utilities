@@ -2,12 +2,12 @@
 # Set some variables that are used by the upgrade test runner (run-go-tests), passing in
 # these variables as overrides with --extra-flags and -ldflags.
 
-DEFAULT_BRANCH="master"
+DEFAULT_BRANCH="main"
 
 # Call gh to get the base ref that we should run our upgrade tests against.
 baseRef=""
 if [[ "$CIRCLE_BRANCH" == "$DEFAULT_BRANCH" ]]; then
-  # On master, the commit to compare to should be the last release tag.
+  # On main, the commit to compare to should be the last release tag.
   baseRef="$(gh release list --exclude-drafts --limit 1 | awk '{print $3}')"
   echo "export UPGRADE_TEST_BASE_REF=$baseRef" >> $BASH_ENV
 else
