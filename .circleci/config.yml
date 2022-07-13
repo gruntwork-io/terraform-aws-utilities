@@ -88,7 +88,7 @@ jobs:
             run-go-tests \
               --path ./test/upgrades \
               --timeout 1h \
-              --extra-flags "-ldflags '-X github.com/gruntwork-io/terraform-aws-ci/test/upgrades.BaseRef=$UPGRADE_TEST_BASE_REF -X github.com/gruntwork-io/terraform-aws-ci/test/upgrades.TFBaseVersion=$UPGRADE_TEST_TF_BASE_VERSION -X github.com/gruntwork-io/terraform-aws-ci/test/upgrades.TFTargetVersion=$UPGRADE_TEST_TF_TARGET_VERSION'" \
+              --extra-flags "-ldflags '-X github.com/gruntwork-io/module-ci/test/upgrades.BaseRef=$UPGRADE_TEST_BASE_REF -X github.com/gruntwork-io/module-ci/test/upgrades.TFBaseVersion=$UPGRADE_TEST_TF_BASE_VERSION -X github.com/gruntwork-io/module-ci/test/upgrades.TFTargetVersion=$UPGRADE_TEST_TF_TARGET_VERSION'" \
               | (tee /tmp/logs/all.log || true)
           no_output_timeout: 3600s
       - store_results
@@ -103,7 +103,7 @@ workflows:
   version: 2.1
   test:
     jobs:
-      # By default CircleCI runs jobs on all branches but no tags. 
+      # By default CircleCI runs jobs on all branches but no tags.
       # We need a filter to ensure jobs run on all tags starting with v.
       - precommit:
           filters:
