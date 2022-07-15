@@ -2,7 +2,7 @@
 # Set some variables that are used by the upgrade test runner (run-go-tests), passing in
 # these variables as overrides with --extra-flags and -ldflags.
 
-DEFAULT_BRANCH="main"
+DEFAULT_BRANCH="origin/HEAD"
 
 # Call gh to get the base ref that we should run our upgrade tests against.
 baseRef=""
