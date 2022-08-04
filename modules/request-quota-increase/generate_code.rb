@@ -1,11 +1,15 @@
-#################################################################
+##############################################################################
 # REQUEST QUOTA INCREASE CODE GENERATOR
-# This script generates the code for add more resources into the
-# module. It only generates the code for the resources that
-# 'Adjustable' is true.
+# In order to increase a service quota, AWS requires you to pass in special
+# codes. There is no central place where these are all defined, and we included
+# some of these in the request-quota-increase module, but to add others, this
+# service can be used on a service-by-service basis.
+# This script will generate the Terraform code so you can add more resources in
+# the module. It can only generate the code for the resources that 'Adjustable'
+# is true.
 # Usage:
 # ruby generate_code.rb <SERVICE> <REGION>
-#################################################################
+##############################################################################
 
 require 'json'
 
