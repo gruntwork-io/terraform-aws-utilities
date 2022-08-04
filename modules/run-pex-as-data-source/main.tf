@@ -6,24 +6,21 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 terraform {
-  # This module is now only being tested with Terraform 0.13.x. However, to make upgrading easier, we are setting
-  # 0.12.26 as the minimum version, as that version added support for required_providers with source URLs, making it
-  # forwards compatible with 0.13.x code.
-  required_version = ">= 0.12.26"
+  # This module is now only being tested with Terraform 1.1.x. However, to make upgrading easier, we are setting 1.0.0 as the minimum version.
+  required_version = ">= 1.0.0"
 }
 
 module "pex_env" {
-  source                 = "../prepare-pex-environment"
-  python2_pex_path_parts = var.python2_pex_path_parts
-  python3_pex_path_parts = var.python3_pex_path_parts
-  pex_module_path_parts  = var.pex_module_path_parts
+  source                = "../prepare-pex-environment"
+  python_pex_path_parts = var.python_pex_path_parts
+  pex_module_path_parts = var.pex_module_path_parts
 }
 
 data "external" "pex" {
   count = var.enabled ? 1 : 0
 
   program = [
-    "python",
+    "python3",
     "-c",
 
     # Since an external data source is not run through a shell, we can't set the PYTHONPATH through terraform, so we
@@ -41,7 +38,7 @@ data "external" "pex" {
     env["PYTHONPATH"] = r"${module.pex_env.python_path}"
     subprocess.check_call(
       [
-        "python",
+        "python3",
         r"${module.pex_env.pex_path}",
         r"${module.pex_env.entrypoint_path}",
         r"${var.script_main_function}",

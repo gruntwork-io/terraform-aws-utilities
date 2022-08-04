@@ -26,7 +26,7 @@ check if `go` is installed based on the condition `validate_go`. You can achieve
 
 ```hcl
 module "require_executables" {
-  source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/require-executable?ref=v1.0.8"
+  source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/require-executable?ref=v1.0.8"
   required_executables = ["${var.validate_go ? "go" : ""}"]
 }
 ```

@@ -4,7 +4,7 @@ Script to ensure the provided list of executables exist on the OS PATH.
 This script should:
 
 - Be platform independent (work with Windows, Linux, and Mac OS X).
-- Be python version independent (should support python 2.7 and python 3.5+).
+- Be python version independent (should support python 3.5+).
 - Have no external dependencies (should only use functions from stdlib).
 - Be compatible with Terraform external data source (should read in input from stdin, and read out output to stdout as a
   json).

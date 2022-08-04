@@ -20,11 +20,11 @@ See the [instance-type example](/examples/instance-type) for working sample code
 ## Usage
 
 Use the module in your Terraform code, replacing `<VERSION>` with the latest version from the [releases
-page](https://github.com/gruntwork-io/package-terraform-utilities/releases):
+page](https://github.com/gruntwork-io/terraform-aws-utilities/releases):
 
 ```hcl
 module "path" {
-  source = "git::git@github.com:gruntwork-io/package-terraform-utilities.git//modules/instance-type?ref=<VERSION>"
+  source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/instance-type?ref=<VERSION>"
   
   instance_types = ["t2.micro", "t3.micro"]
 }

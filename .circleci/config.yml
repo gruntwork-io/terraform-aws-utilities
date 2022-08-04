@@ -1,81 +1,135 @@
-version: 2.0
-defaults: &defaults
-  machine:
-    image: ubuntu-1604:201903-01
-
+version: 2.1
 env: &env
   environment:
-    MODULE_CI_VERSION: v0.29.5
-    TERRATEST_LOG_PARSER_VERSION: v0.30.3
-    GRUNTWORK_INSTALLER_VERSION: v0.0.30
-    TERRAFORM_VERSION: 0.13.2
-    TERRAGRUNT_VERSION: NONE
-    GO_VERSION: 1.14
-
-jobs:
-  test aws:
-    <<: *defaults
-    <<: *env
+    GO111MODULE: auto
+    UPGRADE_TEST_LOG_FOLDER: /tmp/logs
+    # The GOPRIVATE environment variable controls which modules the go command considers to be private
+    # (not available publicly) and should therefore not use the proxy or checksum database.
+    # Without this, tests fail with a "410 Gone" error
+    GOPRIVATE: github.com/gruntwork-io
+defaults: &defaults
+  docker:
+    - image: 087285199408.dkr.ecr.us-east-1.amazonaws.com/circle-ci-test-image-base:go1.17-tf1.2-tg37.4-pck1.8-ci50.1
+  <<: *env
+run_precommit: &run_precommit
+  # Fail the build if the pre-commit hooks don't pass. Note: if you run $ pre-commit install locally within this repo, these hooks will
+  # execute automatically every time before you commit, ensuring the build never fails at this step!
+  name: run pre-commit hooks
+  command: |
+    pre-commit install
+    pre-commit run --all-files
+auth_gh_cli: &auth_gh_cli
+  name: Authenticate gh CLI
+  command: |
+    echo 'export GITHUB_TOKEN="$GITHUB_OAUTH_TOKEN"' >> $BASH_ENV
+# ---------------------------------------------------------------------------------------------------------------------
+# REUSABLE STEPS
+# ---------------------------------------------------------------------------------------------------------------------
+commands:
+  store_results:
+    description: Store test results for easy viewing.
     steps:
-      - checkout
-      - run: &install_gruntwork_tooling
-          name: install gruntwork tooling
-          command: |
-            sudo apt-get -y update
-            curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version "${GRUNTWORK_INSTALLER_VERSION}"
-            gruntwork-install --module-name "gruntwork-module-circleci-helpers" --repo "https://github.com/gruntwork-io/module-ci" --tag "${MODULE_CI_VERSION}"
-            gruntwork-install --binary-name "terratest_log_parser" --repo "https://github.com/gruntwork-io/terratest" --tag "${TERRATEST_LOG_PARSER_VERSION}"
-            configure-environment-for-gruntwork-module \
-              --go-src-path ./test \
-              --go-version ${GO_VERSION} \
-              --terragrunt-version "${TERRAGRUNT_VERSION}" \
-              --terraform-version "${TERRAFORM_VERSION}"
-      # Run pre-commit hooks and fail the build if any hook finds required changes.
       - run:
-          name: run precommit
-          command: |
-            # Oct 26, 2019: Install the last known working version of pre-commit. Also, we have to pin the version of
-            # transitive dependencies that are being pulled in which released new versions that are no longer compatible
-            # with any python < 3.6.
-            pyenv global 3.5.2
-            pip install --upgrade pip
-            pip install pre-commit==1.21.0 cfgv==2.0.1 zipp==1.1.0
-            pre-commit install
-            pre-commit run --all-files
-      - run:
-          # We need to ensure compatibility with both versions of python
-          name: run tests (with python2)
-          command: |
-            mkdir -p /tmp/logs/python2
-            echo "Using python 2"
-            pyenv global 2.7.12
-            python --version
-            run-go-tests --path test | tee /tmp/logs/python2/all.log
-      - run:
-          name: run tests (with python3)
-          command: |
-            mkdir -p /tmp/logs/python3
-            echo "Using python 3"
-            pyenv global 3.5.2
-            python --version
-            # We are rerunning the same test with python3, so clear go test cache
-            go clean -testcache
-            run-go-tests --path test | tee /tmp/logs/python3/all.log
-      - run:
-          command: |
-            terratest_log_parser --testlog /tmp/logs/python2/all.log --outputdir /tmp/logs/python2
-            terratest_log_parser --testlog /tmp/logs/python3/all.log --outputdir /tmp/logs/python3
-
+          command: terratest_log_parser --testlog /tmp/logs/all.log --outputdir /tmp/logs
           when: always
       - store_artifacts:
           path: /tmp/logs
       - store_test_results:
           path: /tmp/logs
+#----------------------------------------------------------------------------------------------------------------------
+# BUILD JOBS
+#----------------------------------------------------------------------------------------------------------------------
+jobs:
+  precommit:
+    <<: *defaults
+    steps:
+      - checkout
+      # Fail the build if the pre-commit hooks don't pass. Note: if you run pre-commit install locally, these hooks will
+      # execute automatically every time before you commit, ensuring the build never fails at this step!
+      - run:
+          <<: *run_precommit
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          # These tests include an Elasticsearch cluster which can be VERY slow to create/delete, so we massively increase
+          # the test timeout to ensure cleanup jobs run correctly.
+          # Also specify a CircleCI timeout of 5400 seconds (90m)
+          name: run tests
+          command: |
+            mkdir -p /tmp/logs
+            # Believe it or not, we've seen the tee command fail when we have too much logging all happening at once.
+            # To ensure that tee failing doesn't cause the whole test suite to fail, we add an || true.
+            run-go-tests --path ./test --timeout 2h --packages . | (tee /tmp/logs/all.log || true)
+          no_output_timeout: 5400s
+      - store_results
+  upgrade_test:
+    description: Run upgrades and post the results on the PR.
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          <<: *auth_gh_cli
+      - run:
+          name: Set environment variables for use in the upgrade test step.
+          command: |
+            # Set the UPGRADE_TEST_BASE_REF, UPGRADE_TEST_TF_BASE_VERSION, UPGRADE_TEST_TF_TARGET_VERSION env vars.
+            ./.circleci/set-upgrade-test-vars.sh
+      - run:
+          name: Run upgrade tests
+          command: |
+            mkdir -p /tmp/logs
+            # Pre-install terraform versions used in the test, before the tests run, to avoid installation racing.
+            tfenv install $UPGRADE_TEST_TF_BASE_VERSION
+            tfenv install $UPGRADE_TEST_TF_TARGET_VERSION
+            # Believe it or not, we've seen the tee command fail when we have too much logging all happening at once.
+            # To ensure that tee failing doesn't cause the whole test suite to fail, we add an || true.
+            run-go-tests \
+              --path ./test/upgrades \
+              --timeout 1h \
+              --extra-flags "-ldflags '-X github.com/gruntwork-io/module-ci/test/upgrades.BaseRef=$UPGRADE_TEST_BASE_REF -X github.com/gruntwork-io/module-ci/test/upgrades.TFBaseVersion=$UPGRADE_TEST_TF_BASE_VERSION -X github.com/gruntwork-io/module-ci/test/upgrades.TFTargetVersion=$UPGRADE_TEST_TF_TARGET_VERSION'" \
+              | (tee /tmp/logs/all.log || true)
+          no_output_timeout: 3600s
+      - store_results
+      - run:
+          name: Post upgrade test results
+          command: ./.circleci/post-upgrade-test-results.sh
+          when: always
+#----------------------------------------------------------------------------------------------------------------------
+# WORKFLOWS
+#----------------------------------------------------------------------------------------------------------------------
 workflows:
-  version: 2
-  build-and-test:
+  version: 2.1
+  test:
     jobs:
-      - test aws:
+      # By default CircleCI runs jobs on all branches but no tags.
+      # We need a filter to ensure jobs run on all tags starting with v.
+      - precommit:
+          filters:
+            tags:
+              only: /^v.*/
+          context:
+            - Gruntwork Admin
+      - test:
+          requires:
+            - precommit
+          filters:
+            tags:
+              only: /^v.*/
+          context:
+            - Gruntwork Admin
+  upgrade-test:
+    jobs:
+      - precommit:
+          filters:
+            tags:
+              only: /^v.*/
+          context:
+            - Gruntwork Admin
+      - upgrade_test:
+          requires:
+            - precommit
           filters:
             tags:
               only: /^v.*/

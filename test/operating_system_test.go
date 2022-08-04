@@ -1,10 +1,11 @@
 package test
 
 import (
-	"github.com/gruntwork-io/terratest/modules/terraform"
 	"runtime"
 	"strings"
 	"testing"
+
+	"github.com/gruntwork-io/terratest/modules/terraform"
 )
 
 func TestOperatingSystem(t *testing.T) {
