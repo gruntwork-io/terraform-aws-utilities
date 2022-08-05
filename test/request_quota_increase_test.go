@@ -49,12 +49,10 @@ type (
 func TestRequestQuotaIncrease(t *testing.T) {
 	t.Parallel()
 
-	awsRegion := aws.GetRandomRegion(t, nil, nil)
-
 	terraformOptions := &terraform.Options{
 		TerraformDir: "../examples/request-quota-increase",
 		Vars: map[string]interface{}{
-			"aws_region": awsRegion,
+			"aws_region": "us-east-1",
 		},
 	}
 
