@@ -14,7 +14,7 @@ type (
 	}
 	QuotaIncreaseOutput struct {
 		VpcActiveVpcPeeringConnectionsPerVpc       QuotaAndServiceName `json:"vpc_active_vpc_peering_connections_per_vpc"`
-		VpcEgressOnlyInternetGatewaysPerRegion     QuotaAndServiceName `json:"vpc_egress-only_internet_gateways_per_region"`
+		VpcEgressOnlyInternetGatewaysPerRegion     QuotaAndServiceName `json:"vpc_egress_only_internet_gateways_per_region"`
 		VpcGatewayVpcEndpointsPerRegion            QuotaAndServiceName `json:"vpc_gateway_vpc_endpoints_per_region"`
 		VpcIpv4CidrBlocksPerVpc                    QuotaAndServiceName `json:"vpc_ipv4_cidr_blocks_per_vpc"`
 		VpcInboundOrOutboundRulesPerSecurityGroup  QuotaAndServiceName `json:"vpc_inbound_or_outbound_rules_per_security_group"`
