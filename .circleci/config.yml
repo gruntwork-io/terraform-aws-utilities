@@ -1,119 +1,21 @@
 version: 2.1
-env: &env
-  environment:
-    GO111MODULE: auto
-    UPGRADE_TEST_LOG_FOLDER: /tmp/logs
-    # The GOPRIVATE environment variable controls which modules the go command considers to be private
-    # (not available publicly) and should therefore not use the proxy or checksum database.
-    # Without this, tests fail with a "410 Gone" error
-    GOPRIVATE: github.com/gruntwork-io
-defaults: &defaults
-  docker:
-    - image: 087285199408.dkr.ecr.us-east-1.amazonaws.com/circle-ci-test-image-base:go1.17-tf1.2-tg37.4-pck1.8-ci50.1
-  <<: *env
-run_precommit: &run_precommit
-  # Fail the build if the pre-commit hooks don't pass. Note: if you run $ pre-commit install locally within this repo, these hooks will
-  # execute automatically every time before you commit, ensuring the build never fails at this step!
-  name: run pre-commit hooks
-  command: |
-    pre-commit install
-    pre-commit run --all-files
-auth_gh_cli: &auth_gh_cli
-  name: Authenticate gh CLI
-  command: |
-    echo 'export GITHUB_TOKEN="$GITHUB_OAUTH_TOKEN"' >> $BASH_ENV
-# ---------------------------------------------------------------------------------------------------------------------
-# REUSABLE STEPS
-# ---------------------------------------------------------------------------------------------------------------------
-commands:
-  store_results:
-    description: Store test results for easy viewing.
-    steps:
-      - run:
-          command: terratest_log_parser --testlog /tmp/logs/all.log --outputdir /tmp/logs
-          when: always
-      - store_artifacts:
-          path: /tmp/logs
-      - store_test_results:
-          path: /tmp/logs
-#----------------------------------------------------------------------------------------------------------------------
-# BUILD JOBS
-#----------------------------------------------------------------------------------------------------------------------
-jobs:
-  precommit:
-    <<: *defaults
-    steps:
-      - checkout
-      # Fail the build if the pre-commit hooks don't pass. Note: if you run pre-commit install locally, these hooks will
-      # execute automatically every time before you commit, ensuring the build never fails at this step!
-      - run:
-          <<: *run_precommit
-  test:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          # These tests include an Elasticsearch cluster which can be VERY slow to create/delete, so we massively increase
-          # the test timeout to ensure cleanup jobs run correctly.
-          # Also specify a CircleCI timeout of 5400 seconds (90m)
-          name: run tests
-          command: |
-            mkdir -p /tmp/logs
-            # Believe it or not, we've seen the tee command fail when we have too much logging all happening at once.
-            # To ensure that tee failing doesn't cause the whole test suite to fail, we add an || true.
-            run-go-tests --path ./test --timeout 2h --packages . | (tee /tmp/logs/all.log || true)
-          no_output_timeout: 5400s
-      - store_results
-  upgrade_test:
-    description: Run upgrades and post the results on the PR.
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          <<: *auth_gh_cli
-      - run:
-          name: Set environment variables for use in the upgrade test step.
-          command: |
-            # Set the UPGRADE_TEST_BASE_REF, UPGRADE_TEST_TF_BASE_VERSION, UPGRADE_TEST_TF_TARGET_VERSION env vars.
-            ./.circleci/set-upgrade-test-vars.sh
-      - run:
-          name: Run upgrade tests
-          command: |
-            mkdir -p /tmp/logs
-            # Pre-install terraform versions used in the test, before the tests run, to avoid installation racing.
-            tfenv install $UPGRADE_TEST_TF_BASE_VERSION
-            tfenv install $UPGRADE_TEST_TF_TARGET_VERSION
-            # Believe it or not, we've seen the tee command fail when we have too much logging all happening at once.
-            # To ensure that tee failing doesn't cause the whole test suite to fail, we add an || true.
-            run-go-tests \
-              --path ./test/upgrades \
-              --timeout 1h \
-              --extra-flags "-ldflags '-X github.com/gruntwork-io/module-ci/test/upgrades.BaseRef=$UPGRADE_TEST_BASE_REF -X github.com/gruntwork-io/module-ci/test/upgrades.TFBaseVersion=$UPGRADE_TEST_TF_BASE_VERSION -X github.com/gruntwork-io/module-ci/test/upgrades.TFTargetVersion=$UPGRADE_TEST_TF_TARGET_VERSION'" \
-              | (tee /tmp/logs/all.log || true)
-          no_output_timeout: 3600s
-      - store_results
-      - run:
-          name: Post upgrade test results
-          command: ./.circleci/post-upgrade-test-results.sh
-          when: always
-#----------------------------------------------------------------------------------------------------------------------
-# WORKFLOWS
-#----------------------------------------------------------------------------------------------------------------------
+orbs:
+  gruntwork: gruntwork-io/iac-lib-tests@0.0.1
 workflows:
   version: 2.1
   test:
     jobs:
       # By default CircleCI runs jobs on all branches but no tags.
       # We need a filter to ensure jobs run on all tags starting with v.
-      - precommit:
+      - gruntwork/precommit:
           filters:
             tags:
               only: /^v.*/
           context:
             - Gruntwork Admin
-      - test:
+      - gruntwork/test:
           requires:
-            - precommit
+            - gruntwork/precommit
           filters:
             tags:
               only: /^v.*/
@@ -121,15 +23,15 @@ workflows:
             - Gruntwork Admin
   upgrade-test:
     jobs:
-      - precommit:
+      - gruntwork/precommit:
           filters:
             tags:
               only: /^v.*/
           context:
             - Gruntwork Admin
-      - upgrade_test:
+      - gruntwork/upgrade-test:
           requires:
-            - precommit
+            - gruntwork/precommit
           filters:
             tags:
               only: /^v.*/
