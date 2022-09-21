@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  gruntwork: gruntwork-io/iac-lib-tests@0.0.1
+  gruntwork: gruntwork/iac-lib-tests@0.0.1
 workflows:
   version: 2.1
   test:
