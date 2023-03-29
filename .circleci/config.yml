@@ -110,7 +110,8 @@ workflows:
             tags:
               only: /^v.*/
           context:
-            - Gruntwork Admin
+            - AWS__PHXDEVOPS__circle-ci-test
+            - GITHUB__PAT__gruntwork-ci
       - test:
           requires:
             - precommit
@@ -118,7 +119,8 @@ workflows:
             tags:
               only: /^v.*/
           context:
-            - Gruntwork Admin
+            - AWS__PHXDEVOPS__circle-ci-test
+            - GITHUB__PAT__gruntwork-ci
   upgrade-test:
     jobs:
       - precommit:
@@ -126,7 +128,8 @@ workflows:
             tags:
               only: /^v.*/
           context:
-            - Gruntwork Admin
+            - AWS__PHXDEVOPS__circle-ci-test
+            - GITHUB__PAT__gruntwork-ci
       - upgrade_test:
           requires:
             - precommit
@@ -134,4 +137,5 @@ workflows:
             tags:
               only: /^v.*/
           context:
-            - Gruntwork Admin
+            - AWS__PHXDEVOPS__circle-ci-test
+            - GITHUB__PAT__gruntwork-ci
