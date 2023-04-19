@@ -17,11 +17,10 @@ and does not include the script. If you run it directly, you will be dropped int
 that you can import the requirements. If you would like to run the script directly, you must call it from the PEX:
 
 ```bash
-python ./sample-python-script/bin/sample_python_script_py27_env.pex ./sample-python-script/sample_python_script/main.py
+python ./sample-python-script/bin/sample_python_script_py3_env.pex ./sample-python-script/sample_python_script/main.py
 ```
 
-Note that the PEX is versioned by python version (py27 or py3). The py27 PEX only works with python 2.7, while the py3
-PEX will work with python versions 3.5, 3.6, and 3.7.
+Note that the provided py3 PEX will work with python versions 3.8-3.11.
 
 ### Building the PEX
 
@@ -30,16 +29,22 @@ of python, you must have each version of python installed. It is recommended to 
 [`pyenv`](https://github.com/pyenv/pyenv) to help setup an environment with multiple python interpreters.
 
 For convenience, a build script with a local pyenv version (a `.python-version` file) is provided. To use the build
-script, first install all necessary versions of python with pyenv:
+script, it is recommended to use [`pyenv`](https://github.com/pyenv/pyenv) to help setup multiple python interpreters. To install all necessary versions of python with pyenv:
 
 ```bash
-pyenv install 2.7.12
-pyenv install 3.5.2
-pyenv install 3.6.6
-pyenv install 3.7.0
+pyenv install 3.8.0
+pyenv install 3.9.0
+pyenv install 3.10.0
+pyenv install 3.11.0
 ```
 
-Once the python versions are installed, change your working directory to the `build_scripts` directory:
+After installing, you can use them to prepare for building:
+
+```bash
+pyenv shell 3.8.0 3.9.0 3.10.0 3.11.0
+```
+
+Once the python environment(s) are active, change your working directory to the `build_scripts` directory:
 
 ```bash
 # From the repo root
@@ -53,10 +58,6 @@ Finally, run the build script:
 ```
 
 This will build the PEX binary files for each python version and put it in the `bin` directory.
-
-**NOTE**: Although the build script only supports Unix environments, the PEX that it creates is compatible with Windows
-environments.
-
 
 ## How do you run these examples?
 
