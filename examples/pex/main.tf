@@ -21,7 +21,7 @@ module "pex_resource" {
   # Path components to each of the PEX binary
   python_pex_path_parts = [
     path.module,
-    "sample-python-script",
+    "pex-env",
     "bin",
     "sample_python_script_py3_env.pex",
   ]
@@ -29,7 +29,6 @@ module "pex_resource" {
   # Path components to the folder that holds the python modules for sample_python_script
   pex_module_path_parts = [
     path.module,
-    "sample-python-script",
   ]
 
   # The entrypoint of the sample_python_script, encoded as MODULE:FUNCTION
@@ -55,7 +54,7 @@ module "pex_data" {
   # Path components to each of the PEX binary
   python_pex_path_parts = [
     path.module,
-    "sample-python-script",
+    "pex-env",
     "bin",
     "sample_python_script_py3_env.pex",
   ]
@@ -63,7 +62,6 @@ module "pex_data" {
   # Path components to the folder that holds the python modules for sample_python_script
   pex_module_path_parts = [
     path.module,
-    "sample-python-script",
   ]
 
   # The entrypoint of the sample_python_script, encoded as MODULE:FUNCTION
