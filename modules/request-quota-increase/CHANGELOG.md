@@ -1,5 +1,10 @@
 # Changelog request-quota-increase
 
+## [v0.9.3](https://github.com/gruntwork-io/terraform-aws-utilities/releases/tag/v0.9.3) - 2023-08-18
+
+### Changed
+- No changes, safe to bump
+
 ## [v0.9.2](https://github.com/gruntwork-io/terraform-aws-utilities/releases/tag/v0.9.2) - 2023-06-01
 
 ### Changed
