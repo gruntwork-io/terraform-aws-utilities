@@ -1,6 +1,22 @@
 # Changelog request-quota-increase
 
-## [v0.9.0](https://github.com/gruntwork-io/terraform-aws-utilities/releases/tag/v0.9.0) - 2022-06-21
+## [v0.9.2](https://github.com/gruntwork-io/terraform-aws-utilities/releases/tag/v0.9.2) - 2023-06-01
+
+### Changed
+- No breaking changes, safe to bump
+
+### Description
+- Restrict AWS provider version `>= 3.75.1, < 5.0.0`
+
+### Related Links
+- https://github.com/gruntwork-io/terraform-aws-utilities/pull/80
+
+## [v0.9.1](https://github.com/gruntwork-io/terraform-aws-utilities/releases/tag/v0.9.1) - 2023-03-06
+
+### Changed
+- No changes, safe to bump
+
+## [v0.9.0](https://github.com/gruntwork-io/terraform-aws-utilities/releases/tag/v0.9.0) - 2022-06-20
 
 ### Changed
 - Breaking changes
