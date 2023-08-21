@@ -11,7 +11,7 @@
 - No breaking changes, safe to bump
 
 ### Description
-- Restrict AWS provider version `>= 3.75.1, < 5.0.0`
+- Restrict AWS provider version `>= 3.75.1, < 6.0.0`
 
 ### Related Links
 - https://github.com/gruntwork-io/terraform-aws-utilities/pull/80
