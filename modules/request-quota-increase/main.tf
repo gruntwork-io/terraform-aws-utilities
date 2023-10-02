@@ -3,7 +3,7 @@ terraform {
   # Going forward we will be adding support for OpenTofu. For additional information on OpenTofu please 
   # see the official OpenTofu website at https://opentofu.org/.
   required_version = ">= 1.0.0, <= 1.5.7"
-  
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
