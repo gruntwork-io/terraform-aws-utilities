@@ -9,8 +9,8 @@ This repo contains miscellaneous utility and helper modules for use with Terrafo
 ## Information on HashiCorp BSL License Change
 
 Due to the HashiCorp BSL license change, we are restricting Terraform to the latest open source version (`1.5.7`). 
-Going forward we will be adding support for OpenTofu. For additional information on OpenTofu please see the 
-[official website](https://opentofu.org/).
+Going forward we will be adding support for OpenTofu. To learn more, see the official [OpenTofu website](https://opentofu.org/) 
+and [project status](https://github.com/opentofu/opentofu/blob/main/WEEKLY_UPDATES.md).
 
 ## What is in this repo
 
