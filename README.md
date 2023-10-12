@@ -1,16 +1,10 @@
 [![Maintained by Gruntwork.io](https://img.shields.io/badge/maintained%20by-gruntwork.io-%235849a6.svg)](https://gruntwork.io/?ref=repo_package_terraform_utilities)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/gruntwork-io/terraform-aws-utilities.svg?label=latest)](https://github.com/gruntwork-io/terraform-aws-utilities/releases/latest)
-![Terraform Version](https://img.shields.io/badge/tf-%3E%3D1.1.0%3C%2C%20%3C%3D1.5.7-blue.svg)
+![Terraform Version](https://img.shields.io/badge/tf-%3E%3D1.1.0-blue.svg)
 
 # Terraform Utility Modules
 
 This repo contains miscellaneous utility and helper modules for use with Terraform.
-
-## Information on HashiCorp BSL License Change
-
-Due to the HashiCorp BSL license change, we are restricting Terraform to the latest open source version (`1.5.7`). 
-Going forward we will be adding support for OpenTofu. To learn more, see the official [OpenTofu website](https://opentofu.org/) 
-and [project status](https://github.com/opentofu/opentofu/blob/main/WEEKLY_UPDATES.md).
 
 ## What is in this repo
 
