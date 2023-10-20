@@ -16,7 +16,7 @@ else
 fi
 
 # Set these variables so that the CI server pre-installs these versions before the upgrade tests run.
-tfBaseVersion="latest:^1.0"
-tfTargetVersion="latest:^1.2"
+tfBaseVersion="latest:^1.2"
+tfTargetVersion="latest:^1.3"
 echo "export UPGRADE_TEST_TF_BASE_VERSION=$tfBaseVersion" >> $BASH_ENV
 echo "export UPGRADE_TEST_TF_TARGET_VERSION=$tfTargetVersion" >> $BASH_ENV

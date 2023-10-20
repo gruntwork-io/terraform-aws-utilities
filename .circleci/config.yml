@@ -9,7 +9,7 @@ env: &env
     GOPRIVATE: github.com/gruntwork-io
 defaults: &defaults
   docker:
-    - image: 087285199408.dkr.ecr.us-east-1.amazonaws.com/circle-ci-test-image-base:go1.17-tf1.2-tg37.4-pck1.8-ci50.1
+    - image: 087285199408.dkr.ecr.us-east-1.amazonaws.com/circle-ci-test-image-base:go1.21-tf1.5-tg39.1-pck1.8-ci50.7
   <<: *env
 run_precommit: &run_precommit
   # Fail the build if the pre-commit hooks don't pass. Note: if you run $ pre-commit install locally within this repo, these hooks will
