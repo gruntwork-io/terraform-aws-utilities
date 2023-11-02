@@ -11,6 +11,10 @@ defaults: &defaults
   docker:
     - image: 087285199408.dkr.ecr.us-east-1.amazonaws.com/circle-ci-test-image-base:go1.21-tf1.5-tg39.1-pck1.8-ci50.7
   <<: *env
+terrascan: &terrascan
+  docker:
+    - image: "tenable/terrascan:1.18.3"
+  <<: *env
 run_precommit: &run_precommit
   # Fail the build if the pre-commit hooks don't pass. Note: if you run $ pre-commit install locally within this repo, these hooks will
   # execute automatically every time before you commit, ensuring the build never fails at this step!
@@ -64,6 +68,18 @@ jobs:
             run-go-tests --path ./test --timeout 2h --packages . | (tee /tmp/logs/all.log || true)
           no_output_timeout: 5400s
       - store_results
+  terrascan:
+    description: Run Terrascan
+    <<: *terrascan
+    steps:
+      - checkout
+      - run:
+          name: Run terrascan
+          command: |
+            # We only want to fail on violations, so we need to ignore exit code 4
+            # See https://runterrascan.io/docs/_print/#configuring-the-output-format-for-a-scan for information on terrascan exit codes.
+            terrascan scan -d ./modules --output json || (ec=$?; if [[ $ec = 4 ]]; then exit 0; else exit $ec; fi;)
+          no_output_timeout: 3600s
   upgrade_test:
     description: Run upgrades and post the results on the PR.
     <<: *defaults
@@ -113,6 +129,24 @@ workflows:
             - AWS__PHXDEVOPS__circle-ci-test
             - GITHUB__PAT__gruntwork-ci
       - test:
+          requires:
+            - precommit
+          filters:
+            tags:
+              only: /^v.*/
+          context:
+            - AWS__PHXDEVOPS__circle-ci-test
+            - GITHUB__PAT__gruntwork-ci
+  scan:
+    jobs:
+      - precommit:
+          filters:
+            tags:
+              only: /^v.*/
+          context:
+            - AWS__PHXDEVOPS__circle-ci-test
+            - GITHUB__PAT__gruntwork-ci
+      - terrascan:
           requires:
             - precommit
           filters:
