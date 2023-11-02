@@ -68,7 +68,7 @@ jobs:
             run-go-tests --path ./test --timeout 2h --packages . | (tee /tmp/logs/all.log || true)
           no_output_timeout: 5400s
       - store_results
-  scan:
+  terrascan:
     description: Run Terrascan
     <<: *terrascan
     steps:
@@ -146,7 +146,7 @@ workflows:
           context:
             - AWS__PHXDEVOPS__circle-ci-test
             - GITHUB__PAT__gruntwork-ci
-      - scan:
+      - terrascan:
           requires:
             - precommit
           filters:
