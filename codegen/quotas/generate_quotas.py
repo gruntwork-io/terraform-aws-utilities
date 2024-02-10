@@ -40,11 +40,11 @@ def list_quotas_for_service(service_code):
     """List the quotas for a given service by its service code."""
     print(f"Fetching quotas for service {service_code}")
     quotas = []
-    response = client.list_service_quotas(ServiceCode=service_code)
+    response = client.list_aws_default_service_quotas(ServiceCode=service_code)
     quotas.extend(response["Quotas"])
     while "NextToken" in response:
         time.sleep(0.3)  # Delay to respect rate limits
-        response = client.list_service_quotas(
+        response = client.list_aws_default_service_quotas(
             ServiceCode=service_code, NextToken=response["NextToken"]
         )
         quotas.extend(response["Quotas"])
