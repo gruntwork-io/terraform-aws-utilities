@@ -4,13 +4,15 @@ This module can be used to request a quota increase for an AWS Resource.
 
 ## Features
 
-- Request a quota increase for Network ACL Rules and NAT Gateway.
+- Request a quota increase for any AWS resource.
 
 ## Learn
 
 ### Core Concepts
 
 - [AWS Service Quotas Documentation](https://docs.aws.amazon.com/servicequotas/?id=docs_gateway)
+- [Generated AWS Service Quotas](../../docs/quotas.md)
+- [AWS Service Quotas Generator](../../codegen/quotas/)
 
 
 ### Example code
@@ -28,23 +30,30 @@ page](https://github.com/gruntwork-io/terraform-aws-utilities/releases):
 module "path" {
   source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/quota-increase?ref=<VERSION>"
 
-    request_quota_increase = {
-      nat_gateway = 40,
-      nacl_rules = 25
-    }
+  request_quota_increase = {
+    NAT_GW_PER_AZ = {
+      service_code    = "vpc"
+      quota_code      = "L-FE5A380F"
+      desired_quota   = 40
+    },
+    RULES_PER_ACL = {
+      service_code    = "vpc"
+      quota_code      = "L-2AEEBF1A"
+      desired_quota   = 70
+    },
+  }
 }
 ```
 
 The argument to pass is:
 
-* `request_quota_increase`: A map with the desired resource and the new quota. The current supported resources are `nat_gateway` and `nacl_rules`. Feel free to contribute to this module to add support for more `quota_code` and `service_code` options in [main.tf](main.tf)!
-
+* `request_quota_increase`: A map where the key is a descriptive name for the resource and the value is the quota code and the desired quota. You can check adjustable quotas [here](../../docs/quotas.md).
 
 When you run `apply`, the `new_quotas` output variable will confirm to you that a quota request has been made!
 
 ```hcl
 new_quotas = {
-  "nat_gateway" = {
+  "NAT_GW_PER_AZ" = {
     "adjustable" = true
     "arn" = "arn:aws:servicequotas:us-east-1:<account-id>:vpc/L-FE5A380F"
     "default_value" = 5
@@ -72,7 +81,10 @@ aws service-quotas list-requested-service-quota-change-history --region <REGION>
 
 ### Finding out the Service Code and Quota Code
 
-When you need to add a new resource, you can check the available services with
+You can check adjustable quotas [here](../../docs/quotas.md).
+
+
+Alternatively, you can check the available services with
 
 ```
 aws service-quotas list-services --region <REGION> --output table
@@ -93,7 +105,7 @@ quota is 30 and you ask for a new quota of 25, this is the output:
 
 ```hcl
 new_quotas = {
-  "nat_gateway" = {
+  "NAT_GW_PER_AZ" = {
     "adjustable" = true
       "arn" = "arn:aws:servicequotas:us-east-1:<account-id>:vpc/L-FE5A380F"
       "default_value" = 5

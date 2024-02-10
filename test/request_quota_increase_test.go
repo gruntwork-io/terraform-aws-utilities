@@ -14,8 +14,8 @@ type (
 		ServiceName string `json:"service_name"`
 	}
 	QuotaIncreaseOutput struct {
-		NatGateway QuotaAndServiceName `json:"nat_gateway"`
-		NaclRules  QuotaAndServiceName `json:"nacl_rules"`
+		NatGateway QuotaAndServiceName `json:"NAT_GW_PER_AZ"`
+		NaclRules  QuotaAndServiceName `json:"RULES_PER_ACL"`
 	}
 )
 
