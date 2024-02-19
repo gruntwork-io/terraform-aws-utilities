@@ -1,6 +1,6 @@
 # AWS Service Quotas Generator
 
-This Python script generates a markdown document containing a comprehensive list of all adjustable AWS service quotas. The document includes the service name, service code, quota code, quota name and quota value. This tool is designed to help users easily track service quotas for better resource management and planning.
+This Python script is used to generate Terraform files for managing AWS service quota requests. It interacts with the AWS Service Quotas API and fetches information about the quotas for different services. The script then generates Terraform code based on this information and writes it to (`main.tf` and `variables.tf`) files.
 
 Note that generating the quotas could be time consuming as the script honors the API limits for the used AWS APIs.
 
@@ -24,10 +24,10 @@ pip install -r requirements.txt
 The script accepts the following command line arguments:
 
 - `--region` (optional): Specify the AWS region to query service quotas for. Defaults to `us-east-1`.
-- `--output` (optional): Specify the output markdown file path for the quotas. Defaults to `../../docs/quotas.md`.
+- `--outdir` (optional): Output directory for the resulting terraform files. Defaults to `../../modules/request-quota-increase`.
 
 ### Running the Script
-To run the script with default settings (region `us-east-1` and output `../../docs/quotas.md`):
+To run the script with default settings (region `us-east-1` and output `../../modules/request-quota-increase`):
 
 ```
 python generate_quotas.py
@@ -36,6 +36,6 @@ python generate_quotas.py
 To specify a different region and output file:
 
 ```
-python generate_quotas.py --region us-west-2 --output "./path/to/your/output.md"
+python generate_quotas.py --region us-west-2 --outdir "./path/to/your/dir"
 
 ```

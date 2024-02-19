@@ -11,11 +11,13 @@ import (
 type (
 	QuotaAndServiceName struct {
 		QuotaName   string `json:"quota_name"`
+		QuotaCode   string `json:"quota_code"`
 		ServiceName string `json:"service_name"`
+		ServiceCode string `json:"service_code"`
 	}
 	QuotaIncreaseOutput struct {
-		NatGateway QuotaAndServiceName `json:"NAT_GW_PER_AZ"`
-		NaclRules  QuotaAndServiceName `json:"RULES_PER_ACL"`
+		NatGateway QuotaAndServiceName `json:"vpc_nat_gateways_per_availability_zone"`
+		NaclRules  QuotaAndServiceName `json:"vpc_rules_per_network_acl"`
 	}
 )
 
@@ -40,7 +42,11 @@ func TestRequestQuotaIncrease(t *testing.T) {
 
 	assert.Equal(t, output.NatGateway.QuotaName, "NAT gateways per Availability Zone")
 	assert.Equal(t, output.NatGateway.ServiceName, "Amazon Virtual Private Cloud (Amazon VPC)")
+	assert.Equal(t, output.NatGateway.ServiceCode, "vpc")
+	assert.Equal(t, output.NatGateway.QuotaCode, "L-FE5A380F")
 
 	assert.Equal(t, output.NaclRules.QuotaName, "Rules per network ACL")
 	assert.Equal(t, output.NaclRules.ServiceName, "Amazon Virtual Private Cloud (Amazon VPC)")
+	assert.Equal(t, output.NaclRules.ServiceCode, "vpc")
+	assert.Equal(t, output.NaclRules.QuotaCode, "L-2AEEBF1A")
 }

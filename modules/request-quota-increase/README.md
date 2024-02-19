@@ -27,33 +27,21 @@ Use the module in your Terraform code, replacing `<VERSION>` with the latest ver
 page](https://github.com/gruntwork-io/terraform-aws-utilities/releases):
 
 ```hcl
-module "path" {
+module "quota_increase" {
   source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/quota-increase?ref=<VERSION>"
 
-  request_quota_increase = {
-    NAT_GW_PER_AZ = {
-      service_code    = "vpc"
-      quota_code      = "L-FE5A380F"
-      desired_quota   = 40
-    },
-    RULES_PER_ACL = {
-      service_code    = "vpc"
-      quota_code      = "L-2AEEBF1A"
-      desired_quota   = 70
-    },
-  }
+  vpc_rules_per_network_acl              = 30
+  vpc_nat_gateways_per_availability_zone = 30
 }
 ```
 
-The argument to pass is:
-
-* `request_quota_increase`: A map where the key is a descriptive name for the resource and the value is the quota code and the desired quota. You can check adjustable quotas [here](../../docs/quotas.md).
+The [input variables](../../modules/request-quota-increase/variables.tf) for the module have been automatically generated using the [AWS Service Quotas Generator](../../codegen/quotas/). All adjustable Service Quotas are as separate input variables.
 
 When you run `apply`, the `new_quotas` output variable will confirm to you that a quota request has been made!
 
 ```hcl
 new_quotas = {
-  "NAT_GW_PER_AZ" = {
+  "vpc_nat_gateways_per_availability_zone" = {
     "adjustable" = true
     "arn" = "arn:aws:servicequotas:us-east-1:<account-id>:vpc/L-FE5A380F"
     "default_value" = 5
@@ -81,7 +69,7 @@ aws service-quotas list-requested-service-quota-change-history --region <REGION>
 
 ### Finding out the Service Code and Quota Code
 
-You can check adjustable quotas [here](../../docs/quotas.md).
+You can check adjustable quotas in the [input variables](../../modules/request-quota-increase/variables.tf).
 
 
 Alternatively, you can check the available services with
@@ -105,7 +93,7 @@ quota is 30 and you ask for a new quota of 25, this is the output:
 
 ```hcl
 new_quotas = {
-  "NAT_GW_PER_AZ" = {
+  "vpc_nat_gateways_per_availability_zone" = {
     "adjustable" = true
       "arn" = "arn:aws:servicequotas:us-east-1:<account-id>:vpc/L-FE5A380F"
       "default_value" = 5
