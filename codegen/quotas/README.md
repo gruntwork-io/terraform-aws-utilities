@@ -2,7 +2,10 @@
 
 This Python script is used to generate Terraform files for managing AWS service quota requests. It interacts with the AWS Service Quotas API and fetches information about the quotas for different services. The script then generates Terraform code based on this information and writes it to (`main.tf` and `variables.tf`) files.
 
-Note that generating the quotas could be time consuming as the script honors the API limits for the used AWS APIs.
+## Gotchas 
+
+- Generating the quotas could be time consuming as the script honors the API limits for the used AWS APIs.
+- Certain services have duplicate quotas - same description but different code. Those are handled by appending the quota code to the input variable name.
 
 ## Requirements
 - Python 3.6+

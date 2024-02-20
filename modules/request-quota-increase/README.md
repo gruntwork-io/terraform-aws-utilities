@@ -1,6 +1,8 @@
 # Request AWS Quota Increase
 
-This module can be used to request a quota increase for an AWS Resource.
+This module can be used to request a quota increase for AWS Resources. The module is [generated](../../codegen/quotas/) using [AWS Service Quotas API](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/Welcome.html), and inputs for each adjustable quota for different services are added to the module.
+
+**NOTE:** The service quotas for certain services have duplicate items. Those duplicate quotas have been named differently in the [input variables](./variables.tf) by appending the service quota code at the end of the variable name, e.g. `networkmonitor_number_of_probes_per_monitor` and `networkmonitor_number_of_probes_per_monitor_l_f192a8d6`.
 
 ## Features
 
@@ -11,7 +13,6 @@ This module can be used to request a quota increase for an AWS Resource.
 ### Core Concepts
 
 - [AWS Service Quotas Documentation](https://docs.aws.amazon.com/servicequotas/?id=docs_gateway)
-- [Generated AWS Service Quotas](../../docs/quotas.md)
 - [AWS Service Quotas Generator](../../codegen/quotas/)
 
 

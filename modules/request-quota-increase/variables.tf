@@ -14787,8 +14787,44 @@ variable "networkmonitor_number_of_probes_per_monitor" {
   default     = null
 }
 
+variable "networkmonitor_number_of_probes_per_monitor_l_f192a8d6" {
+  description = "Quota for [networkmonitor]: Number of probes per monitor_L-F192A8D6 (L-F192A8D6)"
+  type        = number
+  default     = null
+}
+
 variable "networkmonitor_number_of_monitors_per_account_per_aws_region" {
   description = "Quota for [networkmonitor]: Number of monitors per account per AWS region (L-A4298AB9)"
+  type        = number
+  default     = null
+}
+
+variable "networkmonitor_number_of_monitors_per_account_per_aws_region_l_15a52c9b" {
+  description = "Quota for [networkmonitor]: Number of monitors per account per AWS region_L-15A52C9B (L-15A52C9B)"
+  type        = number
+  default     = null
+}
+
+variable "networkmonitor_number_of_probes_per_subnet_for_each_monitor_l_6a0f5bb1" {
+  description = "Quota for [networkmonitor]: Number of probes per subnet for each monitor_L-6A0F5BB1 (L-6A0F5BB1)"
+  type        = number
+  default     = null
+}
+
+variable "networkmonitor_number_of_probes_per_monitor_l_4c539b84" {
+  description = "Quota for [networkmonitor]: Number of probes per monitor_L-4C539B84 (L-4C539B84)"
+  type        = number
+  default     = null
+}
+
+variable "networkmonitor_number_of_probes_per_subnet_for_each_monitor_l_417bd1fb" {
+  description = "Quota for [networkmonitor]: Number of probes per subnet for each monitor_L-417BD1FB (L-417BD1FB)"
+  type        = number
+  default     = null
+}
+
+variable "networkmonitor_number_of_monitors_per_account_per_aws_region_l_24751c61" {
+  description = "Quota for [networkmonitor]: Number of monitors per account per AWS region_L-24751C61 (L-24751C61)"
   type        = number
   default     = null
 }
@@ -24207,6 +24243,12 @@ variable "transcribe_job_queue_bandwidth_ratio" {
   default     = null
 }
 
+variable "transcribe_transactions_per_second_listcallanalyticscategories_operation_l_b4737a9f" {
+  description = "Quota for [transcribe]: Transactions per second, ListCallAnalyticsCategories operation_L-B4737A9F (L-B4737A9F)"
+  type        = number
+  default     = null
+}
+
 variable "transcribe_transactions_per_second_listmedicalvocabularies_operation" {
   description = "Quota for [transcribe]: Transactions per second, ListMedicalVocabularies operation (L-D2C499F9)"
   type        = number
@@ -24227,6 +24269,12 @@ variable "transcribe_transactions_per_second_deletemedicaltranscriptionjob_opera
 
 variable "transcribe_transactions_per_second_createcallanalyticscategory_operation" {
   description = "Quota for [transcribe]: Transactions per second, CreateCallAnalyticsCategory operation (L-B32D80CD)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_transactions_per_second_getcallanalyticscategory_operation_l_a07285c7" {
+  description = "Quota for [transcribe]: Transactions per second, GetCallAnalyticsCategory operation_L-A07285C7 (L-A07285C7)"
   type        = number
   default     = null
 }
@@ -24261,6 +24309,18 @@ variable "transcribe_transactions_per_second_updatemedicalvocabulary_operation" 
   default     = null
 }
 
+variable "transcribe_transactions_per_second_createcallanalyticscategory_operation_l_020bd1d2" {
+  description = "Quota for [transcribe]: Transactions per second, CreateCallAnalyticsCategory operation_L-020BD1D2 (L-020BD1D2)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_maximum_number_of_rules_per_category_for_call_analytics_batch_jobs_l_2e269322" {
+  description = "Quota for [transcribe]: Maximum number of rules per category for Call Analytics batch jobs_L-2E269322 (L-2E269322)"
+  type        = number
+  default     = null
+}
+
 variable "transcribe_total_number_of_medical_vocabularies_per_account" {
   description = "Quota for [transcribe]: Total number of medical vocabularies per account (L-8EF21937)"
   type        = number
@@ -24273,6 +24333,12 @@ variable "transcribe_transactions_per_second_deletemedicalvocabulary_operation" 
   default     = null
 }
 
+variable "transcribe_the_number_of_concurrent_startcallanalyticsstreamtranscription_http_2_streaming_requests__l_128229bb" {
+  description = "Quota for [transcribe]: The number of concurrent 'StartCallAnalyticsStreamTranscription' HTTP/2 streaming requests._L-128229BB (L-128229BB)"
+  type        = number
+  default     = null
+}
+
 variable "transcribe_transactions_per_second_updatecallanalyticscategory_operation" {
   description = "Quota for [transcribe]: Transactions per second, UpdateCallAnalyticsCategory operation (L-F4971247)"
   type        = number
@@ -24281,6 +24347,24 @@ variable "transcribe_transactions_per_second_updatecallanalyticscategory_operati
 
 variable "transcribe_transactions_per_second_startmedicaltranscriptionjob_operation" {
   description = "Quota for [transcribe]: Transactions per second, StartMedicalTranscriptionJob operation (L-825D9BA6)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_transactions_per_second_listmedicalvocabularies_operation_l_580fd495" {
+  description = "Quota for [transcribe]: Transactions per second, ListMedicalVocabularies operation_L-580FD495 (L-580FD495)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_transactions_per_second_startmedicaltranscriptionjob_operation_l_bf30671e" {
+  description = "Quota for [transcribe]: Transactions per second, StartMedicalTranscriptionJob operation_L-BF30671E (L-BF30671E)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_number_of_concurrent_call_analytics_batch_jobs_l_48fc5f8a" {
+  description = "Quota for [transcribe]: Number of concurrent Call Analytics batch jobs_L-48FC5F8A (L-48FC5F8A)"
   type        = number
   default     = null
 }
@@ -24299,6 +24383,12 @@ variable "transcribe_maximum_number_of_targets_allowed_per_category_for_call_ana
 
 variable "transcribe_transactions_per_second_listvocabularies_operation" {
   description = "Quota for [transcribe]: Transactions per second, ListVocabularies operation (L-B46C0D84)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_transactions_per_second_startcallanalyticsstreamtranscription_websocket_operation_l_a0a9f543" {
+  description = "Quota for [transcribe]: Transactions per second, StartCallAnalyticsStreamTranscription Websocket operation_L-A0A9F543 (L-A0A9F543)"
   type        = number
   default     = null
 }
@@ -24363,14 +24453,38 @@ variable "transcribe_number_of_pending_medical_vocabularies" {
   default     = null
 }
 
+variable "transcribe_transactions_per_second_updatecallanalyticscategory_operation_l_b24b8474" {
+  description = "Quota for [transcribe]: Transactions per second, UpdateCallAnalyticsCategory operation_L-B24B8474 (L-B24B8474)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_maximum_number_of_categories_for_call_analytics_batch_jobs_l_e9626652" {
+  description = "Quota for [transcribe]: Maximum number of categories for Call Analytics batch jobs_L-E9626652 (L-E9626652)"
+  type        = number
+  default     = null
+}
+
 variable "transcribe_transactions_per_second_deletecallanalyticsjob_operation" {
   description = "Quota for [transcribe]: Transactions per second, DeleteCallAnalyticsJob operation (L-4FA92C98)"
   type        = number
   default     = null
 }
 
+variable "transcribe_transactions_per_second_startcallanalyticsstreamtranscription_operation_l_ef81bed4" {
+  description = "Quota for [transcribe]: Transactions per second, StartCallAnalyticsStreamTranscription operation_L-EF81BED4 (L-EF81BED4)"
+  type        = number
+  default     = null
+}
+
 variable "transcribe_total_number_of_custom_language_models_per_account" {
   description = "Quota for [transcribe]: Total number of custom language models per account (L-9190489D)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_transactions_per_second_startmedicalstreamtranscription_operation_l_a3f1b3f5" {
+  description = "Quota for [transcribe]: Transactions per second, StartMedicalStreamTranscription operation_L-A3F1B3F5 (L-A3F1B3F5)"
   type        = number
   default     = null
 }
@@ -24399,6 +24513,12 @@ variable "transcribe_number_of_pending_vocabularies" {
   default     = null
 }
 
+variable "transcribe_transactions_per_second_deletemedicaltranscriptionjob_operation_l_aafce0a3" {
+  description = "Quota for [transcribe]: Transactions per second, DeleteMedicalTranscriptionJob operation_L-AAFCE0A3 (L-AAFCE0A3)"
+  type        = number
+  default     = null
+}
+
 variable "transcribe_transactions_per_second_starttranscriptionjob_operation" {
   description = "Quota for [transcribe]: Transactions per second, StartTranscriptionJob operation (L-6F37B9E3)"
   type        = number
@@ -24423,8 +24543,26 @@ variable "transcribe_transactions_per_second_listcallanalyticsjobs_operation" {
   default     = null
 }
 
+variable "transcribe_transactions_per_second_updatemedicalvocabulary_operation_l_765784f2" {
+  description = "Quota for [transcribe]: Transactions per second, UpdateMedicalVocabulary operation_L-765784F2 (L-765784F2)"
+  type        = number
+  default     = null
+}
+
 variable "transcribe_transactions_per_second_createvocabulary_operation" {
   description = "Quota for [transcribe]: Transactions per second, CreateVocabulary operation (L-23CCF526)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_transactions_per_second_deletecallanalyticsjob_operation_l_e9d8884b" {
+  description = "Quota for [transcribe]: Transactions per second, DeleteCallAnalyticsJob operation_L-E9D8884B (L-E9D8884B)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_transactions_per_second_getcallanalyticsjob_operation_l_2f86860b" {
+  description = "Quota for [transcribe]: Transactions per second, GetCallAnalyticsJob operation_L-2F86860B (L-2F86860B)"
   type        = number
   default     = null
 }
@@ -24435,8 +24573,32 @@ variable "transcribe_transactions_per_second_updatevocabulary_operation" {
   default     = null
 }
 
+variable "transcribe_transactions_per_second_startcallanalyticsjob_operation_l_4b321684" {
+  description = "Quota for [transcribe]: Transactions per second, StartCallAnalyticsJob operation_L-4B321684 (L-4B321684)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_transactions_per_second_getmedicalvocabulary_operation_l_16e31c23" {
+  description = "Quota for [transcribe]: Transactions per second, GetMedicalVocabulary operation_L-16E31C23 (L-16E31C23)"
+  type        = number
+  default     = null
+}
+
 variable "transcribe_number_of_concurrent_medicalscribe_batch_jobs" {
   description = "Quota for [transcribe]: Number of concurrent 'MedicalScribe' batch jobs (L-C8D4E7C4)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_number_of_pending_medical_vocabularies_l_836a857f" {
+  description = "Quota for [transcribe]: Number of pending medical vocabularies_L-836A857F (L-836A857F)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_number_of_concurrent_medical_batch_transcription_jobs_l_63f366bb" {
+  description = "Quota for [transcribe]: Number of concurrent medical batch transcription jobs_L-63F366BB (L-63F366BB)"
   type        = number
   default     = null
 }
@@ -24453,14 +24615,62 @@ variable "transcribe_transactions_per_second_deletecallanalyticscategory_operati
   default     = null
 }
 
+variable "transcribe_transactions_per_second_deletecallanalyticscategory_operation_l_40cc32cd" {
+  description = "Quota for [transcribe]: Transactions per second, DeleteCallAnalyticsCategory operation_L-40CC32CD (L-40CC32CD)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_total_number_of_medical_vocabularies_per_account_l_79bbefc1" {
+  description = "Quota for [transcribe]: Total number of medical vocabularies per account_L-79BBEFC1 (L-79BBEFC1)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_number_of_startmedicalstreamtranscription_websocket_requests_l_0fb6de48" {
+  description = "Quota for [transcribe]: Number of StartMedicalStreamTranscription Websocket requests_L-0FB6DE48 (L-0FB6DE48)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_transactions_per_second_getmedicaltranscriptionjob_operation_l_a99534c1" {
+  description = "Quota for [transcribe]: Transactions per second, GetMedicalTranscriptionJob operation_L-A99534C1 (L-A99534C1)"
+  type        = number
+  default     = null
+}
+
 variable "transcribe_number_of_concurrent_http_2_streams_for_streaming_transcription_" {
   description = "Quota for [transcribe]: Number of concurrent HTTP/2 streams for streaming transcription. (L-CDB96031)"
   type        = number
   default     = null
 }
 
+variable "transcribe_transactions_per_second_listmedicaltranscriptionjobs_operation_l_2d4ed180" {
+  description = "Quota for [transcribe]: Transactions per second, ListMedicalTranscriptionJobs operation_L-2D4ED180 (L-2D4ED180)"
+  type        = number
+  default     = null
+}
+
 variable "transcribe_number_of_startstreamtranscription_websocket_requests" {
   description = "Quota for [transcribe]: Number of StartStreamTranscription Websocket requests (L-A9710EC8)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_transactions_per_second_deletemedicalvocabulary_operation_l_50b57c16" {
+  description = "Quota for [transcribe]: Transactions per second, DeleteMedicalVocabulary operation_L-50B57C16 (L-50B57C16)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_transactions_per_second_listcallanalyticsjobs_operation_l_93564e36" {
+  description = "Quota for [transcribe]: Transactions per second, ListCallAnalyticsJobs operation_L-93564E36 (L-93564E36)"
+  type        = number
+  default     = null
+}
+
+variable "transcribe_maximum_number_of_targets_allowed_per_category_for_call_analytics_batch_jobs_l_3533ba28" {
+  description = "Quota for [transcribe]: Maximum number of targets allowed per category for Call Analytics batch jobs_L-3533BA28 (L-3533BA28)"
   type        = number
   default     = null
 }

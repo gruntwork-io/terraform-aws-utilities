@@ -60,14 +60,31 @@ def list_quotas_for_service(service_code):
 
 
 def generate_terraform(services):
+    """
+    Generate Terraform code for the given AWS services.
+
+    This function iterates over the provided services, fetches the quotas for each service,
+    and generates Terraform code for each adjustable quota. If a quota with the same variable name
+    already exists, it appends the quota code to the quota name to make it unique, and stores the
+    duplicate variable in a separate list.
+
+    Parameters:
+    services (list): A list of AWS services. Each service is a dictionary that contains the service details.
+
+    Returns:
+    tuple: A tuple containing two strings. The first string is the Terraform code for the main.tf file,
+    and the second string is the Terraform code for the variables.tf file.
+
+    Prints:
+    For each duplicate variable, it prints a message in the format "Duplicate Variable: {variable_name}: {quota_code}".
+    """
     terraform_variables = ""
     terraform_maps = ""
     unique_variables = set()
     duplicate_variables = []
     for service in services:
-        time.sleep(
-            0.3
-        )  # Adjust this based on your rate limit analysis and AWS documentation
+        # Adjust this based on your rate limit analysis and AWS documentation
+        time.sleep(0.3)
         quotas = list_quotas_for_service(service["ServiceCode"])
         for quota in quotas:
             if quota["Adjustable"]:
@@ -76,14 +93,15 @@ def generate_terraform(services):
                 )
                 if variable_name in unique_variables:
                     duplicate_variables.append(f"{variable_name}: {quota['QuotaCode']}")
+                    quota["QuotaName"] = f"{quota['QuotaName']}_{quota['QuotaCode']}"
                 else:
                     unique_variables.add(variable_name)
-                    terraform_variables += terraform_variable_template(
-                        service["ServiceCode"], quota["QuotaName"], quota["QuotaCode"]
-                    )
-                    terraform_maps += terraform_locals_template(
-                        service["ServiceCode"], quota["QuotaName"], quota["QuotaCode"]
-                    )
+                terraform_variables += terraform_variable_template(
+                    service["ServiceCode"], quota["QuotaName"], quota["QuotaCode"]
+                )
+                terraform_maps += terraform_locals_template(
+                    service["ServiceCode"], quota["QuotaName"], quota["QuotaCode"]
+                )
     main_tf = terraform_main(terraform_maps)
     vars_tf = terraform_vars(terraform_variables)
     for variable in duplicate_variables:
@@ -95,8 +113,7 @@ def generate_terraform(services):
 # Fetch all services
 services = list_all_services()
 
-# Generate the markdown document
-# markdown_document = generate_markdown_document(services)
+# Generate the Terraform code
 tf_main, tf_vars = generate_terraform(services)
 
 # Ensure the output directory exists
@@ -104,11 +121,12 @@ output_dir = args.outdir
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-# Write the main.tf and variables.tf to the specified output directory
+# Write the main.tf to the specified output directory
 main_tf_path = os.path.join(output_dir, "main.tf")
 with open(main_tf_path, "w") as file:
     file.write(tf_main)
 
+# Write the variables.tf to the specified output directory
 variables_tf_path = os.path.join(output_dir, "variables.tf")
 with open(variables_tf_path, "w") as file:
     file.write(tf_vars)
@@ -117,6 +135,7 @@ with open(variables_tf_path, "w") as file:
 subprocess.run(["terraform", "fmt", main_tf_path], check=True)
 subprocess.run(["terraform", "fmt", variables_tf_path], check=True)
 
+# Print the success message
 print(
     f"Terraform files have been written to {output_dir} and formatted with terraform fmt"
 )

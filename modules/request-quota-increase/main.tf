@@ -12335,10 +12335,40 @@ locals {
       service_code  = "networkmonitor"
       desired_quota = var.networkmonitor_number_of_probes_per_monitor
     },
+    networkmonitor_number_of_probes_per_monitor_l_f192a8d6 = {
+      quota_code    = "L-F192A8D6"
+      service_code  = "networkmonitor"
+      desired_quota = var.networkmonitor_number_of_probes_per_monitor_l_f192a8d6
+    },
     networkmonitor_number_of_monitors_per_account_per_aws_region = {
       quota_code    = "L-A4298AB9"
       service_code  = "networkmonitor"
       desired_quota = var.networkmonitor_number_of_monitors_per_account_per_aws_region
+    },
+    networkmonitor_number_of_monitors_per_account_per_aws_region_l_15a52c9b = {
+      quota_code    = "L-15A52C9B"
+      service_code  = "networkmonitor"
+      desired_quota = var.networkmonitor_number_of_monitors_per_account_per_aws_region_l_15a52c9b
+    },
+    networkmonitor_number_of_probes_per_subnet_for_each_monitor_l_6a0f5bb1 = {
+      quota_code    = "L-6A0F5BB1"
+      service_code  = "networkmonitor"
+      desired_quota = var.networkmonitor_number_of_probes_per_subnet_for_each_monitor_l_6a0f5bb1
+    },
+    networkmonitor_number_of_probes_per_monitor_l_4c539b84 = {
+      quota_code    = "L-4C539B84"
+      service_code  = "networkmonitor"
+      desired_quota = var.networkmonitor_number_of_probes_per_monitor_l_4c539b84
+    },
+    networkmonitor_number_of_probes_per_subnet_for_each_monitor_l_417bd1fb = {
+      quota_code    = "L-417BD1FB"
+      service_code  = "networkmonitor"
+      desired_quota = var.networkmonitor_number_of_probes_per_subnet_for_each_monitor_l_417bd1fb
+    },
+    networkmonitor_number_of_monitors_per_account_per_aws_region_l_24751c61 = {
+      quota_code    = "L-24751C61"
+      service_code  = "networkmonitor"
+      desired_quota = var.networkmonitor_number_of_monitors_per_account_per_aws_region_l_24751c61
     },
     nimble_custom_streaming_images_per_studio = {
       quota_code    = "L-D5A30A08"
@@ -20185,6 +20215,11 @@ locals {
       service_code  = "transcribe"
       desired_quota = var.transcribe_job_queue_bandwidth_ratio
     },
+    transcribe_transactions_per_second_listcallanalyticscategories_operation_l_b4737a9f = {
+      quota_code    = "L-B4737A9F"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_listcallanalyticscategories_operation_l_b4737a9f
+    },
     transcribe_transactions_per_second_listmedicalvocabularies_operation = {
       quota_code    = "L-D2C499F9"
       service_code  = "transcribe"
@@ -20204,6 +20239,11 @@ locals {
       quota_code    = "L-B32D80CD"
       service_code  = "transcribe"
       desired_quota = var.transcribe_transactions_per_second_createcallanalyticscategory_operation
+    },
+    transcribe_transactions_per_second_getcallanalyticscategory_operation_l_a07285c7 = {
+      quota_code    = "L-A07285C7"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_getcallanalyticscategory_operation_l_a07285c7
     },
     transcribe_transactions_per_second_startcallanalyticsjob_operation = {
       quota_code    = "L-9D95450F"
@@ -20230,6 +20270,16 @@ locals {
       service_code  = "transcribe"
       desired_quota = var.transcribe_transactions_per_second_updatemedicalvocabulary_operation
     },
+    transcribe_transactions_per_second_createcallanalyticscategory_operation_l_020bd1d2 = {
+      quota_code    = "L-020BD1D2"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_createcallanalyticscategory_operation_l_020bd1d2
+    },
+    transcribe_maximum_number_of_rules_per_category_for_call_analytics_batch_jobs_l_2e269322 = {
+      quota_code    = "L-2E269322"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_maximum_number_of_rules_per_category_for_call_analytics_batch_jobs_l_2e269322
+    },
     transcribe_total_number_of_medical_vocabularies_per_account = {
       quota_code    = "L-8EF21937"
       service_code  = "transcribe"
@@ -20240,6 +20290,11 @@ locals {
       service_code  = "transcribe"
       desired_quota = var.transcribe_transactions_per_second_deletemedicalvocabulary_operation
     },
+    transcribe_the_number_of_concurrent_startcallanalyticsstreamtranscription_http_2_streaming_requests__l_128229bb = {
+      quota_code    = "L-128229BB"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_the_number_of_concurrent_startcallanalyticsstreamtranscription_http_2_streaming_requests__l_128229bb
+    },
     transcribe_transactions_per_second_updatecallanalyticscategory_operation = {
       quota_code    = "L-F4971247"
       service_code  = "transcribe"
@@ -20249,6 +20304,21 @@ locals {
       quota_code    = "L-825D9BA6"
       service_code  = "transcribe"
       desired_quota = var.transcribe_transactions_per_second_startmedicaltranscriptionjob_operation
+    },
+    transcribe_transactions_per_second_listmedicalvocabularies_operation_l_580fd495 = {
+      quota_code    = "L-580FD495"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_listmedicalvocabularies_operation_l_580fd495
+    },
+    transcribe_transactions_per_second_startmedicaltranscriptionjob_operation_l_bf30671e = {
+      quota_code    = "L-BF30671E"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_startmedicaltranscriptionjob_operation_l_bf30671e
+    },
+    transcribe_number_of_concurrent_call_analytics_batch_jobs_l_48fc5f8a = {
+      quota_code    = "L-48FC5F8A"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_number_of_concurrent_call_analytics_batch_jobs_l_48fc5f8a
     },
     transcribe_transactions_per_second_startstreamtranscription_operation = {
       quota_code    = "L-B8122269"
@@ -20264,6 +20334,11 @@ locals {
       quota_code    = "L-B46C0D84"
       service_code  = "transcribe"
       desired_quota = var.transcribe_transactions_per_second_listvocabularies_operation
+    },
+    transcribe_transactions_per_second_startcallanalyticsstreamtranscription_websocket_operation_l_a0a9f543 = {
+      quota_code    = "L-A0A9F543"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_startcallanalyticsstreamtranscription_websocket_operation_l_a0a9f543
     },
     transcribe_number_of_concurrently_training_custom_language_models = {
       quota_code    = "L-E0D2ADDE"
@@ -20315,15 +20390,35 @@ locals {
       service_code  = "transcribe"
       desired_quota = var.transcribe_number_of_pending_medical_vocabularies
     },
+    transcribe_transactions_per_second_updatecallanalyticscategory_operation_l_b24b8474 = {
+      quota_code    = "L-B24B8474"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_updatecallanalyticscategory_operation_l_b24b8474
+    },
+    transcribe_maximum_number_of_categories_for_call_analytics_batch_jobs_l_e9626652 = {
+      quota_code    = "L-E9626652"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_maximum_number_of_categories_for_call_analytics_batch_jobs_l_e9626652
+    },
     transcribe_transactions_per_second_deletecallanalyticsjob_operation = {
       quota_code    = "L-4FA92C98"
       service_code  = "transcribe"
       desired_quota = var.transcribe_transactions_per_second_deletecallanalyticsjob_operation
     },
+    transcribe_transactions_per_second_startcallanalyticsstreamtranscription_operation_l_ef81bed4 = {
+      quota_code    = "L-EF81BED4"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_startcallanalyticsstreamtranscription_operation_l_ef81bed4
+    },
     transcribe_total_number_of_custom_language_models_per_account = {
       quota_code    = "L-9190489D"
       service_code  = "transcribe"
       desired_quota = var.transcribe_total_number_of_custom_language_models_per_account
+    },
+    transcribe_transactions_per_second_startmedicalstreamtranscription_operation_l_a3f1b3f5 = {
+      quota_code    = "L-A3F1B3F5"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_startmedicalstreamtranscription_operation_l_a3f1b3f5
     },
     transcribe_number_of_startmedicalstreamtranscription_websocket_requests = {
       quota_code    = "L-0C60E99C"
@@ -20345,6 +20440,11 @@ locals {
       service_code  = "transcribe"
       desired_quota = var.transcribe_number_of_pending_vocabularies
     },
+    transcribe_transactions_per_second_deletemedicaltranscriptionjob_operation_l_aafce0a3 = {
+      quota_code    = "L-AAFCE0A3"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_deletemedicaltranscriptionjob_operation_l_aafce0a3
+    },
     transcribe_transactions_per_second_starttranscriptionjob_operation = {
       quota_code    = "L-6F37B9E3"
       service_code  = "transcribe"
@@ -20365,20 +20465,55 @@ locals {
       service_code  = "transcribe"
       desired_quota = var.transcribe_transactions_per_second_listcallanalyticsjobs_operation
     },
+    transcribe_transactions_per_second_updatemedicalvocabulary_operation_l_765784f2 = {
+      quota_code    = "L-765784F2"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_updatemedicalvocabulary_operation_l_765784f2
+    },
     transcribe_transactions_per_second_createvocabulary_operation = {
       quota_code    = "L-23CCF526"
       service_code  = "transcribe"
       desired_quota = var.transcribe_transactions_per_second_createvocabulary_operation
+    },
+    transcribe_transactions_per_second_deletecallanalyticsjob_operation_l_e9d8884b = {
+      quota_code    = "L-E9D8884B"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_deletecallanalyticsjob_operation_l_e9d8884b
+    },
+    transcribe_transactions_per_second_getcallanalyticsjob_operation_l_2f86860b = {
+      quota_code    = "L-2F86860B"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_getcallanalyticsjob_operation_l_2f86860b
     },
     transcribe_transactions_per_second_updatevocabulary_operation = {
       quota_code    = "L-C20201ED"
       service_code  = "transcribe"
       desired_quota = var.transcribe_transactions_per_second_updatevocabulary_operation
     },
+    transcribe_transactions_per_second_startcallanalyticsjob_operation_l_4b321684 = {
+      quota_code    = "L-4B321684"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_startcallanalyticsjob_operation_l_4b321684
+    },
+    transcribe_transactions_per_second_getmedicalvocabulary_operation_l_16e31c23 = {
+      quota_code    = "L-16E31C23"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_getmedicalvocabulary_operation_l_16e31c23
+    },
     transcribe_number_of_concurrent_medicalscribe_batch_jobs = {
       quota_code    = "L-C8D4E7C4"
       service_code  = "transcribe"
       desired_quota = var.transcribe_number_of_concurrent_medicalscribe_batch_jobs
+    },
+    transcribe_number_of_pending_medical_vocabularies_l_836a857f = {
+      quota_code    = "L-836A857F"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_number_of_pending_medical_vocabularies_l_836a857f
+    },
+    transcribe_number_of_concurrent_medical_batch_transcription_jobs_l_63f366bb = {
+      quota_code    = "L-63F366BB"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_number_of_concurrent_medical_batch_transcription_jobs_l_63f366bb
     },
     transcribe_transactions_per_second_deletetranscriptionjob_operation = {
       quota_code    = "L-CECDF303"
@@ -20390,15 +20525,55 @@ locals {
       service_code  = "transcribe"
       desired_quota = var.transcribe_transactions_per_second_deletecallanalyticscategory_operation
     },
+    transcribe_transactions_per_second_deletecallanalyticscategory_operation_l_40cc32cd = {
+      quota_code    = "L-40CC32CD"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_deletecallanalyticscategory_operation_l_40cc32cd
+    },
+    transcribe_total_number_of_medical_vocabularies_per_account_l_79bbefc1 = {
+      quota_code    = "L-79BBEFC1"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_total_number_of_medical_vocabularies_per_account_l_79bbefc1
+    },
+    transcribe_number_of_startmedicalstreamtranscription_websocket_requests_l_0fb6de48 = {
+      quota_code    = "L-0FB6DE48"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_number_of_startmedicalstreamtranscription_websocket_requests_l_0fb6de48
+    },
+    transcribe_transactions_per_second_getmedicaltranscriptionjob_operation_l_a99534c1 = {
+      quota_code    = "L-A99534C1"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_getmedicaltranscriptionjob_operation_l_a99534c1
+    },
     transcribe_number_of_concurrent_http_2_streams_for_streaming_transcription_ = {
       quota_code    = "L-CDB96031"
       service_code  = "transcribe"
       desired_quota = var.transcribe_number_of_concurrent_http_2_streams_for_streaming_transcription_
     },
+    transcribe_transactions_per_second_listmedicaltranscriptionjobs_operation_l_2d4ed180 = {
+      quota_code    = "L-2D4ED180"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_listmedicaltranscriptionjobs_operation_l_2d4ed180
+    },
     transcribe_number_of_startstreamtranscription_websocket_requests = {
       quota_code    = "L-A9710EC8"
       service_code  = "transcribe"
       desired_quota = var.transcribe_number_of_startstreamtranscription_websocket_requests
+    },
+    transcribe_transactions_per_second_deletemedicalvocabulary_operation_l_50b57c16 = {
+      quota_code    = "L-50B57C16"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_deletemedicalvocabulary_operation_l_50b57c16
+    },
+    transcribe_transactions_per_second_listcallanalyticsjobs_operation_l_93564e36 = {
+      quota_code    = "L-93564E36"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_transactions_per_second_listcallanalyticsjobs_operation_l_93564e36
+    },
+    transcribe_maximum_number_of_targets_allowed_per_category_for_call_analytics_batch_jobs_l_3533ba28 = {
+      quota_code    = "L-3533BA28"
+      service_code  = "transcribe"
+      desired_quota = var.transcribe_maximum_number_of_targets_allowed_per_category_for_call_analytics_batch_jobs_l_3533ba28
     },
     transfer_profiles_per_account = {
       quota_code    = "L-858EB316"
