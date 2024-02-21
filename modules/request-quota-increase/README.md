@@ -1,16 +1,19 @@
 # Request AWS Quota Increase
 
-This module can be used to request a quota increase for an AWS Resource.
+This module can be used to request a quota increase for AWS Resources. The module is [generated](../../codegen/quotas/) using [AWS Service Quotas API](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/Welcome.html), and inputs for each adjustable quota for different services are added to the module.
+
+**NOTE:** The service quotas for certain services have duplicate items. Those duplicate quotas have been named differently in the [input variables](./variables.tf) by appending the service quota code at the end of the variable name, e.g. `networkmonitor_number_of_probes_per_monitor` and `networkmonitor_number_of_probes_per_monitor_l_f192a8d6`.
 
 ## Features
 
-- Request a quota increase for Network ACL Rules and NAT Gateway.
+- Request a quota increase for any AWS resource.
 
 ## Learn
 
 ### Core Concepts
 
 - [AWS Service Quotas Documentation](https://docs.aws.amazon.com/servicequotas/?id=docs_gateway)
+- [AWS Service Quotas Generator](../../codegen/quotas/)
 
 
 ### Example code
@@ -25,26 +28,21 @@ Use the module in your Terraform code, replacing `<VERSION>` with the latest ver
 page](https://github.com/gruntwork-io/terraform-aws-utilities/releases):
 
 ```hcl
-module "path" {
+module "quota_increase" {
   source = "git::git@github.com:gruntwork-io/terraform-aws-utilities.git//modules/quota-increase?ref=<VERSION>"
 
-    request_quota_increase = {
-      nat_gateway = 40,
-      nacl_rules = 25
-    }
+  vpc_rules_per_network_acl              = 30
+  vpc_nat_gateways_per_availability_zone = 30
 }
 ```
 
-The argument to pass is:
-
-* `request_quota_increase`: A map with the desired resource and the new quota. The current supported resources are `nat_gateway` and `nacl_rules`. Feel free to contribute to this module to add support for more `quota_code` and `service_code` options in [main.tf](main.tf)!
-
+The [input variables](../../modules/request-quota-increase/variables.tf) for the module have been automatically generated using the [AWS Service Quotas Generator](../../codegen/quotas/). All adjustable Service Quotas are as separate input variables.
 
 When you run `apply`, the `new_quotas` output variable will confirm to you that a quota request has been made!
 
 ```hcl
 new_quotas = {
-  "nat_gateway" = {
+  "vpc_nat_gateways_per_availability_zone" = {
     "adjustable" = true
     "arn" = "arn:aws:servicequotas:us-east-1:<account-id>:vpc/L-FE5A380F"
     "default_value" = 5
@@ -72,7 +70,10 @@ aws service-quotas list-requested-service-quota-change-history --region <REGION>
 
 ### Finding out the Service Code and Quota Code
 
-When you need to add a new resource, you can check the available services with
+You can check adjustable quotas in the [input variables](../../modules/request-quota-increase/variables.tf).
+
+
+Alternatively, you can check the available services with
 
 ```
 aws service-quotas list-services --region <REGION> --output table
@@ -93,7 +94,7 @@ quota is 30 and you ask for a new quota of 25, this is the output:
 
 ```hcl
 new_quotas = {
-  "nat_gateway" = {
+  "vpc_nat_gateways_per_availability_zone" = {
     "adjustable" = true
       "arn" = "arn:aws:servicequotas:us-east-1:<account-id>:vpc/L-FE5A380F"
       "default_value" = 5
