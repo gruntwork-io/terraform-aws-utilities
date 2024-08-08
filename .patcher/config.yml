@@ -1,0 +1,6 @@
+versions:
+  - tag: v0.10.2
+    patches:
+      - slug: "sample-breaking-change"
+        modules_affected:
+          - patcher-test
