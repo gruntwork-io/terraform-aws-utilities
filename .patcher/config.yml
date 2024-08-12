@@ -4,3 +4,8 @@ versions:
       - slug: "sample-breaking-change"
         modules_affected:
           - patcher-test
+  - tag: v0.10.3
+    patches:
+      - slug: "sample-breaking-change"
+        modules_affected:
+          - patcher-test
