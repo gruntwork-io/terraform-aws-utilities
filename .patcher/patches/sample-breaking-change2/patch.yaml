@@ -12,4 +12,4 @@ dependencies:
 # If there are any external scripts, then make sure you include these in the same directory where the patch.yaml file is.
 steps:
   - name:
-    run: terrapatch add-module-argument $PATCHER_MODULE_PATH sampleinput "\"samplevalue\""
+    run: terrapatch add-module-argument $PATCHER_MODULE_ADDRESS sampleinput "\"samplevalue\""
