@@ -11,5 +11,5 @@ dependencies:
 # Each step has a name field (string) and a run field, which can denote either an OS command, or an external script to be run.
 # If there are any external scripts, then make sure you include these in the same directory where the patch.yaml file is.
 steps:
-  - name:
+  - name: Add sampleinput argument to the module
     run: terrapatch add-module-argument $PATCHER_MODULE_ADDRESS sampleinput "\"samplevalue\""
