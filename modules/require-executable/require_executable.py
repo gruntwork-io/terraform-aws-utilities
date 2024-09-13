@@ -17,7 +17,7 @@ from __future__ import print_function
 import json
 import logging
 import sys
-from distutils import spawn
+import shutil
 
 
 _ERROR_MESSAGE_EXECUTABLE_MARKER = "__EXECUTABLE_NAME__"
@@ -58,7 +58,7 @@ def main():
         if not executable.strip():
             continue
 
-        maybe_executable = spawn.find_executable(executable)
+        maybe_executable = shutil.which(executable)
         if not maybe_executable:
             not_found.append(executable)
         else:

@@ -5,7 +5,6 @@
 
 
 import sys
-import distutils.spawn
 import json
 import tempfile
 import os
@@ -15,6 +14,7 @@ import platform
 import logging
 import errno
 import argparse
+import shutil
 
 from urllib.request import urlretrieve
 
@@ -44,7 +44,7 @@ def main():
     executable_install_dir_path = os.path.join(args.install_dir, args.executable)
 
     # First, check if the executable is on the system PATH
-    executable_path = distutils.spawn.find_executable(args.executable)
+    executable_path = shutil.which(args.executable)
 
     # If it's not on the system PATH, check if it's in the install dir passed in by the user
     if not executable_path and os.path.isfile(executable_install_dir_path):
