@@ -4,7 +4,7 @@
 
 # Terraform Utility Modules
 
-This repo contains miscellaneous utility and helper modules for use with Terraform.
+This repo contains miscellaneous utility and helper modules for use with Terraform
 
 ## What is in this repo
 
