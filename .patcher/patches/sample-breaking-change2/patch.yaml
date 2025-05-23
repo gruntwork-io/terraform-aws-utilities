@@ -5,7 +5,7 @@ author: Gruntwork
 # Optional list of dependencies that the patch requires.
 dependencies:
   - name: terrapatch
-    version: "0.1.0"
+    version: "0.2.2"
 
 # List of steps that this patch should execute.
 # Each step has a name field (string) and a run field, which can denote either an OS command, or an external script to be run.
