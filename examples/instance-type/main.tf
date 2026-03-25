@@ -4,6 +4,13 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
+
+  default_tags {
+    tags = {
+      "gw:repo"    = "https://github.com/gruntwork-io/terraform-aws-utilities"
+      "gw:example" = "instance-type"
+    }
+  }
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
