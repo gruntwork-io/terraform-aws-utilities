@@ -1,4 +1,5 @@
 version: 2.1
+
 env: &env
   environment:
     GO111MODULE: auto
@@ -112,12 +113,61 @@ jobs:
           name: Post upgrade test results
           command: ./.circleci/post-upgrade-test-results.sh
           when: always
+  cloud_nuke_cleanup:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Install AWS CLI
+          command: |
+            curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o /tmp/awscli.zip
+            unzip -q /tmp/awscli.zip -d /tmp && sudo /tmp/aws/install
+      - run:
+          name: Install cloud-nuke
+          command: |
+            curl -fsSL -o /tmp/cloud-nuke "https://github.com/gruntwork-io/cloud-nuke/releases/download/v0.48.0/cloud-nuke_linux_amd64"
+            chmod +x /tmp/cloud-nuke
+            sudo mv /tmp/cloud-nuke /usr/local/bin/cloud-nuke
+      - run:
+          name: Run cloud-nuke cleanup
+          command: |
+            cloud-nuke aws \
+              --force \
+              --log-level info \
+              --region us-east-1 \
+              --region us-east-2 \
+              --older-than 1h \
+              --include-tag "gw:repo=^https://github.com/gruntwork-io/terraform-aws-utilities$" \
+              --output-format json \
+              --output-file /tmp/cloud-nuke-results.json
+          no_output_timeout: 3600s
+      - store_artifacts:
+          path: /tmp/cloud-nuke-results.json
+          destination: cloud-nuke-results.json
+      - run:
+          name: Notify Slack on failure
+          when: on_fail
+          command: |
+            WEBHOOK_URL=$(aws secretsmanager get-secret-value \
+              --secret-id "cost-anomaly-alerts/slack-webhook-url" \
+              --region us-east-1 \
+              --query 'SecretString' --output text)
+            curl -X POST "$WEBHOOK_URL" \
+              -H 'Content-Type: application/json' \
+              -d "{
+                \"text\": \":warning: *cloud-nuke cleanup failed* for \`terraform-aws-utilities\`\n<${CIRCLE_BUILD_URL}|View Job>\"
+              }"
+
 #----------------------------------------------------------------------------------------------------------------------
 # WORKFLOWS
 #----------------------------------------------------------------------------------------------------------------------
 workflows:
   version: 2.1
   test:
+    when:
+      not:
+        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       # By default CircleCI runs jobs on all branches but no tags.
       # We need a filter to ensure jobs run on all tags starting with v.
@@ -138,6 +188,9 @@ workflows:
             - AWS__PHXDEVOPS__circle-ci-test
             - GITHUB__PAT__gruntwork-ci
   scan:
+    when:
+      not:
+        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       - precommit:
           filters:
@@ -156,6 +209,9 @@ workflows:
             - AWS__PHXDEVOPS__circle-ci-test
             - GITHUB__PAT__gruntwork-ci
   upgrade-test:
+    when:
+      not:
+        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       - precommit:
           filters:
@@ -173,3 +229,11 @@ workflows:
           context:
             - AWS__PHXDEVOPS__circle-ci-test
             - GITHUB__PAT__gruntwork-ci
+
+  nuke-leaked-resources:
+    when:
+      equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+    jobs:
+      - cloud_nuke_cleanup:
+          context:
+            - AWS__PHXDEVOPS__circle-ci-test
