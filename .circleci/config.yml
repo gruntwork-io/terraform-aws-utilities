@@ -126,7 +126,7 @@ jobs:
       - run:
           name: Install cloud-nuke
           command: |
-            curl -fsSL -o /tmp/cloud-nuke "https://github.com/gruntwork-io/cloud-nuke/releases/download/v0.48.0/cloud-nuke_linux_amd64"
+            curl -fsSL -o /tmp/cloud-nuke "https://github.com/gruntwork-io/cloud-nuke/releases/download/v0.49.0/cloud-nuke_linux_amd64"
             chmod +x /tmp/cloud-nuke
             sudo mv /tmp/cloud-nuke /usr/local/bin/cloud-nuke
       - run:
