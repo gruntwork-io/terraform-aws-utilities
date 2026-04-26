@@ -121,12 +121,12 @@ jobs:
       - run:
           name: Install AWS CLI
           command: |
-            curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o /tmp/awscli.zip
+            curl -fsSL --retry 5 --retry-delay 10 --retry-all-errors --retry-connrefused "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o /tmp/awscli.zip
             unzip -q /tmp/awscli.zip -d /tmp && sudo /tmp/aws/install
       - run:
           name: Install cloud-nuke
           command: |
-            curl -fsSL -o /tmp/cloud-nuke "https://github.com/gruntwork-io/cloud-nuke/releases/download/v0.49.0/cloud-nuke_linux_amd64"
+            curl -fsSL --retry 5 --retry-delay 10 --retry-all-errors --retry-connrefused -o /tmp/cloud-nuke "https://github.com/gruntwork-io/cloud-nuke/releases/download/v0.50.0/cloud-nuke_linux_amd64"
             chmod +x /tmp/cloud-nuke
             sudo mv /tmp/cloud-nuke /usr/local/bin/cloud-nuke
       - run:
@@ -135,6 +135,7 @@ jobs:
             cloud-nuke aws \
               --force \
               --log-level info \
+              --exclude-region me-central-1 \
               --older-than 1h \
               --include-tag "gw:repo=^https://github.com/gruntwork-io/terraform-aws-utilities$" \
               --output-format json \
