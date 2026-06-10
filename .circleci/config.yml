@@ -126,7 +126,7 @@ jobs:
       - run:
           name: Install cloud-nuke
           command: |
-            curl -fsSL --retry 5 --retry-delay 10 --retry-all-errors --retry-connrefused -o /tmp/cloud-nuke "https://github.com/gruntwork-io/cloud-nuke/releases/download/v0.50.0/cloud-nuke_linux_amd64"
+            curl -fsSL --retry 5 --retry-delay 10 --retry-all-errors --retry-connrefused -o /tmp/cloud-nuke "https://github.com/gruntwork-io/cloud-nuke/releases/download/v0.51.0/cloud-nuke_linux_amd64"
             chmod +x /tmp/cloud-nuke
             sudo mv /tmp/cloud-nuke /usr/local/bin/cloud-nuke
       - run:
@@ -138,6 +138,11 @@ jobs:
               --exclude-region me-central-1 \
               --older-than 1h \
               --include-tag "gw:repo=^https://github.com/gruntwork-io/terraform-aws-utilities$" \
+              --resource-type ec2 \
+              --resource-type ebs \
+              --resource-type network-interface \
+              --resource-type ec2-keypairs \
+              --resource-type security-group \
               --output-format json \
               --output-file /tmp/cloud-nuke-results.json
           no_output_timeout: 3600s
