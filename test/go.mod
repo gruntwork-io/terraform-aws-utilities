@@ -1,11 +1,11 @@
 module github.com/gruntwork.io/package-terraform-utilities/test
 
-go 1.24.0
+go 1.25.0
 
 require (
 	github.com/gruntwork-io/terraform-aws-ci/test/upgrade-tester v0.0.0-20240417193241-8367ff1d958d
 	github.com/gruntwork-io/terratest v0.52.0
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 )
 
 require (
@@ -77,7 +77,7 @@ require (
 	github.com/hashicorp/terraform-json v0.23.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
-	github.com/jackc/pgx/v5 v5.7.1 // indirect
+	github.com/jackc/pgx/v5 v5.9.2 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/jinzhu/copier v0.1.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
